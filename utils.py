@@ -66,7 +66,7 @@ class Gallery:
 			self.layer3_images.append(sprite_img)
 
 		self.jump_img = load_image(os.path.join('assets', 'images', 'jump_animation', 'Jump.png'))
-		self.lava_img = load_image(os.path.join('assets', 'images', 'texture', 'lava (2).png'))
+		self.lava_img = load_image(os.path.join('assets', 'images', 'texture', 'lava.png'))
 
 		self.idle_animation = self.animate(self.idle_images, 12)
 		self.run_animation = self.animate(self.run_images, 6)
