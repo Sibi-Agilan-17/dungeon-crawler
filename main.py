@@ -29,7 +29,6 @@ death_images = []
 particles = []
 direction = [1]
 
-
 # Game Loop
 engine.speaker.background_music.play()
 game_state.last_death = time.time()
@@ -192,7 +191,6 @@ while engine.RUN:
 	if player.hitbox.colliderect(door):
 		engine.speaker.next_level_sound.play()
 		player.reset_stats()
-		game_state.wait_for(60)
 		game_state.last_death = time.time()
 
 		game_state.level += 1
@@ -226,17 +224,16 @@ while engine.RUN:
 			player.hitbox.bottom = tile.top
 			collision_types['bottom'] = True
 
-	if not (player.alive or game_state.wait):
+	if not player.alive:
 		dash_count = 0
 		player.gravity = 0
 		game_state.mvt['d'] = False
 
-		if not game_state.wait:
-			player.hitbox.x = player.respawn[0]
-			player.hitbox.y = player.respawn[1]
-			player.alive = True
-			player.reset_stats()
-			game_state.last_death = time.time()
+		player.hitbox.x = player.respawn[0]
+		player.hitbox.y = player.respawn[1]
+		player.alive = True
+		player.reset_stats()
+		game_state.last_death = time.time()
 
 		oe = 2
 
@@ -351,9 +348,6 @@ while engine.RUN:
 		elif game_state.mvt['l']:
 			display.blit(pygame.transform.flip(gallery.run_animation[run_count], True, False), (player.hitbox.x - 1 - scroll[0], player.hitbox.y - scroll[1]))
 			run_count += 1
-
-	if game_state.wait:
-		game_state.wait_timer -= 1
 
 	engine.WIN.blit(pygame.transform.scale(display, engine.WIN_DIMENSIONS), (0, 0))
 	pygame.display.update()

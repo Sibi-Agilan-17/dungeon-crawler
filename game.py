@@ -69,17 +69,10 @@ class GameState:
 		self.info = False
 		self.debug = False
 
-		self.wait = False
-		self.wait_timer = 0
 		self.last_death = 0
 
 		self.damage_map = {'lava': 100, 'spikes': 100, 'fall': 5}
 		self.lava_blocks = []
 
-	def wait_for(self, time):
-		self.wait = True
-		self.wait_timer = time
-
 	def tick(self):
-		self.wait = self.wait_timer == 0
 		self.lava_blocks = []
