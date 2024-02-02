@@ -31,6 +31,7 @@ engine.speaker.background_music.play()
 game_state.last_death = time.time()
 
 while engine.RUN:
+	# for some reason the music does not play
 	engine.speaker.background_music.play()
 
 	engine.display.fill((28, 31, 36))
@@ -47,9 +48,7 @@ while engine.RUN:
 	spikes = []
 	platforms = []
 
-	if game_state.level > 2:
-		game_state.level = 1
-		player.reset_stats()
+	movement = [0, 0]
 
 	for layer in layers[game_state.level - 1]:
 		y = 0
@@ -156,8 +155,6 @@ while engine.RUN:
 	for lava_block in game_state.lava_blocks:
 		if player.hitbox.colliderect(lava_block):
 			player.hp -= game_state.damage_map['lava']
-
-	movement = [0, 0]
 
 	if engine.RUN:
 		if player.alive:
