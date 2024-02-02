@@ -2,13 +2,45 @@ import pygame.draw
 
 
 class Character:
-	def __init__(self):
+	def __init__(self, hitbox=None):
 		self.max_hp = 0
 		self.position = []
 		self.linear_travel_speed = 0
-		self.rect: pygame.Rect
+		self.hitbox: pygame.Rect = hitbox
 
-	def update(self, *args, **kwargs):
+	def collision_test(self, lis):  # lis = tiles
+		colliding_tiles = []
+
+		for tile_ in lis:
+			if self.hitbox.colliderect(tile_):
+				colliding_tiles.append(tile_)
+
+		return colliding_tiles
+
+	def move(self, collision_types, movement_data, tile_data):
+		self.hitbox.x += movement_data[0]
+
+		for collision in self.collision_test(tile_data):
+			if movement_data[0] > 0:
+				self.hitbox.right = collision.left
+				collision_types['right'] = True
+			elif movement_data[0] < 0:
+				self.hitbox.left = collision.right
+				collision_types['left'] = True
+
+		self.hitbox.y += movement_data[1]
+
+		for collision in self.collision_test(tile_data):
+			if movement_data[1] > 0:
+				self.hitbox.bottom = collision.top
+				collision_types['bottom'] = True
+			elif movement_data[1] < 0:
+				self.hitbox.top = collision.bottom
+				collision_types['top'] = True
+
+		return collision_types
+
+	def tick(self, *args, **kwargs):
 		"""To be subclassed by child classes"""
 		...
 
@@ -28,7 +60,7 @@ class Player(Character):
 		for k, v in kwargs.items():
 			setattr(self, k, v)
 
-	def update(self):
+	def tick(self):
 		self.alive = self.hp > 0
 		self.hp = self.max_hp if self.hp > self.max_hp else self.hp
 
@@ -56,7 +88,7 @@ class Enemy(Character):
 		for k, v in kwargs.items():
 			setattr(self, k, v)
 
-	def update(self):
+	def tick(self):
 		self.alive = self.hp > 0
 		self.hp = self.max_hp if self.hp > self.max_hp else self.hp
 
