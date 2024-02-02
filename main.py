@@ -268,10 +268,10 @@ while engine.RUN:
 					sys.exit(-1)
 
 		elif event.type == pygame.KEYUP:
-			if event.key in (pygame.K_a, pygame.K_LEFT):
+			if event.key in game_state.controls['left']:
 				game_state.mvt['l'] = False
 
-			if event.key in (pygame.K_d, pygame.K_RIGHT):
+			if event.key in game_state.controls['right']:
 				game_state.mvt['r'] = False
 
 	if idle_count + 1 >= len(gallery.idle_animation):
