@@ -16,13 +16,10 @@ layer1_images = gallery.layer1_images
 layer2_images = gallery.layer2_images
 layer3_images = gallery.layer3_images
 
-dash_allow = False
 death_animation = False
 
 idle_count = 0
 run_count = 0
-dash_count = 0
-dashes = 1
 door = pygame.Rect(1000, 1000, 1, 1)
 
 death_images = []
@@ -34,8 +31,7 @@ engine.speaker.background_music.play()
 game_state.last_death = time.time()
 
 while engine.RUN:
-	if not engine.speaker.background_music.is_playing():
-		engine.speaker.background_music.play()
+	engine.speaker.background_music.play()
 
 	engine.display.fill((28, 31, 36))
 	collision_types = {'top': False, 'bottom': False, 'right': False, 'left': False}
@@ -51,7 +47,7 @@ while engine.RUN:
 	spikes = []
 	platforms = []
 
-	if game_state.level > 3:
+	if game_state.level > 2:
 		game_state.level = 1
 		player.reset_stats()
 
@@ -169,22 +165,9 @@ while engine.RUN:
 				movement[0] -= player.linear_travel_speed
 			if game_state.mvt['r']:
 				movement[0] += player.linear_travel_speed
-			if not game_state.mvt['d']:
-				movement[1] += player.gravity
-				player.gravity += 0.2
 
-	if dash_count + 1 >= 5:
-		game_state.mvt['d'] = False
-		dash_count = 0
-		player.gravity = 0
-
-	if game_state.mvt['d'] and player.alive:
-		if direction[-1] == 1:
-			movement[0] += dash_count * 7
-			dash_count += 0.5
-		elif direction[-1] == 2:
-			movement[0] -= dash_count * 7
-			dash_count += 0.5
+			movement[1] += player.gravity
+			player.gravity += 0.2
 
 	collisions = player.move(collision_types, movement, tiles)
 
@@ -209,9 +192,6 @@ while engine.RUN:
 		player.x = player.respawn[0] - 16
 		player.y = player.respawn[1] - 16
 
-		if game_state.level == 3:
-			game_state.info = True
-
 		continue
 
 	plat_col = []
@@ -225,9 +205,7 @@ while engine.RUN:
 			collision_types['bottom'] = True
 
 	if not player.alive:
-		dash_count = 0
 		player.gravity = 0
-		game_state.mvt['d'] = False
 
 		player.hitbox.x = player.respawn[0]
 		player.hitbox.y = player.respawn[1]
@@ -256,7 +234,6 @@ while engine.RUN:
 
 	if collision_types['bottom']:
 		grav = 0
-		dashes = 1
 		game_state.mvt['j'] = False
 
 		if player.air_timer > 50:
@@ -274,28 +251,21 @@ while engine.RUN:
 
 		if event.type == pygame.KEYDOWN:
 			if player.alive and engine.RUN:
-				if not game_state.mvt['d']:
-					if event.key in game_state.controls['left']:
-						game_state.mvt['l'] = True
-						direction.append(2)
+				if event.key in game_state.controls['left']:
+					game_state.mvt['l'] = True
+					direction.append(2)
 
-					elif event.key in game_state.controls['right']:
-						game_state.mvt['r'] = True
-						direction.append(1)
+				elif event.key in game_state.controls['right']:
+					game_state.mvt['r'] = True
+					direction.append(1)
 
-					elif event.key in game_state.controls['up']:
-						if player.air_timer < 6:
-							game_state.mvt['j'] = True
-							player.gravity = -4.0
+				elif event.key in game_state.controls['up']:
+					if player.air_timer < 6:
+						game_state.mvt['j'] = True
+						player.gravity = -4.0
 
-					elif event.key == pygame.K_q:
-						sys.exit(-1)
-
-				if (event.key == pygame.K_x or event.key == pygame.K_l) and game_state.mvt['j'] and dash_allow and player.alive:
-					if dashes > 0:
-						player.hp -= player.max_hp * 0.25
-						game_state.mvt['d'] = True
-						dashes = 0
+				elif event.key == pygame.K_q:
+					sys.exit(-1)
 
 		elif event.type == pygame.KEYUP:
 			if event.key in (pygame.K_a, pygame.K_LEFT):
@@ -311,13 +281,7 @@ while engine.RUN:
 		run_count = 0
 
 	if player.alive:
-		if game_state.mvt['d']:
-			if direction[-1] == 1:
-				display.blit(gallery.jump_img, (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
-			elif direction[-1] == 2:
-				display.blit(pygame.transform.flip(gallery.jump_img, True, False), (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
-
-		elif game_state.mvt['j']:
+		if game_state.mvt['j']:
 			engine.speaker.jump_sound.play()
 
 			if game_state.mvt['r']:
