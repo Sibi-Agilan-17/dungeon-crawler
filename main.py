@@ -316,5 +316,3 @@ while engine.RUN:
 	engine.WIN.blit(pygame.transform.scale(display, engine.WIN_DIMENSIONS), (0, 0))
 	pygame.display.update()
 	engine.tick()
-
-	player.hp += player.max_hp / 1000

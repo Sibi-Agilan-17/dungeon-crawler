@@ -1,13 +1,18 @@
+import json
 import pygame
 
 from utils import Gallery, Speaker, Map
 from character import Player
 
 
+with open('memory/settings.json', 'r') as f:
+	data = json.load(f)
+
+
 class GameEngine:
 	def __init__(self):
 		self.RUN = True
-		self.FPS = 60
+		self.FPS = data['fps']
 		self.width, self.height = 700 * 1.5, 500 * 1.5
 		self.WIN_DIMENSIONS = [self.width, self.height]
 
@@ -61,15 +66,9 @@ class GameState:
 		self.end_animation = False
 		self.death_animation = False
 
-		self.level = 1
-		self.end_timer = 60 * 60  # no. of seconds * 60
-		self.timer = 10 * 60
-		self.info = False
-		self.debug = False
+		self.level = data['level']
+		self.damage_map = data['damage_map']
 
-		self.last_death = 0
-
-		self.damage_map = {'lava': 100, 'spikes': 100, 'fall': 5}
 		self.lava_blocks = []
 
 	def tick(self):

@@ -1,4 +1,8 @@
+import json
 import pygame.draw
+
+with open('memory/settings.json', 'r') as f:
+	data = json.load(f)
 
 
 class Character:
@@ -49,10 +53,11 @@ class Player(Character):
 	def __init__(self, **kwargs):
 		super(Player, self).__init__()
 
-		self.hp = 100
-		self.max_hp = 100
+		self.max_hp = data['player']['max_health']
+		self.hp = self.max_hp
 		self.alive = True
-		self.linear_travel_speed = 2
+		self.linear_travel_speed = data['player']['speed']
+		self.regen = data['player']['regen']
 		self.air_timer = 0
 		self.gravity = 0
 		self.respawn = [0, 0]
@@ -61,6 +66,8 @@ class Player(Character):
 			setattr(self, k, v)
 
 	def tick(self):
+		self.hp += self.max_hp * self.regen / 1000
+
 		self.alive = self.hp > 0
 		self.hp = self.max_hp if self.hp > self.max_hp else self.hp
 
