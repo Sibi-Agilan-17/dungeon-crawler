@@ -178,7 +178,7 @@ while engine.RUN:
 
 		game_state.level += 1
 
-		if not game_state.level < game_state.max_level:
+		if not game_state.level <= game_state.max_level:
 			game_state.level = 1
 
 		y = 0
