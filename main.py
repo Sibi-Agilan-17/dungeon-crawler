@@ -214,7 +214,6 @@ while engine.RUN:
 		player.hitbox.y = player.respawn[1]
 		player.alive = True
 		player.reset_stats()
-		game_state.last_death = time.time()
 
 		oe = 2
 
