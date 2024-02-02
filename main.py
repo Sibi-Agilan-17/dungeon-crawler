@@ -235,7 +235,6 @@ while engine.RUN:
 		pygame.draw.rect(display, "green", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32 * player.hp / player.max_hp, 4))
 
 	if collision_types['bottom']:
-		grav = 0
 		game_state.mvt['j'] = False
 
 		if player.air_timer > 50:
