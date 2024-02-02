@@ -178,6 +178,9 @@ while engine.RUN:
 
 		game_state.level += 1
 
+		if not game_state.level < game_state.max_level:
+			game_state.level = 1
+
 		y = 0
 
 		for row in layers[game_state.level - 1][0]:
@@ -246,7 +249,6 @@ while engine.RUN:
 
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
-			run = False
 			pygame.quit()
 
 		if event.type == pygame.KEYDOWN:

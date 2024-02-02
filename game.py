@@ -65,6 +65,7 @@ class GameState:
 
 		self.end_animation = False
 		self.death_animation = False
+		self.max_level = 2
 
 		self.level = data['level']
 		self.damage_map = data['damage_map']
