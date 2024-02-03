@@ -23,7 +23,7 @@ class GameEngine:
 		pygame.display.set_caption('....')
 		pygame.mouse.set_visible(False)
 		self.clock = pygame.time.Clock()
-		self.font = pygame.font.SysFont('Comic Sans MS', 18)
+		self.font = pygame.font.SysFont('Comic Sans MS', 16)
 
 		self.true_scroll = [0, 0]
 		self.speaker = Speaker()
