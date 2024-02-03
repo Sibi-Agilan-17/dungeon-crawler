@@ -5,22 +5,13 @@ import pygame
 class Sound:
 	def __init__(self, path, channel=0, volume=1.0):
 		self.path = path
-		self.paused = True
 		self.volume = volume
 		self.channel = pygame.mixer.Channel(channel)
 		self.channel.set_volume(volume)
 		self.sound = pygame.mixer.Sound(path)
 
 	def play(self):
-		self.paused = False
-
-		if self.paused:
-			return self.channel.unpause()
-
-		return self.channel.play(self.sound)
-
-	def pause(self):
-		return self.channel.pause()
+		self.channel.play(self.sound)
 
 	def is_playing(self) -> bool:
 		return self.channel.get_busy()
