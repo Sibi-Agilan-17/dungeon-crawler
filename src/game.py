@@ -1,11 +1,11 @@
 import json
 import pygame
 
-from utils import Gallery, Speaker, Map
+from utils import Gallery, Speaker, Map, MemoryManager
 from character import Player
 
 
-with open('memory/settings.json', 'r') as f:
+with open('memory/core.json', 'r') as f:
 	data = json.load(f)
 
 
@@ -28,6 +28,7 @@ class GameEngine:
 		self.speaker = Speaker()
 		self.gallery = Gallery()
 		self.map = Map()
+		self.memory = MemoryManager()
 
 		self.level = data['level']
 		self.max_level = 2

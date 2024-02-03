@@ -1,7 +1,7 @@
 import json
 import pygame.draw
 
-with open('memory/settings.json', 'r') as f:
+with open('memory/core.json', 'r') as f:
 	data = json.load(f)
 
 

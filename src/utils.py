@@ -1,3 +1,4 @@
+import json
 import os
 import pygame
 
@@ -93,3 +94,20 @@ class Map:
 
 		self.layers.append([load_map('level1_layer1'), load_map('level1_layer2'), load_map('level1_layer3')])
 		self.layers.append([load_map('level2_layer1'), load_map('level2_layer2'), load_map('level2_layer3')])
+
+
+class MemoryManager:
+	def __init__(self):
+		self.data = {
+			  "last-death": 0,
+			  "score": 0
+			}
+		self.load_data()
+
+	def load_data(self):
+		with open('memory/memory.json', 'r') as f:
+			self.data = json.load(f)
+
+	def write_data(self):
+		with open('memory/memory.json', 'w') as f:
+			json.dump(self.data, f, indent=2)

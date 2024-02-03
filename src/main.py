@@ -1,5 +1,6 @@
 import pygame
 import sys
+import time
 
 from game import GameEngine
 
@@ -8,6 +9,7 @@ gallery = engine.gallery
 player = engine.player
 layers = engine.map.layers
 display = engine.display
+memory = engine.memory
 
 layer1_images = gallery.layer1_images
 layer2_images = gallery.layer2_images
@@ -20,8 +22,10 @@ door = pygame.Rect(1000, 1000, 1, 1)
 
 direction = [1]
 visible = pygame.USEREVENT + 1
+WRITE_DATA = pygame.USEREVENT + 2
 
 engine.speaker.background_music.play()
+pygame.time.set_timer(WRITE_DATA, 1000)
 
 while engine.RUN:
 	engine.speaker.background_music.play()
@@ -163,6 +167,7 @@ while engine.RUN:
 		player.reset_stats()
 
 		engine.level += 1
+		memory.data['score'] += 100
 
 		if not engine.level <= engine.max_level:
 			engine.level = 1
@@ -190,6 +195,7 @@ while engine.RUN:
 		player.gravity = 0
 		invisible = True
 		pygame.time.set_timer(visible, 500)
+		memory.data['last-death'] = int(time.time())
 
 		player.hitbox.x = player.respawn[0]
 		player.hitbox.y = player.respawn[1]
@@ -243,6 +249,9 @@ while engine.RUN:
 
 		elif event.type == visible:
 			invisible = False
+
+		elif event.type == WRITE_DATA:
+			memory.write_data()
 
 	if idle_count + 1 >= len(player.idle_animation):
 		idle_count = 0
