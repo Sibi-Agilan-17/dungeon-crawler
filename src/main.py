@@ -22,13 +22,10 @@ idle_count = 0
 run_count = 0
 door = pygame.Rect(1000, 1000, 1, 1)
 
-death_images = []
-particles = []
 direction = [1]
 
 # Game Loop
 engine.speaker.background_music.play()
-game_state.last_death = time.time()
 
 while engine.RUN:
 	# for some reason the music does not play
@@ -204,32 +201,17 @@ while engine.RUN:
 			player.hitbox.bottom = tile.top
 			collision_types['bottom'] = True
 
-	if not player.alive:
+	if player.alive:
+		pygame.draw.rect(display, "red", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32, 4))
+		pygame.draw.rect(display, "green", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32 * player.hp / player.max_hp, 4))
+
+	else:
 		player.gravity = 0
 
 		player.hitbox.x = player.respawn[0]
 		player.hitbox.y = player.respawn[1]
 		player.alive = True
 		player.reset_stats()
-
-		oe = 2
-
-		if len(particles) == 0 and oe == 1:
-			for num in range(30):
-				particles.append([[(player.hitbox.center[0] - scroll[0]), (player.hitbox.center[1] - scroll[1])], [random.randint(0, 30) / 10 - 1.5, random.randint(0, 10) / 6 - 3], random.randint(3, 5)])
-
-		for particle in particles:
-			particle[0][0] += particle[1][0]
-			particle[0][1] += particle[1][1] - 0.5
-			particle[2] -= 0.05
-			particle[1][1] += 0.035
-			pygame.draw.circle(display, (255, 0, 50), [int(particle[0][0]), int(particle[0][1])], int(particle[2]))
-
-	if player.alive:
-		particles.clear()
-
-		pygame.draw.rect(display, "red", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32, 4))
-		pygame.draw.rect(display, "green", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32 * player.hp / player.max_hp, 4))
 
 	if collision_types['bottom']:
 		game_state.mvt['j'] = False
