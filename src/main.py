@@ -190,7 +190,7 @@ while engine.RUN:
 	if player.alive:
 		pygame.draw.rect(display, "red", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32, 4))
 		pygame.draw.rect(display, "green", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32 * player.hp / player.max_hp, 4))
-
+		display.blit(engine.font.render(f"Score: {memory.data['score']}", False, (211, 211, 211)), (0, 0))
 	else:
 		player.gravity = 0
 		invisible = True
