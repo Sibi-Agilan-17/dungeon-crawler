@@ -156,7 +156,7 @@ while engine.RUN:
 	if engine.RUN:
 		if player.alive:
 			if game_state.mvt['l'] or game_state.mvt['r']:
-				player.velocity += player.linear_travel_speed / 2
+				player.velocity += player.linear_travel_speed / 2.1414
 
 				if game_state.mvt['l']:
 					movement[0] -= player.velocity
@@ -305,5 +305,4 @@ while engine.RUN:
 		engine.WIN.blit(pygame.transform.scale(display, engine.WIN_DIMENSIONS), (0, 0))
 		pygame.display.update()
 
-	print(player.velocity, player.velocity_cap)
 	engine.tick()
