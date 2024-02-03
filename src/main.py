@@ -1,3 +1,5 @@
+import datetime
+
 import pygame
 import sys
 import time
@@ -191,6 +193,35 @@ while engine.RUN:
 		pygame.draw.rect(display, "red", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32, 4))
 		pygame.draw.rect(display, "green", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32 * player.hp / player.max_hp, 4))
 		display.blit(engine.font.render(f"Score: {memory.data['score']}", False, (211, 211, 211)), (0, 0))
+
+		time_since_last_death = int(time.time()) - memory.data['last-death']
+
+		days = time_since_last_death // 86400
+		hours = time_since_last_death // 3600 % 24
+		minutes = time_since_last_death // 60 % 60
+		seconds = time_since_last_death % 60
+
+		st = ""
+
+		if not days > 1:
+			if not hours > 1:
+				if not minutes > 1:
+					if not seconds > 1:
+						st = "Now"
+					else:
+						st = f"{seconds} seconds ago"
+				else:
+					st = f"{minutes} minutes ago"
+			else:
+				st = f"{hours} hours ago"
+		else:
+			st = f"{days} days ago"
+
+			if days > 365:
+				st = "Never ;)"
+
+		display.blit(engine.font.render("Last death: " + st, False, (211, 211, 211)), (0, 24))
+
 	else:
 		player.gravity = 0
 		invisible = True

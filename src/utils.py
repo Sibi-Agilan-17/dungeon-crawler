@@ -106,7 +106,10 @@ class MemoryManager:
 
 	def load_data(self):
 		with open('memory/memory.json', 'r') as f:
-			self.data = json.load(f)
+			data = json.load(f)
+
+			if data:
+				self.data = data
 
 	def write_data(self):
 		with open('memory/memory.json', 'w') as f:
