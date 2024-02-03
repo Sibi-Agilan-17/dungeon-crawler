@@ -102,6 +102,7 @@ class Player(Character):
 		self.velocity_cap = data['player']['speed_cap']
 		self.regen = data['player']['regen']
 		self.respawn = [0, 0]
+		self.facing_right = True
 
 		for k, v in kwargs.items():
 			setattr(self, k, v)

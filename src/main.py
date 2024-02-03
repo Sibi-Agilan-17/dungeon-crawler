@@ -216,10 +216,12 @@ while engine.RUN:
 			if player.alive and engine.RUN:
 				if event.key in engine.controls['left']:
 					engine.mvt['l'] = True
+					player.facing_right = False
 					direction.append(2)
 
 				elif event.key in engine.controls['right']:
 					engine.mvt['r'] = True
+					player.facing_right = True
 					direction.append(1)
 
 				elif event.key in engine.controls['up']:
@@ -250,32 +252,26 @@ while engine.RUN:
 
 	if player.alive and not invisible:
 		if engine.mvt['j']:
-			if engine.mvt['r']:
+			if player.facing_right:
 				display.blit(gallery.jump_img, (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
 
-			elif engine.mvt['l']:
+			else:
 				display.blit(pygame.transform.flip(gallery.jump_img, True, False), (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
 
-			else:
-				if direction[-1] == 1:
-					display.blit(gallery.jump_img, (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
-				elif direction[-1] == 2:
-					display.blit(pygame.transform.flip(gallery.jump_img, True, False), (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
-
 		elif not engine.mvt['l'] and not engine.mvt['r']:
-			if direction[-1] == 1:
+			if player.facing_right:
 				display.blit(player.idle_animation[idle_count], (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
 				idle_count += 1
 
-			elif direction[-1] == 2:
+			else:
 				display.blit(pygame.transform.flip(player.idle_animation[idle_count], True, False), (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
 				idle_count += 1
 
-		elif engine.mvt['r']:
+		elif player.facing_right:
 			display.blit(player.run_animation[run_count], (player.hitbox.x + 1 - scroll[0], player.hitbox.y - scroll[1]))
 			run_count += 1
 
-		elif engine.mvt['l']:
+		else:
 			display.blit(pygame.transform.flip(player.run_animation[run_count], True, False), (player.hitbox.x - 1 - scroll[0], player.hitbox.y - scroll[1]))
 			run_count += 1
 
