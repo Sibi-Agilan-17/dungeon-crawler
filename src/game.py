@@ -65,6 +65,9 @@ class GameEngine:
 		player_hitbox = pygame.Rect(self.spawn_platform[0], self.spawn_platform[1], 16, 22)
 		self.player = Player(hitbox=player_hitbox)
 
+		self.player.run_animation = self.gallery.player_run_animation
+		self.player.idle_animation = self.gallery.player_idle_animation
+
 	def tick(self):
 		self.lava_blocks = []
 

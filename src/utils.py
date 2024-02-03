@@ -33,19 +33,19 @@ def load_image(img_name):
 
 class Gallery:
 	def __init__(self):
-		self.idle_images = []
-		self.run_images = []
+		self.player_idle_images = []
+		self.player_run_images = []
 		self.layer1_images = []
 		self.layer2_images = []
 		self.layer3_images = []
 
 		for i in range(1, 6):
 			idle_img = load_image(os.path.join('assets', 'images', 'idle_animation', 'Idle ' + str(i) + '.png'))
-			self.idle_images.append(idle_img)
+			self.player_idle_images.append(idle_img)
 
 		for i in range(1, 8):
 			run_img = load_image(os.path.join('assets', 'images', 'run_animation', 'Run ' + str(i) + '.png'))
-			self.run_images.append(run_img)
+			self.player_run_images.append(run_img)
 
 		for i in range(1, 7):
 			sprite_img = load_image(os.path.join('assets', 'images', 'tiles', 'layer1_tiles', 'Sprite_' + str(i) + '.png'))
@@ -62,8 +62,8 @@ class Gallery:
 		self.jump_img = load_image(os.path.join('assets', 'images', 'jump_animation', 'Jump.png'))
 		self.lava_img = load_image(os.path.join('assets', 'images', 'texture', 'lava.png'))
 
-		self.idle_animation = self.animate(self.idle_images, 12)
-		self.run_animation = self.animate(self.run_images, 6)
+		self.player_idle_animation = self.animate(self.player_idle_images, 12)
+		self.player_run_animation = self.animate(self.player_run_images, 6)
 
 	@staticmethod
 	def animate(frames, frame_duration):
