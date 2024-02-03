@@ -1,5 +1,4 @@
 import pygame
-import random
 import sys
 import time
 
@@ -16,13 +15,14 @@ layer1_images = gallery.layer1_images
 layer2_images = gallery.layer2_images
 layer3_images = gallery.layer3_images
 
-death_animation = False
+invisible = False
 
 idle_count = 0
 run_count = 0
 door = pygame.Rect(1000, 1000, 1, 1)
 
 direction = [1]
+visible = pygame.USEREVENT + 1
 
 # Game Loop
 engine.speaker.background_music.play()
@@ -207,6 +207,8 @@ while engine.RUN:
 
 	else:
 		player.gravity = 0
+		invisible = True
+		pygame.time.set_timer(visible, 500)
 
 		player.hitbox.x = player.respawn[0]
 		player.hitbox.y = player.respawn[1]
@@ -253,13 +255,16 @@ while engine.RUN:
 			if event.key in game_state.controls['right']:
 				game_state.mvt['r'] = False
 
+		elif event.type == visible:
+			invisible = False
+
 	if idle_count + 1 >= len(gallery.idle_animation):
 		idle_count = 0
 
 	if run_count + 1 >= len(gallery.run_animation):
 		run_count = 0
 
-	if player.alive:
+	if player.alive and not invisible:
 		if game_state.mvt['j']:
 			engine.speaker.jump_sound.play()
 
@@ -292,6 +297,7 @@ while engine.RUN:
 			display.blit(pygame.transform.flip(gallery.run_animation[run_count], True, False), (player.hitbox.x - 1 - scroll[0], player.hitbox.y - scroll[1]))
 			run_count += 1
 
-	engine.WIN.blit(pygame.transform.scale(display, engine.WIN_DIMENSIONS), (0, 0))
-	pygame.display.update()
+		engine.WIN.blit(pygame.transform.scale(display, engine.WIN_DIMENSIONS), (0, 0))
+		pygame.display.update()
+
 	engine.tick()

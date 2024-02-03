@@ -62,6 +62,7 @@ class Player(Character):
 		self.air_timer = 0
 		self.gravity = 0
 		self.respawn = [0, 0]
+		self.invisible = False
 
 		for k, v in kwargs.items():
 			setattr(self, k, v)
