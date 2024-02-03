@@ -155,10 +155,13 @@ while engine.RUN:
 
 	if engine.RUN:
 		if player.alive:
-			if game_state.mvt['l']:
-				movement[0] -= player.linear_travel_speed
-			if game_state.mvt['r']:
-				movement[0] += player.linear_travel_speed
+			if game_state.mvt['l'] or game_state.mvt['r']:
+				player.velocity += player.linear_travel_speed / 2
+
+				if game_state.mvt['l']:
+					movement[0] -= player.velocity
+				else:
+					movement[0] += player.velocity
 
 			movement[1] += player.gravity
 			player.gravity += 0.2
@@ -218,13 +221,13 @@ while engine.RUN:
 	if collision_types['bottom']:
 		game_state.mvt['j'] = False
 
-		if player.air_timer > 50:
-			player.hp -= game_state.damage_map['fall'] * player.air_timer // 10
+		if player.air_time > 50:
+			player.hp -= game_state.damage_map['fall'] * player.air_time // 10
 
-		player.air_timer = 0
+		player.air_time = 0
 
 	else:
-		player.air_timer += 1
+		player.air_time += 1
 
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -241,7 +244,7 @@ while engine.RUN:
 					direction.append(1)
 
 				elif event.key in game_state.controls['up']:
-					if player.air_timer < 6:
+					if player.air_time < 6:
 						game_state.mvt['j'] = True
 						player.gravity = -4.0
 
@@ -250,9 +253,11 @@ while engine.RUN:
 
 		elif event.type == pygame.KEYUP:
 			if event.key in game_state.controls['left']:
+				player.velocity = 0
 				game_state.mvt['l'] = False
 
 			if event.key in game_state.controls['right']:
+				player.velocity = 0
 				game_state.mvt['r'] = False
 
 		elif event.type == visible:
@@ -300,4 +305,5 @@ while engine.RUN:
 		engine.WIN.blit(pygame.transform.scale(display, engine.WIN_DIMENSIONS), (0, 0))
 		pygame.display.update()
 
+	print(player.velocity, player.velocity_cap)
 	engine.tick()

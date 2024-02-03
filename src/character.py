@@ -5,12 +5,23 @@ with open('memory/settings.json', 'r') as f:
 	data = json.load(f)
 
 
-class Character:
+class Object(object):
+	"""
+	Properties common to all the objects in the game
+
+	* Affected by gravity
+	* Has mass and can be moved
+	"""
+
 	def __init__(self, hitbox=None):
-		self.max_hp = 0
-		self.position = []
-		self.linear_travel_speed = 0
 		self.hitbox: pygame.Rect = hitbox
+		self.gravity = 0
+
+	def tick(self):
+		"""All objects get updated every tick"""
+
+		if self.gravity > 5:
+			self.gravity = 5
 
 	def collision_test(self, tiles):
 		colliding_tiles = []
@@ -46,8 +57,39 @@ class Character:
 
 		return collision_types
 
-	def tick(self, *args, **kwargs):
-		...
+
+class Character(Object):
+	"""All characters, whether controlled by a human or by the computer"""
+
+	def __init__(self, hitbox=None):
+		super().__init__(hitbox)
+
+		self.max_hp: int = 0
+		self.hp: int = self.max_hp
+
+		self.velocity: int = 0
+		self.velocity_cap: int = -1
+		self.air_time: int = 0
+
+		self.alive: bool = False  # not unless
+		self.is_controlled_by_computer: bool = False
+
+	def tick(self):
+		super(Character, self).tick()
+
+		if self.hp > self.max_hp:
+			self.hp = self.max_hp
+
+		if self.velocity > self.velocity_cap:
+			self.velocity = self.velocity_cap
+
+		self.alive = self.hp > 0
+
+	def reset_stats(self):
+		self.hp = self.max_hp
+		self.velocity = 0
+		self.air_time = 0
+		self.gravity = 0
 
 
 class Player(Character):
@@ -56,27 +98,15 @@ class Player(Character):
 
 		self.max_hp = data['player']['max_health']
 		self.hp = self.max_hp
-		self.alive = True
 		self.linear_travel_speed = data['player']['speed']
+		self.velocity_cap = data['player']['speed_cap']
 		self.regen = data['player']['regen']
-		self.air_timer = 0
-		self.gravity = 0
 		self.respawn = [0, 0]
-		self.invisible = False
 
 		for k, v in kwargs.items():
 			setattr(self, k, v)
 
 	def tick(self):
+		super(Player, self).tick()
+
 		self.hp += self.max_hp * self.regen / 1000
-
-		self.alive = self.hp > 0
-		self.hp = self.max_hp if self.hp > self.max_hp else self.hp
-
-		if self.gravity > 5:
-			self.gravity = 5
-
-	def reset_stats(self):
-		self.hp = self.max_hp
-		self.air_timer = 0
-		self.gravity = 0
