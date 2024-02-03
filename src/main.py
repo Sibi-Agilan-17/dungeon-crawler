@@ -203,11 +203,13 @@ while engine.RUN:
 		player.reset_stats()
 
 	if collision_types['bottom']:
-		engine.speaker.jump_sound.play()
 		engine.mvt['j'] = False
 
-		if player.air_time > 50:
-			player.hp -= engine.damage_map['fall'] * player.air_time // 10
+		if player.air_time > 1:
+			engine.speaker.jump_sound.play()
+
+			if player.air_time > 50:
+				player.hp -= engine.damage_map['fall'] * player.air_time // 10
 
 		player.air_time = 0
 
