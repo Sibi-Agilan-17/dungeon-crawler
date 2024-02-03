@@ -22,11 +22,9 @@ door = pygame.Rect(1000, 1000, 1, 1)
 direction = [1]
 visible = pygame.USEREVENT + 1
 
-# Game Loop
 engine.speaker.background_music.play()
 
 while engine.RUN:
-	# for some reason the music does not play
 	engine.speaker.background_music.play()
 
 	engine.display.fill((28, 31, 36))

@@ -12,6 +12,8 @@ class Sound:
 		self.sound = pygame.mixer.Sound(path)
 
 	def play(self):
+		self.paused = False
+
 		if self.paused:
 			return self.channel.unpause()
 
