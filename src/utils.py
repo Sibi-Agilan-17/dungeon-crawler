@@ -19,6 +19,7 @@ class Sound:
 
 class Speaker:
 	def __init__(self):
+		pygame.mixer.init()
 		pygame.mixer.set_num_channels(4)
 
 		self.background_music = Sound('./assets/sounds/background_music.mp3', channel=1)
