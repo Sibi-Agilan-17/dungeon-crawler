@@ -14,7 +14,6 @@ layer2_images = gallery.layer2_images
 layer3_images = gallery.layer3_images
 
 invisible = False
-
 idle_count = 0
 run_count = 0
 door = pygame.Rect(1000, 1000, 1, 1)
@@ -39,8 +38,6 @@ while engine.RUN:
 
 	tiles = []
 	spikes = []
-	platforms = []
-
 	movement = [0, 0]
 
 	for layer in layers[engine.level - 1]:
@@ -69,7 +66,7 @@ while engine.RUN:
 					if tile == 'l':
 						display.blit(gallery.lava_img, (16 * x - scroll[0], 16 * y - scroll[1]))
 						engine.lava_blocks.append(pygame.Rect(16 * x, 16 * y, 16, 4))
-					if tile != '0' and tile != '1' and tile != '2' and tile != '7' and tile != 'l':
+					if tile not in '0127l':
 						tiles.append(pygame.Rect(16 * x, 16 * y, 16, 16))
 
 					x += 1
@@ -101,7 +98,7 @@ while engine.RUN:
 					if tile == 'l':
 						display.blit(gallery.lava_img, (16 * x - scroll[0], 16 * y - scroll[1]))
 						engine.lava_blocks.append(pygame.Rect(16 * x, 16 * y, 16, 4))
-					if tile != '0' and tile != '9' and tile != 'l':
+					if tile not in '09l':
 						tiles.append(pygame.Rect(16 * x, 16 * y, 16, 16))
 					x += 1
 				y += 1
@@ -130,13 +127,10 @@ while engine.RUN:
 					if tile == '8':
 						display.blit(layer3_images[7], (16 * x - scroll[0], 16 * y - scroll[1]))
 						spikes.append(pygame.Rect(16 * x + 6, 16 * y, 10, 16))
-					if tile == '9':
-						display.blit(layer3_images[8], (16 * x - scroll[0], 16 * y - scroll[1]))
-						platforms.append(pygame.Rect(16 * x, 16 * y, 16, 4))
 					if tile == 'l':
 						display.blit(gallery.lava_img, (16 * x - scroll[0], 16 * y - scroll[1]))
 						engine.lava_blocks.append(pygame.Rect(16 * x, 16 * y, 16, 4))
-					if tile != '0' and tile != '5' and tile != '6' and tile != '7' and tile != '8' and tile != '9' and tile != 'l':
+					if tile not in '056789l':
 						tiles.append(pygame.Rect(16 * x, 16 * y, 16, 16))
 					x += 1
 				y += 1
@@ -186,18 +180,7 @@ while engine.RUN:
 
 		player.x = player.respawn[0] - 16
 		player.y = player.respawn[1] - 16
-
 		continue
-
-	plat_col = []
-	for platform in platforms:
-		if player.hitbox.colliderect(platform):
-			plat_col.append(platform)
-
-	for tile in plat_col:
-		if movement[1] > 0:
-			player.hitbox.bottom = tile.top
-			collision_types['bottom'] = True
 
 	if player.alive:
 		pygame.draw.rect(display, "red", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32, 4))
@@ -214,6 +197,7 @@ while engine.RUN:
 		player.reset_stats()
 
 	if collision_types['bottom']:
+		engine.speaker.jump_sound.play()
 		engine.mvt['j'] = False
 
 		if player.air_time > 50:
@@ -266,8 +250,6 @@ while engine.RUN:
 
 	if player.alive and not invisible:
 		if engine.mvt['j']:
-			engine.speaker.jump_sound.play()
-
 			if engine.mvt['r']:
 				display.blit(gallery.jump_img, (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
 
