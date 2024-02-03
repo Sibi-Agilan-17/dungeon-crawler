@@ -1,11 +1,9 @@
 import pygame
 import sys
-import time
 
 from game import GameEngine
 
 engine = GameEngine()
-game_state = engine.game_state
 gallery = engine.gallery
 player = engine.player
 layers = engine.map.layers
@@ -47,10 +45,10 @@ while engine.RUN:
 
 	movement = [0, 0]
 
-	for layer in layers[game_state.level - 1]:
+	for layer in layers[engine.level - 1]:
 		y = 0
 
-		if layer == layers[game_state.level - 1][0]:
+		if layer == layers[engine.level - 1][0]:
 			for row in layer:
 				x = 0
 				for tile in row:
@@ -72,14 +70,14 @@ while engine.RUN:
 						player.respawn[1] = 16 * y
 					if tile == 'l':
 						display.blit(gallery.lava_img, (16 * x - scroll[0], 16 * y - scroll[1]))
-						game_state.lava_blocks.append(pygame.Rect(16 * x, 16 * y, 16, 4))
+						engine.lava_blocks.append(pygame.Rect(16 * x, 16 * y, 16, 4))
 					if tile != '0' and tile != '1' and tile != '2' and tile != '7' and tile != 'l':
 						tiles.append(pygame.Rect(16 * x, 16 * y, 16, 16))
 
 					x += 1
 				y += 1
 
-		if layer == layers[game_state.level - 1][1]:
+		if layer == layers[engine.level - 1][1]:
 			for row in layer:
 				x = 0
 				for tile in row:
@@ -104,13 +102,13 @@ while engine.RUN:
 						door = pygame.Rect(16 * x, 16 * y, 16, 32)
 					if tile == 'l':
 						display.blit(gallery.lava_img, (16 * x - scroll[0], 16 * y - scroll[1]))
-						game_state.lava_blocks.append(pygame.Rect(16 * x, 16 * y, 16, 4))
+						engine.lava_blocks.append(pygame.Rect(16 * x, 16 * y, 16, 4))
 					if tile != '0' and tile != '9' and tile != 'l':
 						tiles.append(pygame.Rect(16 * x, 16 * y, 16, 16))
 					x += 1
 				y += 1
 
-		if layer == layers[game_state.level - 1][2]:
+		if layer == layers[engine.level - 1][2]:
 			for row in layer:
 				x = 0
 				for tile in row:
@@ -139,7 +137,7 @@ while engine.RUN:
 						platforms.append(pygame.Rect(16 * x, 16 * y, 16, 4))
 					if tile == 'l':
 						display.blit(gallery.lava_img, (16 * x - scroll[0], 16 * y - scroll[1]))
-						game_state.lava_blocks.append(pygame.Rect(16 * x, 16 * y, 16, 4))
+						engine.lava_blocks.append(pygame.Rect(16 * x, 16 * y, 16, 4))
 					if tile != '0' and tile != '5' and tile != '6' and tile != '7' and tile != '8' and tile != '9' and tile != 'l':
 						tiles.append(pygame.Rect(16 * x, 16 * y, 16, 16))
 					x += 1
@@ -147,18 +145,18 @@ while engine.RUN:
 
 	for spike in spikes:
 		if player.hitbox.colliderect(spike):
-			player.hp -= game_state.damage_map['spikes'] // 10
+			player.hp -= engine.damage_map['spikes'] // 10
 
-	for lava_block in game_state.lava_blocks:
+	for lava_block in engine.lava_blocks:
 		if player.hitbox.colliderect(lava_block):
-			player.hp -= game_state.damage_map['lava']
+			player.hp -= engine.damage_map['lava']
 
 	if engine.RUN:
 		if player.alive:
-			if game_state.mvt['l'] or game_state.mvt['r']:
+			if engine.mvt['l'] or engine.mvt['r']:
 				player.velocity += player.linear_travel_speed / 2.1414
 
-				if game_state.mvt['l']:
+				if engine.mvt['l']:
 					movement[0] -= player.velocity
 				else:
 					movement[0] += player.velocity
@@ -171,16 +169,15 @@ while engine.RUN:
 	if player.hitbox.colliderect(door):
 		engine.speaker.next_level_sound.play()
 		player.reset_stats()
-		game_state.last_death = time.time()
 
-		game_state.level += 1
+		engine.level += 1
 
-		if not game_state.level <= game_state.max_level:
-			game_state.level = 1
+		if not engine.level <= engine.max_level:
+			engine.level = 1
 
 		y = 0
 
-		for row in layers[game_state.level - 1][0]:
+		for row in layers[engine.level - 1][0]:
 			x = 0
 			for tile in row:
 				if tile == '7':
@@ -219,10 +216,10 @@ while engine.RUN:
 		player.reset_stats()
 
 	if collision_types['bottom']:
-		game_state.mvt['j'] = False
+		engine.mvt['j'] = False
 
 		if player.air_time > 50:
-			player.hp -= game_state.damage_map['fall'] * player.air_time // 10
+			player.hp -= engine.damage_map['fall'] * player.air_time // 10
 
 		player.air_time = 0
 
@@ -235,30 +232,30 @@ while engine.RUN:
 
 		if event.type == pygame.KEYDOWN:
 			if player.alive and engine.RUN:
-				if event.key in game_state.controls['left']:
-					game_state.mvt['l'] = True
+				if event.key in engine.controls['left']:
+					engine.mvt['l'] = True
 					direction.append(2)
 
-				elif event.key in game_state.controls['right']:
-					game_state.mvt['r'] = True
+				elif event.key in engine.controls['right']:
+					engine.mvt['r'] = True
 					direction.append(1)
 
-				elif event.key in game_state.controls['up']:
+				elif event.key in engine.controls['up']:
 					if player.air_time < 6:
-						game_state.mvt['j'] = True
+						engine.mvt['j'] = True
 						player.gravity = -4.0
 
 				elif event.key == pygame.K_q:
 					sys.exit(-1)
 
 		elif event.type == pygame.KEYUP:
-			if event.key in game_state.controls['left']:
+			if event.key in engine.controls['left']:
 				player.velocity = 0
-				game_state.mvt['l'] = False
+				engine.mvt['l'] = False
 
-			if event.key in game_state.controls['right']:
+			if event.key in engine.controls['right']:
 				player.velocity = 0
-				game_state.mvt['r'] = False
+				engine.mvt['r'] = False
 
 		elif event.type == visible:
 			invisible = False
@@ -270,13 +267,13 @@ while engine.RUN:
 		run_count = 0
 
 	if player.alive and not invisible:
-		if game_state.mvt['j']:
+		if engine.mvt['j']:
 			engine.speaker.jump_sound.play()
 
-			if game_state.mvt['r']:
+			if engine.mvt['r']:
 				display.blit(gallery.jump_img, (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
 
-			elif game_state.mvt['l']:
+			elif engine.mvt['l']:
 				display.blit(pygame.transform.flip(gallery.jump_img, True, False), (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
 
 			else:
@@ -285,7 +282,7 @@ while engine.RUN:
 				elif direction[-1] == 2:
 					display.blit(pygame.transform.flip(gallery.jump_img, True, False), (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
 
-		elif not game_state.mvt['l'] and not game_state.mvt['r']:
+		elif not engine.mvt['l'] and not engine.mvt['r']:
 			if direction[-1] == 1:
 				display.blit(gallery.idle_animation[idle_count], (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
 				idle_count += 1
@@ -294,11 +291,11 @@ while engine.RUN:
 				display.blit(pygame.transform.flip(gallery.idle_animation[idle_count], True, False), (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
 				idle_count += 1
 
-		elif game_state.mvt['r']:
+		elif engine.mvt['r']:
 			display.blit(gallery.run_animation[run_count], (player.hitbox.x + 1 - scroll[0], player.hitbox.y - scroll[1]))
 			run_count += 1
 
-		elif game_state.mvt['l']:
+		elif engine.mvt['l']:
 			display.blit(pygame.transform.flip(gallery.run_animation[run_count], True, False), (player.hitbox.x - 1 - scroll[0], player.hitbox.y - scroll[1]))
 			run_count += 1
 

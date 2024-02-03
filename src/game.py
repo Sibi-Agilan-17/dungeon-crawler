@@ -20,20 +20,40 @@ class GameEngine:
 
 		self.WIN = pygame.display.set_mode(self.WIN_DIMENSIONS)
 		self.display = pygame.Surface((self.width // 2, self.height // 2))
-		pygame.display.set_caption('Lorem Ipsum')
+		pygame.display.set_caption('....')
 		pygame.mouse.set_visible(False)
 		self.clock = pygame.time.Clock()
 
 		self.true_scroll = [0, 0]
-		self.game_state = GameState()
 		self.speaker = Speaker()
 		self.gallery = Gallery()
 		self.map = Map()
 
+		self.level = data['level']
+		self.max_level = 2
+		self.damage_map = data['damage_map']
+		self.lava_blocks = []
+		self.controls = {
+				'left': {...},
+				'right': {...},
+				'up': {...},
+			}
+		self.mvt = {k: False for k in ['l', 'r', 'j']}  # Left, Right, Jump
+
+		if 'wasd' in data['controls']:
+			self.controls['left'].add(pygame.K_a)
+			self.controls['right'].add(pygame.K_d)
+			self.controls['up'].add(pygame.K_w)
+
+		if 'arrow' in data['controls']:
+			self.controls['left'].add(pygame.K_LEFT)
+			self.controls['right'].add(pygame.K_RIGHT)
+			self.controls['up'].add(pygame.K_UP)
+
 		y = 0
 		self.spawn_platform = [0, 0]
 
-		for row in self.map.layers[self.game_state.level - 1][0]:
+		for row in self.map.layers[self.level - 1][0]:
 			x = 0
 			for tile in row:
 				if tile == '7':
@@ -46,31 +66,7 @@ class GameEngine:
 		self.player = Player(hitbox=player_hitbox)
 
 	def tick(self):
+		self.lava_blocks = []
+
 		self.player.tick()
-		self.game_state.tick()
-		self.clock.tick(self.game_state.fps)
-
-
-class GameState:
-	"""For running game logic"""
-
-	def __init__(self):
-		self.fps = 60
-		self.mvt = {k: False for k in ['l', 'r', 'j']}  # Left, Right, Jump
-		self.controls = {
-			'left': {pygame.K_a, pygame.K_LEFT},
-			'right': {pygame.K_d, pygame.K_RIGHT},
-			'up': {pygame.K_w, pygame.K_UP, pygame.K_SPACE},
-		}
-
-		self.end_animation = False
-		self.death_animation = False
-		self.max_level = 2
-
-		self.level = data['level']
-		self.damage_map = data['damage_map']
-
-		self.lava_blocks = []
-
-	def tick(self):
-		self.lava_blocks = []
+		self.clock.tick(self.FPS)
