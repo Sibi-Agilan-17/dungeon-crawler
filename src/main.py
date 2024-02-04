@@ -15,13 +15,11 @@ layer1_images = gallery.layer1_images
 layer2_images = gallery.layer2_images
 layer3_images = gallery.layer3_images
 
-invisible = False
 idle_count = 0
 run_count = 0
 door = pygame.Rect(1000, 1000, 1, 1)
 
 direction = [1]
-visible = pygame.USEREVENT + 1
 WRITE_DATA = pygame.USEREVENT + 2
 
 engine.speaker.background_music.play()
@@ -142,10 +140,12 @@ while engine.RUN:
 	for spike in spikes:
 		if player.hitbox.colliderect(spike):
 			player.hp -= engine.damage_map['spikes'] // 10
+			memory.data['score'] -= (engine.damage_map['spikes'] // 10) * 0.1
 
 	for lava_block in engine.lava_blocks:
 		if player.hitbox.colliderect(lava_block):
 			player.hp -= engine.damage_map['lava']
+			memory.data['score'] -= (engine.damage_map['lava'] // 10) * 0.1
 
 	if engine.RUN:
 		if player.alive:
@@ -172,19 +172,8 @@ while engine.RUN:
 		if not engine.level <= engine.max_level:
 			engine.level = 1
 
-		y = 0
-
-		for row in layers[engine.level - 1][0]:
-			x = 0
-			for tile in row:
-				if tile == '7':
-					player.respawn[0] = 16 * x
-					player.respawn[1] = 16 * y
-				x += 1
-			y += 1
-
-		player.x = player.respawn[0] - 16
-		player.y = player.respawn[1] - 16
+		engine.spawn_player()
+		player = engine.player
 		continue
 
 	if player.alive:
@@ -198,9 +187,9 @@ while engine.RUN:
 
 	else:
 		player.gravity = 0
-		invisible = True
-		pygame.time.set_timer(visible, 500)
+		memory.data['score'] = 0
 		engine.igt = None
+		engine.level = 1
 
 		player.hitbox.x = player.respawn[0]
 		player.hitbox.y = player.respawn[1]
@@ -215,6 +204,7 @@ while engine.RUN:
 
 			if player.air_time > 50:
 				player.hp -= engine.damage_map['fall'] * player.air_time // 10
+				memory.data['score'] -= (engine.damage_map['fall'] * player.air_time // 10) * 0.1
 
 		player.air_time = 0
 
@@ -257,9 +247,6 @@ while engine.RUN:
 				player.velocity = 0
 				engine.mvt['r'] = False
 
-		elif event.type == visible:
-			invisible = False
-
 		elif event.type == WRITE_DATA:
 			memory.write_data()
 
@@ -269,7 +256,7 @@ while engine.RUN:
 	if run_count + 1 >= len(player.run_animation):
 		run_count = 0
 
-	if player.alive and not invisible:
+	if player.alive:
 		if engine.mvt['j']:
 			if player.facing_right:
 				display.blit(gallery.jump_img, (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
@@ -297,4 +284,5 @@ while engine.RUN:
 		engine.WIN.blit(pygame.transform.scale(display, engine.WIN_DIMENSIONS), (0, 0))
 		pygame.display.update()
 
+	memory.data['score'] = int(memory.data['score'])
 	engine.tick()
