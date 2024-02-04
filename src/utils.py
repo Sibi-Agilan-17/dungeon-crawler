@@ -99,7 +99,6 @@ class Map:
 class MemoryManager:
 	def __init__(self):
 		self.data = {
-			  "last-death": 0,
 			  "score": 0
 			}
 		self.load_data()

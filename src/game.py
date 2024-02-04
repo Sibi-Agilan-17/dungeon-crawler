@@ -24,6 +24,7 @@ class GameEngine:
 		pygame.mouse.set_visible(False)
 		self.clock = pygame.time.Clock()
 		self.font = pygame.font.SysFont('Comic Sans MS', 16)
+		self.igt = None
 
 		self.true_scroll = [0, 0]
 		self.speaker = Speaker()
