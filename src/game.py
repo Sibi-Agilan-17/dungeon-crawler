@@ -20,7 +20,7 @@ class GameEngine:
 
 		self.WIN = pygame.display.set_mode(self.WIN_DIMENSIONS)
 		self.display = pygame.Surface((self.width // 2, self.height // 2))
-		pygame.display.set_caption('....')
+		pygame.display.set_caption('...')
 		pygame.mouse.set_visible(False)
 		self.clock = pygame.time.Clock()
 		self.font = pygame.font.SysFont('Comic Sans MS', 16)
