@@ -24,6 +24,8 @@ WRITE_DATA = pygame.USEREVENT + 2
 
 engine.speaker.background_music.play()
 pygame.time.set_timer(WRITE_DATA, 1000)
+freeze_time = False
+final_time = None
 
 while engine.RUN:
 	engine.speaker.background_music.play()
@@ -170,6 +172,8 @@ while engine.RUN:
 		memory.data['score'] += 100
 
 		if not engine.level <= engine.max_level:
+			freeze_time = True
+			final_time = datetime.datetime.now()
 			engine.level = 1
 
 		engine.spawn_player()
@@ -182,7 +186,8 @@ while engine.RUN:
 		display.blit(engine.font.render(f"Score: {memory.data['score']}", False, (211, 211, 211)), (0, 0))
 
 		if engine.igt:
-			igt = datetime.datetime.now() - engine.igt
+			time_now = final_time if freeze_time else datetime.datetime.now()
+			igt = time_now - engine.igt
 			display.blit(engine.font.render("IGT:  " + str(igt)[2:11], False, (211, 211, 211)), (0, 24))
 
 	else:
