@@ -9,7 +9,6 @@ gallery = engine.gallery
 player = engine.player
 layers = engine.map.layers
 display = engine.display
-memory = engine.memory
 
 layer1_images = gallery.layer1_images
 layer2_images = gallery.layer2_images
@@ -20,10 +19,8 @@ run_count = 0
 door = pygame.Rect(1000, 1000, 1, 1)
 
 direction = [1]
-WRITE_DATA = pygame.USEREVENT + 2
 
 engine.speaker.background_music.play()
-pygame.time.set_timer(WRITE_DATA, 1000)
 freeze_time = False
 final_time = None
 
@@ -142,12 +139,12 @@ while engine.RUN:
 	for spike in spikes:
 		if player.hitbox.colliderect(spike):
 			player.hp -= engine.damage_map['spikes'] // 10
-			memory.data['score'] -= (engine.damage_map['spikes'] // 10) * 0.1
+			engine.score -= (engine.damage_map['spikes'] // 10) * 0.1
 
 	for lava_block in engine.lava_blocks:
 		if player.hitbox.colliderect(lava_block):
 			player.hp -= engine.damage_map['lava']
-			memory.data['score'] -= (engine.damage_map['lava'] // 10) * 0.1
+			engine.score -= (engine.damage_map['lava'] // 10) * 0.1
 
 	if engine.RUN:
 		if player.alive:
@@ -169,7 +166,7 @@ while engine.RUN:
 		player.reset_stats()
 
 		engine.level += 1
-		memory.data['score'] += 100
+		engine.score += 100
 
 		if not engine.level <= engine.max_level:
 			freeze_time = True
@@ -183,7 +180,7 @@ while engine.RUN:
 	if player.alive:
 		pygame.draw.rect(display, "red", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32, 4))
 		pygame.draw.rect(display, "green", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32 * player.hp / player.max_hp, 4))
-		display.blit(engine.font.render(f"Score: {memory.data['score']}", False, (211, 211, 211)), (0, 0))
+		display.blit(engine.font.render(f"Score: {engine.score}", False, (211, 211, 211)), (0, 0))
 
 		if engine.igt:
 			time_now = final_time if freeze_time else datetime.datetime.now()
@@ -192,7 +189,7 @@ while engine.RUN:
 
 	else:
 		player.gravity = 0
-		memory.data['score'] = 0
+		engine.score = 0
 		engine.igt = None
 		engine.level = 1
 
@@ -209,7 +206,7 @@ while engine.RUN:
 
 			if player.air_time > 50:
 				player.hp -= engine.damage_map['fall'] * player.air_time // 10
-				memory.data['score'] -= (engine.damage_map['fall'] * player.air_time // 10) * 0.1
+				engine.score -= (engine.damage_map['fall'] * player.air_time // 10) * 0.1
 
 		player.air_time = 0
 
@@ -252,9 +249,6 @@ while engine.RUN:
 				player.velocity = 0
 				engine.mvt['r'] = False
 
-		elif event.type == WRITE_DATA:
-			memory.write_data()
-
 	if idle_count + 1 >= len(player.idle_animation):
 		idle_count = 0
 
@@ -289,5 +283,5 @@ while engine.RUN:
 		engine.WIN.blit(pygame.transform.scale(display, engine.WIN_DIMENSIONS), (0, 0))
 		pygame.display.update()
 
-	memory.data['score'] = int(memory.data['score'])
+	engine.score = int(engine.score)
 	engine.tick()

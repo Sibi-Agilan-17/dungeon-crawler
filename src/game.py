@@ -1,7 +1,7 @@
 import json
 import pygame
 
-from utils import Gallery, Speaker, Map, MemoryManager
+from utils import Gallery, Speaker, Map
 from character import Player
 
 
@@ -30,10 +30,10 @@ class GameEngine:
 		self.speaker = Speaker()
 		self.gallery = Gallery()
 		self.map = Map()
-		self.memory = MemoryManager()
 
 		self.level = data['level']
 		self.max_level = 2
+		self.score = 0
 		self.damage_map = data['damage_map']
 		self.spawn_platform = [0, 0]
 		self.lava_blocks = []

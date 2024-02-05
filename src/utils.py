@@ -94,22 +94,3 @@ class Map:
 
 		self.layers.append([load_map('level1_layer1'), load_map('level1_layer2'), load_map('level1_layer3')])
 		self.layers.append([load_map('level2_layer1'), load_map('level2_layer2'), load_map('level2_layer3')])
-
-
-class MemoryManager:
-	def __init__(self):
-		self.data = {
-			  "score": 0
-			}
-		self.load_data()
-
-	def load_data(self):
-		with open('memory/memory.json', 'r') as f:
-			data = json.load(f)
-
-			if data:
-				self.data = data
-
-	def write_data(self):
-		with open('memory/memory.json', 'w') as f:
-			json.dump(self.data, f, indent=2)
