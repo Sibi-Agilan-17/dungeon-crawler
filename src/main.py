@@ -128,10 +128,7 @@ while engine.RUN:
 					if tile == '8':
 						display.blit(layer3_images[7], (16 * x - scroll[0], 16 * y - scroll[1]))
 						spikes.append(pygame.Rect(16 * x + 6, 16 * y, 10, 16))
-					if tile == 'l':
-						display.blit(gallery.lava_img, (16 * x - scroll[0], 16 * y - scroll[1]))
-						engine.lava_blocks.append(pygame.Rect(16 * x, 16 * y, 16, 4))
-					if tile not in '056789l':
+					if tile not in '056789':
 						tiles.append(pygame.Rect(16 * x, 16 * y, 16, 16))
 					x += 1
 				y += 1
