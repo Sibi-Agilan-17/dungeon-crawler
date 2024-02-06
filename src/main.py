@@ -180,12 +180,15 @@ while engine.RUN:
 	if player.alive:
 		pygame.draw.rect(display, "red", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32, 4))
 		pygame.draw.rect(display, "green", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32 * player.hp / player.max_hp, 4))
-		display.blit(engine.font.render(f"Score: {engine.score}", False, (211, 211, 211)), (0, 0))
 
-		if engine.igt:
-			time_now = final_time if freeze_time else datetime.datetime.now()
-			igt = time_now - engine.igt
-			display.blit(engine.font.render("IGT:  " + str(igt)[2:11], False, (211, 211, 211)), (0, 24))
+		if engine.debug:
+			display.blit(engine.font.render(f"Score: {engine.score}", False, (211, 211, 211)), (0, 0))
+
+			if engine.igt:
+				time_now = final_time if freeze_time else datetime.datetime.now()
+				igt = time_now - engine.igt
+				display.blit(engine.font.render("IGT:  " + str(igt)[2:11], False, (211, 211, 211)), (0, 24))
+				print(player.hitbox.x, player.hitbox.y)
 
 	else:
 		player.gravity = 0
@@ -218,6 +221,9 @@ while engine.RUN:
 			pygame.quit()
 
 		if event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_z:
+				engine.debug = not engine.debug
+
 			if not engine.igt:
 				engine.igt = datetime.datetime.now()
 
