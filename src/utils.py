@@ -1,4 +1,3 @@
-import json
 import os
 import pygame
 
@@ -94,3 +93,4 @@ class Map:
 
 		self.layers.append([load_map('level1_layer1'), load_map('level1_layer2'), load_map('level1_layer3')])
 		self.layers.append([load_map('level2_layer1'), load_map('level2_layer2'), load_map('level2_layer3')])
+		self.layers.append([load_map('level3_layer1'), load_map('level3_layer2'), load_map('level3_layer3')])

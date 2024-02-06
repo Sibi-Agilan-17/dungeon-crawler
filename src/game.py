@@ -32,7 +32,7 @@ class GameEngine:
 		self.map = Map()
 
 		self.level = data['level']
-		self.max_level = 2
+		self.max_level = 3
 		self.score = 0
 		self.damage_map = data['damage_map']
 		self.spawn_platform = [0, 0]
