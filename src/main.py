@@ -18,8 +18,8 @@ idle_count = 0
 run_count = 0
 door = pygame.Rect(1000, 1000, 1, 1)
 
-direction = [1]
-
+WRITE_DATA = pygame.USEREVENT + 1
+pygame.time.set_timer(WRITE_DATA, 1000)  # write data every second
 engine.speaker.background_music.play()
 freeze_time = False
 final_time = None
@@ -225,12 +225,10 @@ while engine.RUN:
 				if event.key in engine.controls['left']:
 					engine.mvt['l'] = True
 					player.facing_right = False
-					direction.append(2)
 
 				elif event.key in engine.controls['right']:
 					engine.mvt['r'] = True
 					player.facing_right = True
-					direction.append(1)
 
 				elif event.key in engine.controls['up']:
 					if player.air_time < 6:
