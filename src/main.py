@@ -247,6 +247,10 @@ while engine.RUN:
 				player.velocity = 0
 				engine.mvt['r'] = False
 
+		elif event.type == WRITE_DATA:
+			# todo: implement save states
+			...
+
 	if idle_count + 1 >= len(player.idle_animation):
 		idle_count = 0
 
