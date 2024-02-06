@@ -188,7 +188,6 @@ while engine.RUN:
 				time_now = final_time if freeze_time else datetime.datetime.now()
 				igt = time_now - engine.igt
 				display.blit(engine.font.render("IGT:  " + str(igt)[2:11], False, (211, 211, 211)), (0, 24))
-				print(player.hitbox.x, player.hitbox.y)
 
 	else:
 		player.gravity = 0
