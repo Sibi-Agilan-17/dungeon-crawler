@@ -173,10 +173,6 @@ while engine.RUN:
 			final_time = datetime.datetime.now()
 			engine.level = 1
 
-		player.update(*engine.get_spawn_coords())
-		player = engine.player
-		continue
-
 	if player.alive:
 		pygame.draw.rect(display, "red", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32, 4))
 		pygame.draw.rect(display, "green", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32 * player.hp / player.max_hp, 4))
@@ -199,6 +195,7 @@ while engine.RUN:
 		player.hitbox.y = player.respawn[1]
 		player.alive = True
 		player.reset_stats()
+		player.update(*engine.get_spawn_coords())
 
 	if collision_types['bottom']:
 		engine.mvt['j'] = False
