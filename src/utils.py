@@ -5,7 +5,7 @@ import pygame
 __all__ = [
 	"Speaker",
 	"Gallery",
-	"Map"
+	"Map",
 ]
 
 
