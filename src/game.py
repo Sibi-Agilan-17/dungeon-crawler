@@ -5,6 +5,10 @@ from utils import *
 from character import Player
 
 
+__all__ = [
+	'GameEngine',
+]
+
 with open('memory/core.json', 'r') as f:
 	data = json.load(f)
 
