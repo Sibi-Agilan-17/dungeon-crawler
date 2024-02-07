@@ -187,7 +187,7 @@ while engine.RUN:
 		engine.igt = None
 		engine.level = 1
 
-		player.alive = True
+		player.reset_stats()
 		player.update(*engine.get_spawn_coords())
 
 	if collision_types['bottom']:

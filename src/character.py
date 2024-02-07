@@ -75,7 +75,7 @@ class Character(Object):
 		self.velocity_cap: int = -1
 		self.air_time: int = 0
 
-		self.alive: bool = False  # not unless
+		self.alive: bool = False
 		self.is_controlled_by_computer: bool = False
 
 	def tick(self):
@@ -90,7 +90,6 @@ class Character(Object):
 		self.alive = self.hp > 0
 
 	def reset_stats(self):
-		self.hp = self.max_hp
 		self.velocity = 0
 		self.air_time = 0
 		self.gravity = 0
@@ -113,5 +112,4 @@ class Player(Character):
 
 	def tick(self):
 		super(Player, self).tick()
-
 		self.hp += self.max_hp * self.regen / 1000
