@@ -90,6 +90,7 @@ class Character(Object):
 		self.alive = self.hp > 0
 
 	def reset_stats(self):
+		self.hp = self.max_hp
 		self.velocity = 0
 		self.air_time = 0
 		self.gravity = 0
