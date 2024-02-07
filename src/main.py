@@ -162,11 +162,9 @@ while engine.RUN:
 	collisions = player.move(collision_types, movement, tiles)
 
 	if player.hitbox.colliderect(door):
-		engine.speaker.next_level_sound.play()
-		player.reset_stats()
-
 		engine.level += 1
 		engine.score += 100
+		engine.speaker.next_level_sound.play()
 
 		if not engine.level <= engine.max_level:
 			freeze_time = True
