@@ -172,12 +172,14 @@ while engine.RUN:
 	if player.alive:
 		pygame.draw.rect(display, "red", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32, 4))
 		pygame.draw.rect(display, "green", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32 * player.hp / player.max_hp, 4))
-		display.blit(engine.font.render(f"Score: {engine.score}", False, (211, 211, 211)), (0, 0))
 
-		if engine.igt:
-			time_now = final_time if freeze_time else datetime.datetime.now()
-			igt = time_now - engine.igt
-			display.blit(engine.font.render("IGT:  " + str(igt)[2:11], False, (211, 211, 211)), (0, 24))
+		if engine.debug:
+			display.blit(engine.font.render(f"Score: {engine.score}", False, (211, 211, 211)), (0, 0))
+
+			if engine.igt:
+				time_now = final_time if freeze_time else datetime.datetime.now()
+				igt = time_now - engine.igt
+				display.blit(engine.font.render("IGT:  " + str(igt)[2:11], False, (211, 211, 211)), (0, 24))
 
 	else:
 		player.gravity = 0
@@ -208,25 +210,29 @@ while engine.RUN:
 			pygame.quit()
 
 		if event.type == pygame.KEYDOWN:
-			if not engine.igt:
-				engine.igt = datetime.datetime.now()
-
 			if player.alive and engine.RUN:
-				if event.key in engine.controls['left']:
-					engine.mvt['l'] = True
-					player.facing_right = False
+				if event.key in [*engine.controls['left'], *engine.controls['right'], *engine.controls['up']]:
+					if not engine.igt:
+						engine.igt = datetime.datetime.now()
 
-				elif event.key in engine.controls['right']:
-					engine.mvt['r'] = True
-					player.facing_right = True
+					if event.key in engine.controls['left']:
+						engine.mvt['l'] = True
+						player.facing_right = False
 
-				elif event.key in engine.controls['up']:
-					if player.air_time < 6:
-						engine.mvt['j'] = True
-						player.gravity = -4.0
+					elif event.key in engine.controls['right']:
+						engine.mvt['r'] = True
+						player.facing_right = True
+
+					elif event.key in engine.controls['up']:
+						if player.air_time < 6:
+							engine.mvt['j'] = True
+							player.gravity = -4.0
 
 				elif event.key == pygame.K_q:
 					sys.exit(-1)
+
+				elif event.key == pygame.K_z:
+					engine.debug = not engine.debug
 
 		elif event.type == pygame.KEYUP:
 			if event.key in engine.controls['left']:

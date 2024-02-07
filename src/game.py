@@ -18,6 +18,7 @@ class GameEngine:
 
 		pygame.init()
 
+		self.debug = False
 		self.WIN = pygame.display.set_mode(self.WIN_DIMENSIONS)
 		self.display = pygame.Surface((self.width // 2, self.height // 2))
 		pygame.display.set_caption('...')
