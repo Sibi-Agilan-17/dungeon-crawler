@@ -23,6 +23,10 @@ class Object(object):
 		if self.gravity > 5:
 			self.gravity = 5
 
+	def update(self, x, y):
+		self.hitbox.x = x
+		self.hitbox.y = y
+
 	def collision_test(self, tiles):
 		colliding_tiles = []
 

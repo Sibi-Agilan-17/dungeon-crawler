@@ -62,8 +62,6 @@ while engine.RUN:
 						display.blit(layer1_images[5], (16 * x - scroll[0], 16 * y - scroll[1]))
 					elif tile == '7':
 						display.blit(layer1_images[0], (16 * x - scroll[0], 16 * y - scroll[1]))
-						player.respawn[0] = 16 * x
-						player.respawn[1] = 16 * y
 					elif tile == 'l':
 						display.blit(gallery.lava_img, (16 * x - scroll[0], 16 * y - scroll[1]))
 						engine.lava_blocks.append(pygame.Rect(16 * x, 16 * y, 16, 4))
@@ -162,20 +160,14 @@ while engine.RUN:
 	collisions = player.move(collision_types, movement, tiles)
 
 	if player.hitbox.colliderect(door):
-		engine.speaker.next_level_sound.play()
-		player.reset_stats()
-
 		engine.level += 1
 		engine.score += 100
+		engine.speaker.next_level_sound.play()
 
 		if not engine.level <= engine.max_level:
 			freeze_time = True
 			final_time = datetime.datetime.now()
 			engine.level = 1
-
-		engine.spawn_player()
-		player = engine.player
-		continue
 
 	if player.alive:
 		pygame.draw.rect(display, "red", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32, 4))
@@ -193,10 +185,8 @@ while engine.RUN:
 		engine.igt = None
 		engine.level = 1
 
-		player.hitbox.x = player.respawn[0]
-		player.hitbox.y = player.respawn[1]
 		player.alive = True
-		player.reset_stats()
+		player.update(*engine.get_spawn_location())
 
 	if collision_types['bottom']:
 		engine.mvt['j'] = False

@@ -35,7 +35,6 @@ class GameEngine:
 		self.max_level = 3
 		self.score = 0
 		self.damage_map = data['damage_map']
-		self.spawn_platform = [0, 0]
 		self.lava_blocks = []
 		self.controls = {
 				'left': {...},
@@ -54,24 +53,24 @@ class GameEngine:
 			self.controls['right'].add(pygame.K_RIGHT)
 			self.controls['up'].add(pygame.K_UP)
 
-		self.player = self.spawn_player()
+		self.player = Player(hitbox=pygame.Rect(*self.get_spawn_location(), 16, 22))
 		self.player.run_animation = self.gallery.player_run_animation
 		self.player.idle_animation = self.gallery.player_idle_animation
 
-	def spawn_player(self):
+	def get_spawn_location(self):
 		y = 0
+		spawn_location = [0, 0]
 
 		for row in self.map.layers[self.level - 1][0]:
 			x = 0
 			for tile in row:
 				if tile == '7':
-					self.spawn_platform[0] = 16 * x
-					self.spawn_platform[1] = 16 * y
+					spawn_location[0] = 16 * x
+					spawn_location[1] = 16 * y
 				x += 1
 			y += 1
 
-		player_hitbox = pygame.Rect(self.spawn_platform[0], self.spawn_platform[1], 16, 22)
-		return Player(hitbox=player_hitbox)
+		return spawn_location
 
 	def tick(self):
 		self.lava_blocks = []
