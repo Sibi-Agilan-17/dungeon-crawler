@@ -210,9 +210,6 @@ while engine.RUN:
 			pygame.quit()
 
 		if event.type == pygame.KEYDOWN:
-			if event.key == pygame.K_z:
-				engine.debug = not engine.debug
-
 			if not engine.igt:
 				engine.igt = datetime.datetime.now()
 
@@ -232,6 +229,9 @@ while engine.RUN:
 
 				elif event.key == pygame.K_q:
 					sys.exit(-1)
+
+				elif event.key == pygame.K_z:
+					engine.debug = not engine.debug
 
 		elif event.type == pygame.KEYUP:
 			if event.key in engine.controls['left']:
