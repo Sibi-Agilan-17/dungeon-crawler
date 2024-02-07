@@ -62,8 +62,6 @@ while engine.RUN:
 						display.blit(layer1_images[5], (16 * x - scroll[0], 16 * y - scroll[1]))
 					elif tile == '7':
 						display.blit(layer1_images[0], (16 * x - scroll[0], 16 * y - scroll[1]))
-						player.respawn[0] = 16 * x
-						player.respawn[1] = 16 * y
 					elif tile == 'l':
 						display.blit(gallery.lava_img, (16 * x - scroll[0], 16 * y - scroll[1]))
 						engine.lava_blocks.append(pygame.Rect(16 * x, 16 * y, 16, 4))
@@ -189,8 +187,6 @@ while engine.RUN:
 		engine.igt = None
 		engine.level = 1
 
-		player.hitbox.x = player.respawn[0]
-		player.hitbox.y = player.respawn[1]
 		player.alive = True
 		player.reset_stats()
 		player.update(*engine.get_spawn_coords())
