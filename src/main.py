@@ -16,7 +16,6 @@ layer3_images = gallery.layer3_images
 
 idle_count = 0
 run_count = 0
-door = pygame.Rect(1000, 1000, 1, 1)
 
 WRITE_DATA = pygame.USEREVENT + 1
 pygame.time.set_timer(WRITE_DATA, 1000)  # write data every second
