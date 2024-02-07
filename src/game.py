@@ -1,7 +1,7 @@
 import json
 import pygame
 
-from utils import Gallery, Speaker, Map
+from utils import *
 from character import Player
 
 

@@ -1,6 +1,12 @@
-import json
 import os
 import pygame
+
+
+__all__ = [
+	"Speaker",
+	"Gallery",
+	"Map"
+]
 
 
 class Sound:
