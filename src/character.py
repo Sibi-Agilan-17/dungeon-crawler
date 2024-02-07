@@ -8,7 +8,7 @@ with open('memory/core.json', 'r') as f:
 __all__ = [
 	"Object",
 	"Character",
-	"Player"
+	"Player",
 ]
 
 
