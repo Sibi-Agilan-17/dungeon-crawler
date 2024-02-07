@@ -5,6 +5,13 @@ with open('memory/core.json', 'r') as f:
 	data = json.load(f)
 
 
+__all__ = [
+	"Object",
+	"Character",
+	"Player"
+]
+
+
 class Object(object):
 	"""
 	Properties common to all the objects in the game
