@@ -173,7 +173,7 @@ while engine.RUN:
 			final_time = datetime.datetime.now()
 			engine.level = 1
 
-		engine.spawn_player()
+		player.update(*engine.get_spawn_coords())
 		player = engine.player
 		continue
 
