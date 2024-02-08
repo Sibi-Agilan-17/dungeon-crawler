@@ -66,7 +66,7 @@ class Gallery:
 			sprite_img = load_image(os.path.join('assets', 'images', 'tiles', 'layer2_tiles', 'Sprite_' + str(i) + '.png'))
 			self.layer2_images.append(sprite_img)
 
-		for i in range(16, 25):
+		for i in range(16, 24):
 			sprite_img = load_image(os.path.join('assets', 'images', 'tiles', 'layer3_tiles', 'Sprite_' + str(i) + '.png'))
 			self.layer3_images.append(sprite_img)
 
