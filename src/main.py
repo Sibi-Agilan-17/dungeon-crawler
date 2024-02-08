@@ -163,6 +163,7 @@ while engine.RUN:
 		engine.level += 1
 		engine.score += 100
 		engine.speaker.next_level_sound.play()
+		player.update(*engine.get_spawn_coords())
 
 		if not engine.level <= engine.max_level:
 			freeze_time = True
