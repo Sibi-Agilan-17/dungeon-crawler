@@ -175,6 +175,7 @@ while engine.RUN:
 			display.blit(engine.font.render(f"Score: {engine.score}", False, (211, 211, 211)), (0, 0))
 
 			if engine.igt:
+				# todo: bugs out when player dies after completing game
 				time_now = final_time if freeze_time else datetime.datetime.now()
 				igt = time_now - engine.igt
 				display.blit(engine.font.render("IGT:  " + str(igt)[2:11], False, (211, 211, 211)), (0, 24))
