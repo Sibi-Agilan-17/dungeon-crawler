@@ -20,13 +20,10 @@ door = pygame.Rect(1000, 1000, 1, 1)
 
 WRITE_DATA = pygame.USEREVENT + 1
 pygame.time.set_timer(WRITE_DATA, 1000)  # write data every second
-engine.speaker.background_music.play()
 freeze_time = False
 final_time = None
 
 while engine.RUN:
-	engine.speaker.background_music.play()
-
 	engine.display.fill((28, 31, 36))
 	collision_types = {'top': False, 'bottom': False, 'right': False, 'left': False}
 
@@ -282,4 +279,5 @@ while engine.RUN:
 		pygame.display.update()
 
 	engine.score = int(engine.score)
+	engine.speaker.tick()
 	engine.tick()

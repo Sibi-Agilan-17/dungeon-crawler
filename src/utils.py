@@ -33,6 +33,10 @@ class Speaker:
 		self.jump_sound = Sound('./assets/sounds/jump.mp3', channel=2)
 		self.next_level_sound = Sound('./assets/sounds/next_level.mp3', channel=3)
 
+	def tick(self):
+		if not self.background_music.is_playing():
+			self.background_music.play()
+
 
 def load_image(img_name):
 	return pygame.image.load(img_name).convert_alpha()
