@@ -84,3 +84,8 @@ class GameEngine:
 		self.player.tick()
 		self.speaker.tick()
 		self.clock.tick(self.FPS)
+
+	def reset_stats(self):
+		self.score = 0
+		self.igt = None
+		self.level = 1

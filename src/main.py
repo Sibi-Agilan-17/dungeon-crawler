@@ -179,12 +179,8 @@ while engine.RUN:
 				display.blit(engine.font.render("IGT:  " + str(igt)[2:11], False, (211, 211, 211)), (0, 24))
 
 	else:
-		player.gravity = 0
-		engine.score = 0
-		engine.igt = None
-		engine.level = 1
-
-		player.reset_stats()
+		engine.reset_stats()
+		player.reset_stats(coords=engine.get_spawn_coords())
 		player.update(*engine.get_spawn_coords())
 
 	if collision_types['bottom']:
