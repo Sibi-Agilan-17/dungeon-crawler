@@ -212,6 +212,12 @@ while engine.RUN:
 						engine.mvt['j'] = True
 						player.gravity = -4.0
 
+				elif event.key in engine.controls['cheats']:
+					if player.hp > player.max_hp * 0.95:
+						engine.damage_map = {k: 0 for k, _ in engine.damage_map.items()}
+					else:
+						player.hp = player.max_hp
+
 				elif event.key == pygame.K_q:
 					sys.exit(-1)
 

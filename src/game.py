@@ -44,11 +44,7 @@ class GameEngine:
 		self.damage_map = data['damage_map']
 		self.spawn_platform = [0, 0]
 		self.lava_blocks = []
-		self.controls = {
-				'left': {...},
-				'right': {...},
-				'up': {...},
-			}
+		self.controls = {k: {...} for k in ['left', 'right', 'up', 'cheats']}
 		self.mvt = {k: False for k in ['l', 'r', 'j']}  # Left, Right, Jump
 
 		if 'wasd' in data['controls']:
@@ -60,6 +56,9 @@ class GameEngine:
 			self.controls['left'].add(pygame.K_LEFT)
 			self.controls['right'].add(pygame.K_RIGHT)
 			self.controls['up'].add(pygame.K_UP)
+
+		if 'cheats' in data['controls']:
+			self.controls['cheats'].add(pygame.K_c)
 
 		self.door = pygame.Rect(1000, 1000, 1, 1)
 		self.player = Player(hitbox=pygame.Rect(*self.get_spawn_coordinates(), 16, 22))
