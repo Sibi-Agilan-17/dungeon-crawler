@@ -243,12 +243,6 @@ while engine.RUN:
 			# todo: implement save states
 			...
 
-	if player.idle_count + 1 >= len(player.idle_animation):
-		player.idle_count = 0
-
-	if player.run_count + 1 >= len(player.run_animation):
-		player.run_count = 0
-
 	if player.alive:
 		if engine.mvt['j']:
 			if player.facing_right:

@@ -116,12 +116,20 @@ class Player(Character):
 		self.velocity_cap = data['player']['speed_cap']
 		self.regen = data['player']['regen']
 		self.facing_right = True
+		self.idle_animation = self.run_animation = []  # will be written later
 
 		for k, v in kwargs.items():
 			setattr(self, k, v)
 
 	def tick(self):
 		super(Player, self).tick()
+
+		if self.idle_count + 1 >= len(self.idle_animation):
+			self.idle_count = 0
+
+		if self.run_count + 1 >= len(self.run_animation):
+			self.run_count = 0
+
 		self.hp += self.max_hp * self.regen / 1000
 
 
