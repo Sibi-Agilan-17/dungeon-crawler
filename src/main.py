@@ -278,5 +278,4 @@ while engine.RUN:
 		pygame.display.update()
 
 	engine.score = int(engine.score)
-	engine.speaker.tick()
 	engine.tick()

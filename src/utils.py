@@ -34,9 +34,9 @@ class Speaker:
 		pygame.mixer.set_num_channels(self.num_channels)
 		self.channels = [pygame.mixer.Channel(x) for x in range(self.num_channels)]
 
-		self.background_music = Sound('./assets/sounds/background_music.mp3', channel=self.channels[1])
+		self.background_music = Sound('./assets/sounds/background music.mp3', channel=self.channels[1])
 		self.jump_sound = Sound('./assets/sounds/jump.mp3', channel=self.channels[2])
-		self.next_level_sound = Sound('./assets/sounds/next_level.mp3', channel=self.channels[3])
+		self.next_level_sound = Sound('./assets/sounds/next level.mp3', channel=self.channels[3], volume=0.3)
 
 	def tick(self):
 		if not self.background_music.is_playing():
@@ -119,7 +119,7 @@ class MovementType(Enum):
 	ATTACK = 4
 	NONE = 5
 
-	MOVE = LEFT | RIGHT | JUMP
-	WALK = LEFT | RIGHT
+	WALK = RIGHT | LEFT
 	LEFT_JUMP = LEFT & JUMP
 	RIGHT_JUMP = RIGHT & JUMP
+	MOVEMENT = LEFT | RIGHT | JUMP
