@@ -29,7 +29,7 @@ class GameEngine:
 		self.clock = pygame.time.Clock()
 		self.font = pygame.font.SysFont('Comic Sans MS', 16)
 		self.igt = None
-		self.debug = False
+		self.debug = True
 
 		self.true_scroll = [0, 0]
 		self.speaker = Speaker()
