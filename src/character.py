@@ -112,7 +112,6 @@ class Player(Character):
 		self.linear_travel_speed = data['player']['speed']
 		self.velocity_cap = data['player']['speed_cap']
 		self.regen = data['player']['regen']
-		self.respawn = [0, 0]
 		self.facing_right = True
 
 		for k, v in kwargs.items():
