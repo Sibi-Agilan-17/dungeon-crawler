@@ -85,6 +85,9 @@ class Character(Object):
 		self.alive: bool = False
 		self.is_controlled_by_computer: bool = False
 
+		self.idle_count: int = 0
+		self.run_count: int = 0
+
 	def tick(self):
 		super(Character, self).tick()
 

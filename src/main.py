@@ -14,8 +14,6 @@ layer1_images = gallery.layer1_images
 layer2_images = gallery.layer2_images
 layer3_images = gallery.layer3_images
 
-idle_count = 0
-run_count = 0
 door = pygame.Rect(1000, 1000, 1, 1)
 
 WRITE_DATA = pygame.USEREVENT + 1
@@ -245,36 +243,36 @@ while engine.RUN:
 			# todo: implement save states
 			...
 
-	if idle_count + 1 >= len(player.idle_animation):
-		idle_count = 0
+	if player.idle_count + 1 >= len(player.idle_animation):
+		player.idle_count = 0
 
-	if run_count + 1 >= len(player.run_animation):
-		run_count = 0
+	if player.run_count + 1 >= len(player.run_animation):
+		player.run_count = 0
 
 	if player.alive:
 		if engine.mvt['j']:
 			if player.facing_right:
-				display.blit(gallery.jump_img, (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
+				display.blit(gallery.player_jump_img, (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
 
 			else:
-				display.blit(pygame.transform.flip(gallery.jump_img, True, False), (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
+				display.blit(pygame.transform.flip(gallery.player_jump_img, True, False), (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
 
 		elif not engine.mvt['l'] and not engine.mvt['r']:
 			if player.facing_right:
-				display.blit(player.idle_animation[idle_count], (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
-				idle_count += 1
+				display.blit(player.idle_animation[player.idle_count], (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
+				player.idle_count += 1
 
 			else:
-				display.blit(pygame.transform.flip(player.idle_animation[idle_count], True, False), (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
-				idle_count += 1
+				display.blit(pygame.transform.flip(player.idle_animation[player.idle_count], True, False), (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
+				player.idle_count += 1
 
 		elif player.facing_right:
-			display.blit(player.run_animation[run_count], (player.hitbox.x + 1 - scroll[0], player.hitbox.y - scroll[1]))
-			run_count += 1
+			display.blit(player.run_animation[player.run_count], (player.hitbox.x + 1 - scroll[0], player.hitbox.y - scroll[1]))
+			player.run_count += 1
 
 		else:
-			display.blit(pygame.transform.flip(player.run_animation[run_count], True, False), (player.hitbox.x - 1 - scroll[0], player.hitbox.y - scroll[1]))
-			run_count += 1
+			display.blit(pygame.transform.flip(player.run_animation[player.run_count], True, False), (player.hitbox.x - 1 - scroll[0], player.hitbox.y - scroll[1]))
+			player.run_count += 1
 
 		engine.WIN.blit(pygame.transform.scale(display, engine.WIN_DIMENSIONS), (0, 0))
 		pygame.display.update()
