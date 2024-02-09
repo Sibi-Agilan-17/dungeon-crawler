@@ -15,17 +15,18 @@ with open('memory/core.json', 'r') as f:
 
 class GameEngine:
 	def __init__(self):
+		pygame.init()
+
 		self.RUN = True
 		self.FPS = data['fps']
 		self.width, self.height = 700 * 1.5, 500 * 1.5
 		self.WIN_DIMENSIONS = [self.width, self.height]
-
-		pygame.init()
-
 		self.WIN = pygame.display.set_mode(self.WIN_DIMENSIONS)
 		self.display = pygame.Surface((self.width // 2, self.height // 2))
+
 		pygame.display.set_caption('...')
 		pygame.mouse.set_visible(False)
+
 		self.clock = pygame.time.Clock()
 		self.font = pygame.font.SysFont('Comic Sans MS', 16)
 		self.igt = None
@@ -35,6 +36,8 @@ class GameEngine:
 		self.speaker = Speaker()
 		self.gallery = Gallery()
 		self.map = Map()
+
+		self.GRAVITATIONAL_CONSTANT: int = 1
 
 		self.level = data['level']
 		self.max_level = 3

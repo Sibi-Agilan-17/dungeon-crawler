@@ -149,8 +149,8 @@ while engine.RUN:
 				else:
 					movement[0] += player.velocity
 
+			player.gravity += 0.2 * engine.GRAVITATIONAL_CONSTANT
 			movement[1] += player.gravity
-			player.gravity += 0.2
 
 	collisions = player.move(collision_types, movement, tiles)
 
