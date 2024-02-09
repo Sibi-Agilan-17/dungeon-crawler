@@ -1,19 +1,22 @@
 import os
 import pygame
 
+from enum import Enum
+
 
 __all__ = [
 	"Speaker",
 	"Gallery",
 	"Map",
+	"MovementType"
 ]
 
 
 class Sound:
-	def __init__(self, path, channel=0, volume=1.0):
+	def __init__(self, path, channel, volume=1.0):
 		self.path = path
 		self.volume = volume
-		self.channel = pygame.mixer.Channel(channel)
+		self.channel = channel
 		self.channel.set_volume(volume)
 		self.sound = pygame.mixer.Sound(path)
 
@@ -26,8 +29,10 @@ class Sound:
 
 class Speaker:
 	def __init__(self):
-		pygame.mixer.init()
-		pygame.mixer.set_num_channels(4)
+		self.num_channels = 4
+
+		pygame.mixer.set_num_channels(self.num_channels)
+		self.channels = [pygame.mixer.Channel(x) for x in range(self.num_channels)]
 
 		self.background_music = Sound('./assets/sounds/background_music.mp3', channel=1)
 		self.jump_sound = Sound('./assets/sounds/jump.mp3', channel=2)
@@ -105,3 +110,12 @@ class Map:
 		self.layers.append([load_map('level1_layer1'), load_map('level1_layer2'), load_map('level1_layer3')])
 		self.layers.append([load_map('level2_layer1'), load_map('level2_layer2'), load_map('level2_layer3')])
 		self.layers.append([load_map('level3_layer1'), load_map('level3_layer2'), load_map('level3_layer3')])
+
+
+class MovementType(Enum):
+	LEFT = 1
+	RIGHT = 2
+	JUMP = 3
+	ATTACK = 4
+
+	MOVEMENT = LEFT | RIGHT | JUMP
