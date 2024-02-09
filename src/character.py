@@ -120,3 +120,17 @@ class Player(Character):
 	def tick(self):
 		super(Player, self).tick()
 		self.hp += self.max_hp * self.regen / 1000
+
+
+class Enemy(Character):
+	def __init__(self, **kwargs):
+		super(Enemy, self).__init__()
+
+		self.facing_right = True
+		self.is_controlled_by_computer = True
+
+		for k, v in kwargs.items():
+			setattr(self, k, v)
+
+	def tick(self):
+		super(Enemy, self).tick()
