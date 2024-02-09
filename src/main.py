@@ -14,8 +14,6 @@ layer1_images = gallery.layer1_images
 layer2_images = gallery.layer2_images
 layer3_images = gallery.layer3_images
 
-door = pygame.Rect(1000, 1000, 1, 1)
-
 WRITE_DATA = pygame.USEREVENT + 1
 pygame.time.set_timer(WRITE_DATA, 1000)  # write data every second
 freeze_time = False
@@ -89,7 +87,7 @@ while engine.RUN:
 						display.blit(layer2_images[7], (16 * x - scroll[0], 16 * y - scroll[1]))
 					elif tile == '9':
 						display.blit(layer2_images[8], (16 * x - scroll[0], 16 * y - scroll[1]))
-						door = pygame.Rect(16 * x, 16 * y, 16, 32)
+						engine.door = pygame.Rect(16 * x, 16 * y, 16, 32)
 					elif tile == 'l':
 						display.blit(gallery.lava_img, (16 * x - scroll[0], 16 * y - scroll[1]))
 						engine.lava_blocks.append(pygame.Rect(16 * x, 16 * y, 16, 4))
@@ -139,6 +137,11 @@ while engine.RUN:
 			player.hp -= engine.damage_map['lava']
 			engine.score -= (engine.damage_map['lava'] // 10) * 0.1
 
+	if not engine.level <= engine.max_level:
+		freeze_time = True
+		final_time = datetime.datetime.now()
+		engine.level = 1
+
 	if engine.RUN:
 		if player.alive:
 			if engine.mvt['l'] or engine.mvt['r']:
@@ -149,21 +152,10 @@ while engine.RUN:
 				else:
 					movement[0] += player.velocity
 
-			player.gravity += 0.2 * engine.GRAVITATIONAL_CONSTANT
 			movement[1] += player.gravity
+			player.gravity += 0.2 * engine.GRAVITATIONAL_CONSTANT
 
 	collisions = player.move(collision_types, movement, tiles)
-
-	if player.hitbox.colliderect(door):
-		engine.level += 1
-		engine.score += 100
-		engine.speaker.next_level_sound.play()
-		player.update(*engine.get_spawn_coordinates())
-
-		if not engine.level <= engine.max_level:
-			freeze_time = True
-			final_time = datetime.datetime.now()
-			engine.level = 1
 
 	if player.alive:
 		pygame.draw.rect(display, "red", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32, 4))
