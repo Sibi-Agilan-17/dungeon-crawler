@@ -158,7 +158,7 @@ while engine.RUN:
 		engine.level += 1
 		engine.score += 100
 		engine.speaker.next_level_sound.play()
-		player.update(*engine.get_spawn_coords())
+		player.update(*engine.get_spawn_coordinates())
 
 		if not engine.level <= engine.max_level:
 			freeze_time = True
@@ -180,8 +180,8 @@ while engine.RUN:
 
 	else:
 		engine.reset_stats()
-		player.reset_stats(coords=engine.get_spawn_coords())
-		player.update(*engine.get_spawn_coords())
+		player.reset_stats(coords=engine.get_spawn_coordinates())
+		player.update(*engine.get_spawn_coordinates())
 
 	if collision_types['bottom']:
 		engine.mvt['j'] = False

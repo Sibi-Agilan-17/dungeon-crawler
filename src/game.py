@@ -59,11 +59,11 @@ class GameEngine:
 			self.controls['right'].add(pygame.K_RIGHT)
 			self.controls['up'].add(pygame.K_UP)
 
-		self.player = Player(hitbox=pygame.Rect(*self.get_spawn_coords(), 16, 22))
+		self.player = Player(hitbox=pygame.Rect(*self.get_spawn_coordinates(), 16, 22))
 		self.player.run_animation = self.gallery.player_run_animation
 		self.player.idle_animation = self.gallery.player_idle_animation
 
-	def get_spawn_coords(self):
+	def get_spawn_coordinates(self):
 		spawn_location = [0, 0]
 		y = 0
 
