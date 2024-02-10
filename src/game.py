@@ -69,14 +69,18 @@ class GameEngine:
 		spawn_location = [0, 0]
 		y = 0
 
-		for row in self.map.layers[self.level - 1][0]:
-			x = 0
-			for tile in row:
-				if tile == '7':
-					spawn_location[0] = 16 * x
-					spawn_location[1] = 16 * y
-				x += 1
-			y += 1
+		try:
+			for row in self.map.layers[self.level - 1][0]:
+				x = 0
+				for tile in row:
+					if tile == '7':
+						spawn_location[0] = 16 * x
+						spawn_location[1] = 16 * y
+					x += 1
+				y += 1
+
+		except IndexError:  # next level does not exist
+			spawn_location = [1024, 1024]
 
 		return spawn_location
 
@@ -95,4 +99,6 @@ class GameEngine:
 
 	def reset_stats(self):
 		self.score = 0
+		self.level = 1
 		self.igt = None
+		self.RUN = True

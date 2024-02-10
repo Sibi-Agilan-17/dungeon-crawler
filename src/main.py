@@ -19,7 +19,7 @@ pygame.time.set_timer(WRITE_DATA, 1000)  # write data every second
 freeze_time = False
 final_time = None
 
-while engine.RUN:
+while True:
 	engine.display.fill((28, 31, 36))
 	collision_types = {'top': False, 'bottom': False, 'right': False, 'left': False}
 
@@ -33,6 +33,11 @@ while engine.RUN:
 	tiles = []
 	spikes = []
 	movement = [0, 0]
+
+	if not engine.level <= engine.max_level:
+		freeze_time = True
+		final_time = datetime.datetime.now()
+		engine.level = 1
 
 	for layer in layers[engine.level - 1]:
 		y = 0
@@ -137,11 +142,6 @@ while engine.RUN:
 			player.hp -= engine.damage_map['lava']
 			engine.score -= (engine.damage_map['lava'] // 10) * 0.1
 
-	if not engine.level <= engine.max_level:
-		freeze_time = True
-		final_time = datetime.datetime.now()
-		engine.level = 1
-
 	if engine.RUN:
 		if player.alive:
 			if engine.mvt['l'] or engine.mvt['r']:
@@ -168,12 +168,13 @@ while engine.RUN:
 				# todo: bugs out when player dies after completing game
 				time_now = final_time if freeze_time else datetime.datetime.now()
 				igt = time_now - engine.igt
-				display.blit(engine.font.render("IGT:  " + str(igt)[2:11], False, (211, 211, 211)), (0, 24))
+
+				color = (255, 215, 0) if (freeze_time and not engine.controls['cheats']) else(211, 211, 211)
+				display.blit(engine.font.render("IGT:  " + str(igt)[2:11], False, color), (0, 24))
 
 	else:
 		engine.reset_stats()
 		player.reset_stats(coordinates=engine.get_spawn_coordinates())
-		player.update(*engine.get_spawn_coordinates())
 
 	if collision_types['bottom']:
 		engine.mvt['j'] = False
@@ -217,6 +218,11 @@ while engine.RUN:
 						engine.damage_map = {k: 0 for k, _ in engine.damage_map.items()}
 					else:
 						player.hp = player.max_hp
+
+				elif event.key == pygame.K_r:
+					engine.RUN = False
+					engine.reset_stats()
+					player.reset_stats(coordinates=engine.get_spawn_coordinates())
 
 				elif event.key == pygame.K_q:
 					sys.exit(-1)
