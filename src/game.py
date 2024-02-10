@@ -92,7 +92,7 @@ class GameEngine:
 				self.speaker.next_level_sound.play()
 				self.player.update(*self.get_spawn_coordinates())
 				self.doors = []
-				
+
 		self.lava_blocks = []
 		self.player.tick()
 		self.speaker.tick()
