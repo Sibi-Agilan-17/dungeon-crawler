@@ -92,7 +92,7 @@ while True:
 						display.blit(layer2_images[7], (16 * x - scroll[0], 16 * y - scroll[1]))
 					elif tile == '9':
 						display.blit(layer2_images[8], (16 * x - scroll[0], 16 * y - scroll[1]))
-						engine.door = pygame.Rect(16 * x, 16 * y, 16, 32)
+						engine.doors.append(pygame.Rect(16 * x, 16 * y, 16, 32))
 					elif tile == 'l':
 						display.blit(gallery.lava_img, (16 * x - scroll[0], 16 * y - scroll[1]))
 						engine.lava_blocks.append(pygame.Rect(16 * x, 16 * y, 16, 4))

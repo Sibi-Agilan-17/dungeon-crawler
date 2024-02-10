@@ -60,7 +60,7 @@ class GameEngine:
 		if 'cheats' in data['controls']:
 			self.controls['cheats'].add(pygame.K_c)
 
-		self.door = pygame.Rect(1000, 1000, 1, 1)
+		self.doors = [pygame.Rect(1000, 1000, 1, 1)]
 		self.player = Player(hitbox=pygame.Rect(*self.get_spawn_coordinates(), 16, 22))
 		self.player.run_animation = self.gallery.player_run_animation
 		self.player.idle_animation = self.gallery.player_idle_animation
@@ -85,14 +85,15 @@ class GameEngine:
 		return spawn_location
 
 	def tick(self):
-		if self.player.hitbox.colliderect(self.door):
-			self.level += 1
-			self.score += 100
-			self.speaker.next_level_sound.play()
-			self.player.update(*self.get_spawn_coordinates())
-
+		for door in self.doors:
+			if self.player.hitbox.colliderect(door):
+				self.level += 1
+				self.score += 100
+				self.speaker.next_level_sound.play()
+				self.player.update(*self.get_spawn_coordinates())
+				self.doors = []
+				
 		self.lava_blocks = []
-
 		self.player.tick()
 		self.speaker.tick()
 		self.clock.tick(self.FPS)
