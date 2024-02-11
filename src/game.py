@@ -36,7 +36,7 @@ class GameEngine:
 		self.gallery = Gallery()
 		self.map = Map()
 
-		self.gravitational_vector: Vector = Vector(0, 0.2)
+		self.GRAVITATIONAL_CONSTANT: int = 1
 
 		self.level = data['level']
 		self.max_level = 3
