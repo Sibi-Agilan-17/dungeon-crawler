@@ -153,7 +153,7 @@ while True:
 					movement[0] += player.velocity
 
 			movement[1] += player.gravity
-			player.gravity += 0.2 * engine.GRAVITATIONAL_CONSTANT
+			player.gravity += engine.gravitational_vector.y
 
 	collisions = player.move(collision_types, movement, tiles)
 
