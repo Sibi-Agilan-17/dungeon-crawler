@@ -152,8 +152,8 @@ while True:
 				else:
 					movement[0] += player.velocity_vector.x
 
-			movement[1] += player.gravity
-			player.gravity += engine.gravitational_vector.y
+			movement[1] += player.velocity_vector.y
+			player.velocity_vector.y += engine.gravitational_vector.y
 
 	collisions = player.move(collision_types, movement, tiles)
 
@@ -210,7 +210,7 @@ while True:
 				elif event.key in engine.controls['up']:
 					if player.air_time < 6:
 						engine.mvt['j'] = True
-						player.gravity = -4.0
+						player.velocity_vector.y = -4.0
 
 				elif event.key in engine.controls['cheats']:
 					if player.hp > player.max_hp * 0.95:

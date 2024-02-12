@@ -13,22 +13,11 @@ __all__ = [
 
 
 class Object(object):
-	"""
-	Properties common to all the objects in the game
-
-	* Affected by gravity
-	* Has mass and can be moved
-	"""
-
 	def __init__(self, hitbox=None):
 		self.hitbox: pygame.Rect = hitbox
-		self.gravity = 0
 
 	def tick(self):
-		"""All objects get updated every tick"""
-
-		if self.gravity > 5:
-			self.gravity = 5
+		...
 
 	def update(self, x, y):
 		self.hitbox.x = x
@@ -68,10 +57,7 @@ class Object(object):
 
 		return collision_types
 
-
 class Character(Object):
-	"""All characters, whether controlled by a human or by the computer"""
-
 	def __init__(self, hitbox=None):
 		super().__init__(hitbox)
 
@@ -103,7 +89,6 @@ class Character(Object):
 		self.hp = self.max_hp
 		self.velocity_vector.xy = 0, 0
 		self.air_time = 0
-		self.gravity = 0
 		self.update(*coordinates)
 
 
