@@ -1,4 +1,6 @@
 import datetime
+import math
+
 import pygame
 import sys
 
@@ -181,9 +183,11 @@ while True:
 		if player.air_time > 1:
 			engine.speaker.jump_sound.play()
 
-			if player.air_time > 50:
-				player.hp -= engine.damage_map['fall'] * player.air_time // 10
-				engine.score -= (engine.damage_map['fall'] * player.air_time // 10) * 0.1
+			if player.air_time > 64:
+				fall_damage = pygame.math.clamp(engine.damage_map['fall'] * player.velocity_vector.magnitude(), 0, player.max_hp)
+
+				player.hp -= fall_damage
+				engine.score -= fall_damage
 
 		player.air_time = 0
 
@@ -270,5 +274,5 @@ while True:
 		engine.WIN.blit(pygame.transform.scale(display, engine.WIN_DIMENSIONS), (0, 0))
 		pygame.display.update()
 
-	engine.score = int(engine.score)
+	engine.score = int(pygame.math.clamp(engine.score, 0, math.inf))
 	engine.tick()
