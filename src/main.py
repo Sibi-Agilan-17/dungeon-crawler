@@ -1,6 +1,5 @@
 import datetime
 import math
-
 import pygame
 import sys
 
