@@ -78,7 +78,7 @@ class Character(Object):
 		self.max_hp: int = 0
 		self.hp: int = self.max_hp
 
-		self.velocity: int = 0
+		self.velocity_vector = pygame.Vector2(0, 0)
 		self.velocity_cap: int = -1
 		self.air_time: int = 0
 
@@ -94,14 +94,14 @@ class Character(Object):
 		if self.hp > self.max_hp:
 			self.hp = self.max_hp
 
-		if self.velocity > self.velocity_cap:
-			self.velocity = self.velocity_cap
+		if self.velocity_vector.x > self.velocity_cap:
+			self.velocity_vector.x = self.velocity_cap
 
 		self.alive = self.hp > 0
 
 	def reset_stats(self, coordinates=(0, 0)):
 		self.hp = self.max_hp
-		self.velocity = 0
+		self.velocity_vector.xy = 0, 0
 		self.air_time = 0
 		self.gravity = 0
 		self.update(*coordinates)

@@ -36,7 +36,7 @@ class GameEngine:
 		self.gallery = Gallery()
 		self.map = Map()
 
-		self.GRAVITATIONAL_CONSTANT: int = 1
+		self.gravitational_vector = pygame.Vector2(0, 0.2)
 
 		self.level = data['level']
 		self.max_level = 3

@@ -145,15 +145,15 @@ while True:
 	if engine.RUN:
 		if player.alive:
 			if engine.mvt['l'] or engine.mvt['r']:
-				player.velocity += player.linear_travel_speed / 2.1414
+				player.velocity_vector.x += player.linear_travel_speed / 2.1414
 
 				if engine.mvt['l']:
-					movement[0] -= player.velocity
+					movement[0] -= player.velocity_vector.x
 				else:
-					movement[0] += player.velocity
+					movement[0] += player.velocity_vector.x
 
 			movement[1] += player.gravity
-			player.gravity += 0.2 * engine.GRAVITATIONAL_CONSTANT
+			player.gravity += engine.gravitational_vector.y
 
 	collisions = player.move(collision_types, movement, tiles)
 
@@ -231,11 +231,11 @@ while True:
 
 		elif event.type == pygame.KEYUP:
 			if event.key in engine.controls['left']:
-				player.velocity = 0
+				player.velocity_vector.x = 0
 				engine.mvt['l'] = False
 
 			if event.key in engine.controls['right']:
-				player.velocity = 0
+				player.velocity_vector.x = 0
 				engine.mvt['r'] = False
 
 		elif event.type == WRITE_DATA:
