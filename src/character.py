@@ -57,6 +57,7 @@ class Object(object):
 
 		return collision_types
 
+
 class Character(Object):
 	def __init__(self, hitbox=None):
 		super().__init__(hitbox)
@@ -82,6 +83,9 @@ class Character(Object):
 
 		if self.velocity_vector.x > self.velocity_cap:
 			self.velocity_vector.x = self.velocity_cap
+
+		if self.velocity_vector.y > 16:  # gravity cap
+			self.velocity_vector.y = 16
 
 		self.alive = self.hp > 0
 
