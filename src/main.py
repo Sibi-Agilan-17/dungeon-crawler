@@ -214,7 +214,7 @@ while True:
 				elif event.key in engine.controls['up']:
 					if player.air_time < 6:
 						engine.mvt['j'] = True
-						player.velocity_vector.y = -4.0
+						player.velocity_vector.y -= player.linear_travel_speed * 2
 
 				elif event.key in engine.controls['cheats']:
 					if player.hp > player.max_hp * 0.95:
