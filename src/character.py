@@ -19,7 +19,7 @@ class Object(object):
 	def tick(self):
 		...
 
-	def update(self, x, y):
+	def update_position(self, x, y):
 		self.hitbox.x = x
 		self.hitbox.y = y
 
@@ -93,7 +93,7 @@ class Character(Object):
 		self.hp = self.max_hp
 		self.velocity_vector.xy = 0, 0
 		self.air_time = 0
-		self.update(*coordinates)
+		self.update_position(*coordinates)
 
 
 class Player(Character):

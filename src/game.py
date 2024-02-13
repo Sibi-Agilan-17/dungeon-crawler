@@ -90,7 +90,7 @@ class GameEngine:
 				self.level += 1
 				self.score += 100
 				self.speaker.next_level_sound.play()
-				self.player.update(*self.get_spawn_coordinates())
+				self.player.update_position(*self.get_spawn_coordinates())
 				self.doors = []
 
 		self.lava_blocks = []

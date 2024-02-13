@@ -1,12 +1,12 @@
 import datetime
 import math
-
 import pygame
 import sys
 
 from game import GameEngine
 
 engine = GameEngine()
+
 gallery = engine.gallery
 player = engine.player
 layers = engine.map.layers
