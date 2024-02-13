@@ -31,9 +31,10 @@ class Speaker:
 	def __init__(self):
 		self.num_channels = 4
 
+		pygame.mixer.init()
 		pygame.mixer.set_num_channels(self.num_channels)
-		self.channels = [pygame.mixer.Channel(x) for x in range(self.num_channels)]
 
+		self.channels = [pygame.mixer.Channel(x) for x in range(self.num_channels)]
 		self.background_music = Sound('./assets/sounds/background music.mp3', channel=self.channels[1])
 		self.jump_sound = Sound('./assets/sounds/jump.mp3', channel=self.channels[2])
 		self.next_level_sound = Sound('./assets/sounds/next level.mp3', channel=self.channels[3], volume=0.3)

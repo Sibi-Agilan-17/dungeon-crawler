@@ -186,8 +186,8 @@ while True:
 				display.blit(engine.font.render("IGT:  " + str(igt)[2:11], False, color), (0, 24))
 
 	else:
-		engine.reset_stats()
-		player.reset_stats(coordinates=engine.get_spawn_coordinates())
+		engine.force_reset()
+		player.force_reset(coordinates=engine.get_spawn_coordinates())
 
 	if collision_types['bottom']:
 		engine.mvt['j'] = False
@@ -239,8 +239,8 @@ while True:
 
 				elif event.key == pygame.K_r:
 					engine.RUN = False
-					engine.reset_stats()
-					player.reset_stats(coordinates=engine.get_spawn_coordinates())
+					engine.force_reset()
+					player.force_reset(coordinates=engine.get_spawn_coordinates())
 
 				elif event.key == pygame.K_q:
 					sys.exit(-1)
