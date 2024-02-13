@@ -95,7 +95,6 @@ class GameEngine:
 
 		self.lava_blocks = []
 		self.player.tick()
-		self.speaker.tick()
 		self.clock.tick(self.FPS)
 
 	def reset_stats(self):

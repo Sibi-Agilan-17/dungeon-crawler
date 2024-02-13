@@ -21,6 +21,8 @@ pygame.time.set_timer(WRITE_DATA, 1000)  # write data every second
 freeze_time = False
 final_time = None
 
+engine.speaker.background_music.play(loops=-1)
+
 while True:
 	engine.display.fill((28, 31, 36))
 	collision_types = {'top': False, 'bottom': False, 'right': False, 'left': False}

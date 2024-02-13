@@ -20,8 +20,8 @@ class Sound:
 		self.channel.set_volume(volume)
 		self.sound = pygame.mixer.Sound(path)
 
-	def play(self):
-		self.channel.play(self.sound)
+	def play(self, *args, **kwargs):
+		self.channel.play(self.sound, *args, **kwargs)
 
 	def is_playing(self) -> bool:
 		return self.channel.get_busy()
@@ -37,10 +37,6 @@ class Speaker:
 		self.background_music = Sound('./assets/sounds/background music.mp3', channel=self.channels[1])
 		self.jump_sound = Sound('./assets/sounds/jump.mp3', channel=self.channels[2])
 		self.next_level_sound = Sound('./assets/sounds/next level.mp3', channel=self.channels[3], volume=0.3)
-
-	def tick(self):
-		if not self.background_music.is_playing():
-			self.background_music.play()
 
 
 def load_image(img_name):
