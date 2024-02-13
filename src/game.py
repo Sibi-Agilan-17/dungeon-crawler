@@ -44,12 +44,13 @@ class GameEngine:
 
 		self.gravitational_vector = pygame.Vector2(0, 0.2)
 
-		self.level = data['level']
+		self.level = 1
 		self.max_level = 3
 		self.score = 0
-		self.damage_map = data['damage_map']
-		self.spawn_platform = [0, 0]
 		self.lava_blocks = []
+		self.spawn_platform = [0, 0]
+		self.last_checkpoint = (0, 0)  # future
+		self.damage_map = data['damage_map']
 		self.controls = {k: {...} for k in ['left', 'right', 'up', 'cheats']}
 		self.mvt = {k: False for k in ['l', 'r', 'j']}  # Left, Right, Jump
 
@@ -86,6 +87,7 @@ class GameEngine:
 						spawn_location[1] = 16 * y
 					x += 1
 				y += 1
+			self.last_checkpoint = tuple(spawn_location)
 
 		except IndexError:  # next level does not exist
 			spawn_location = [1024, 1024]
