@@ -172,7 +172,7 @@ while True:
 				time_now = final_time if freeze_time else datetime.datetime.now()
 				igt = time_now - engine.igt
 
-				color = (255, 215, 0) if (freeze_time and not engine.controls['cheats']) else(211, 211, 211)
+				color = (255, 215, 0) if (not engine.controls['cheats']) else(211, 211, 211)
 				display.blit(engine.font.render("IGT:  " + str(igt)[2:11], False, color), (0, 24))
 
 	else:
