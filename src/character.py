@@ -1,5 +1,5 @@
 import json
-import pygame.draw
+import pygame
 
 with open('memory/core.json', 'r') as f:
 	data = json.load(f)
@@ -16,7 +16,7 @@ class Object(object):
 	def __init__(self, hitbox=None):
 		self.hitbox: pygame.Rect = hitbox
 
-	def tick(self):
+	def update(self):
 		...
 
 	def update_position(self, x, y):
@@ -75,8 +75,8 @@ class Character(Object):
 		self.idle_count: int = 0
 		self.run_count: int = 0
 
-	def tick(self):
-		super(Character, self).tick()
+	def update(self):
+		super(Character, self).update()
 
 		if self.hp > self.max_hp:
 			self.hp = self.max_hp
@@ -111,8 +111,8 @@ class Player(Character):
 		for k, v in kwargs.items():
 			setattr(self, k, v)
 
-	def tick(self):
-		super(Player, self).tick()
+	def update(self):
+		super(Player, self).update()
 
 		if self.idle_count + 1 >= len(self.idle_animation):
 			self.idle_count = 0
@@ -133,5 +133,5 @@ class Enemy(Character):
 		for k, v in kwargs.items():
 			setattr(self, k, v)
 
-	def tick(self):
-		super(Enemy, self).tick()
+	def update(self):
+		super(Enemy, self).update()

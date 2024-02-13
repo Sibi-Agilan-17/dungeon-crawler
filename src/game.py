@@ -94,7 +94,7 @@ class GameEngine:
 				self.doors = []
 
 		self.lava_blocks = []
-		self.player.tick()
+		self.player.update()
 		self.clock.tick(self.FPS)
 
 	def reset_stats(self):
