@@ -198,6 +198,7 @@ while True:
 			if player.air_time > 64:
 				fall_damage = pygame.math.clamp(engine.damage_map['fall'] * player.velocity_vector.magnitude(), 0, player.max_hp)
 
+				logging.info(f"Fall damage: {fall_damage}")
 				player.hp -= fall_damage
 				engine.score -= fall_damage
 
