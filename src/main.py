@@ -1,12 +1,15 @@
 import datetime
+import logging
 import math
 import pygame
 import sys
 
 from game import GameEngine
 
-engine = GameEngine()
+final_time = None
+freeze_time = False
 
+engine = GameEngine()
 gallery = engine.gallery
 player = engine.player
 layers = engine.map.layers
@@ -18,10 +21,9 @@ layer3_images = gallery.layer3_images
 
 WRITE_DATA = pygame.USEREVENT + 1
 pygame.time.set_timer(WRITE_DATA, 1000)  # write data every second
-freeze_time = False
-final_time = None
-
 engine.speaker.background_music.play(loops=-1)
+
+logging.info("Starting game")
 
 while True:
 	engine.display.fill((28, 31, 36))
@@ -39,6 +41,8 @@ while True:
 	movement = [0, 0]
 
 	if not engine.level <= engine.max_level:
+		logging.info("Freezing time")
+
 		freeze_time = True
 		final_time = datetime.datetime.now()
 		engine.level = 1
@@ -138,13 +142,19 @@ while True:
 
 	for spike in spikes:
 		if player.hitbox.colliderect(spike):
-			player.hp -= engine.damage_map['spikes'] // 10
-			engine.score -= (engine.damage_map['spikes'] // 10) * 0.1
+			damage = engine.damage_map['spikes'] // 10
+
+			logging.info(f"Spike damage: {damage}")
+			player.hp -= damage
+			engine.score -= damage * 0.1
 
 	for lava_block in engine.lava_blocks:
 		if player.hitbox.colliderect(lava_block):
-			player.hp -= engine.damage_map['lava']
-			engine.score -= (engine.damage_map['lava'] // 10) * 0.1
+			damage = engine.damage_map['lava']
+
+			logging.info(f"Lava damage: {damage}")
+			player.hp -= damage
+			engine.score -= damage * 0.1
 
 	if engine.RUN:
 		if player.alive:
@@ -219,6 +229,8 @@ while True:
 						player.velocity_vector.y = -4.0
 
 				elif event.key in engine.controls['cheats']:
+					logging.warning("Using cheats")
+
 					if player.hp > player.max_hp * 0.95:
 						engine.damage_map = {k: 0 for k, _ in engine.damage_map.items()}
 					else:

@@ -1,4 +1,5 @@
 import json
+import logging
 import pygame
 
 from utils import *
@@ -12,9 +13,14 @@ __all__ = [
 with open('memory/core.json', 'r') as f:
 	data = json.load(f)
 
+logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO, filename="logging.log")
+logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.ERROR)
+
 
 class GameEngine:
 	def __init__(self):
+		logging.info("Initializing pygame")
+
 		pygame.init()
 		pygame.display.set_caption('...')
 		pygame.mouse.set_visible(False)
@@ -60,6 +66,8 @@ class GameEngine:
 		if 'cheats' in data['controls']:
 			self.controls['cheats'].add(pygame.K_c)
 
+		logging.info("Initializing player")
+
 		self.doors = [pygame.Rect(1000, 1000, 1, 1)]
 		self.player = Player(hitbox=pygame.Rect(*self.get_spawn_coordinates(), 16, 22))
 		self.player.run_animation = self.gallery.player_run_animation
@@ -87,6 +95,8 @@ class GameEngine:
 	def tick(self):
 		for door in self.doors:
 			if self.player.hitbox.colliderect(door):
+				logging.info(f"Initializing level {self.level + 1}")
+
 				self.level += 1
 				self.score += 100
 				self.speaker.next_level_sound.play()
@@ -98,6 +108,8 @@ class GameEngine:
 		self.clock.tick(self.FPS)
 
 	def reset_stats(self):
+		logging.info("Resetting stats")
+
 		self.score = 0
 		self.level = 1
 		self.igt = None
