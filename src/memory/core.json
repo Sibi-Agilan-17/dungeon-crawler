@@ -1,5 +1,4 @@
 {
-  "level": 1,
   "fps": 60,
   "damage_map": {"lava": 100, "spikes": 50, "fall": 5},
   "player": {"speed": 1, "speed_cap": 2, "max_health":  100, "regen":  1},
