@@ -240,6 +240,7 @@ while True:
 				elif event.key == pygame.K_r:
 					engine.RUN = False
 					engine.reset(forced=True)
+					player = engine.player
 					player.reset(coordinates=engine.get_spawn_coordinates())
 
 				elif event.key == pygame.K_q:
@@ -262,6 +263,12 @@ while True:
 			...
 
 	if player.alive:
+		if player.idle_count + 1 >= len(player.idle_animation):
+			player.idle_count = 0
+
+		if player.run_count + 1 >= len(player.run_animation):
+			player.run_count = 0
+
 		if engine.mvt['j']:
 			if player.facing_right:
 				display.blit(gallery.player_jump_img, (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))

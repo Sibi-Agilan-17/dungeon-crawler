@@ -91,7 +91,6 @@ class Character(Object):
 
 	def reset(self, coordinates=(0, 0)):
 		self.hp = self.max_hp
-		self.velocity_vector.xy = 0, 0
 		self.air_time = 0
 		self.update_position(*coordinates)
 
@@ -113,12 +112,6 @@ class Player(Character):
 
 	def update(self):
 		super(Player, self).update()
-
-		if self.idle_count + 1 >= len(self.idle_animation):
-			self.idle_count = 0
-
-		if self.run_count + 1 >= len(self.run_animation):
-			self.run_count = 0
 
 		self.hp += self.max_hp * self.regen / 1000
 

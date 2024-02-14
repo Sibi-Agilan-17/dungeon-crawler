@@ -87,6 +87,7 @@ class GameEngine:
 						spawn_location[1] = 16 * y
 					x += 1
 				y += 1
+
 			self.last_checkpoint = tuple(spawn_location)
 
 		except IndexError:  # next level does not exist
@@ -128,12 +129,13 @@ class GameEngine:
 			self.gallery = Gallery()
 			self.map = Map()
 
-			self.doors = [pygame.Rect(1000, 1000, 1, 1)]
 			self.player = Player(hitbox=pygame.Rect(*self.get_spawn_coordinates(), 16, 22))
 			self.player.run_animation = self.gallery.player_run_animation
 			self.player.idle_animation = self.gallery.player_idle_animation
+			self.player.reset(self.get_spawn_coordinates())
 
 			self.damage_map = data['damage_map']
+			self.doors = [pygame.Rect(1000, 1000, 1, 1)]
 			self.gravitational_vector = pygame.Vector2(0, 0.2)
 			self.controls = {k: {...} for k in ['left', 'right', 'up', 'cheats']}
 			self.mvt = {k: False for k in ['l', 'r', 'j']}  # Left, Right, Jump
@@ -150,8 +152,5 @@ class GameEngine:
 
 			if 'cheats' in data['controls']:
 				self.controls['cheats'].add(pygame.K_c)
-
-			pygame.time.wait(2500)
-			self.player.reset(self.get_spawn_coordinates())
 
 		self.RUN = True
