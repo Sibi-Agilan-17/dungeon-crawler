@@ -89,7 +89,7 @@ class Character(Object):
 
 		self.alive = self.hp > 0
 
-	def force_reset(self, coordinates=(0, 0)):
+	def reset(self, coordinates=(0, 0)):
 		self.hp = self.max_hp
 		self.velocity_vector.xy = 0, 0
 		self.air_time = 0

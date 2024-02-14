@@ -109,16 +109,15 @@ class GameEngine:
 		self.player.update()
 		self.clock.tick(self.FPS)
 
-	def force_reset(self, forced=False):
-		logging.info("Force resetting")
-
+	def reset(self, forced=False):
 		self.score = 0
 		self.level = 1
 		self.igt = None
-		self.RUN = True
 		self.true_scroll = [0, 0]
 
 		if forced:
+			logging.info("Force resetting")
+
 			self.speaker = Speaker()
 			self.gallery = Gallery()
 			self.map = Map()
@@ -152,4 +151,4 @@ class GameEngine:
 		if 'cheats' in data['controls']:
 			self.controls['cheats'].add(pygame.K_c)
 
-		logging.info("Initializing player")
+		self.RUN = True
