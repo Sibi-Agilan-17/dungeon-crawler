@@ -115,6 +115,12 @@ class GameEngine:
 		self.igt = None
 		self.true_scroll = [0, 0]
 
+		self.level = 1
+		self.max_level = 3
+		self.lava_blocks = []
+		self.spawn_platform = [0, 0]
+		self.last_checkpoint = (0, 0)
+
 		if forced:
 			logging.info("Force resetting")
 
@@ -127,28 +133,25 @@ class GameEngine:
 			self.player.run_animation = self.gallery.player_run_animation
 			self.player.idle_animation = self.gallery.player_idle_animation
 
-		self.level = 1
-		self.max_level = 3
-		self.lava_blocks = []
-		self.spawn_platform = [0, 0]
-		self.last_checkpoint = (0, 0)  # future
+			self.damage_map = data['damage_map']
+			self.gravitational_vector = pygame.Vector2(0, 0.2)
+			self.controls = {k: {...} for k in ['left', 'right', 'up', 'cheats']}
+			self.mvt = {k: False for k in ['l', 'r', 'j']}  # Left, Right, Jump
 
-		self.damage_map = data['damage_map']
-		self.gravitational_vector = pygame.Vector2(0, 0.2)
-		self.controls = {k: {...} for k in ['left', 'right', 'up', 'cheats']}
-		self.mvt = {k: False for k in ['l', 'r', 'j']}  # Left, Right, Jump
+			if 'wasd' in data['controls']:
+				self.controls['left'].add(pygame.K_a)
+				self.controls['right'].add(pygame.K_d)
+				self.controls['up'].add(pygame.K_w)
 
-		if 'wasd' in data['controls']:
-			self.controls['left'].add(pygame.K_a)
-			self.controls['right'].add(pygame.K_d)
-			self.controls['up'].add(pygame.K_w)
+			if 'arrow' in data['controls']:
+				self.controls['left'].add(pygame.K_LEFT)
+				self.controls['right'].add(pygame.K_RIGHT)
+				self.controls['up'].add(pygame.K_UP)
 
-		if 'arrow' in data['controls']:
-			self.controls['left'].add(pygame.K_LEFT)
-			self.controls['right'].add(pygame.K_RIGHT)
-			self.controls['up'].add(pygame.K_UP)
+			if 'cheats' in data['controls']:
+				self.controls['cheats'].add(pygame.K_c)
 
-		if 'cheats' in data['controls']:
-			self.controls['cheats'].add(pygame.K_c)
+			pygame.time.wait(2500)
+			self.player.reset(self.get_spawn_coordinates())
 
 		self.RUN = True
