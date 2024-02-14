@@ -10,7 +10,7 @@ __all__ = [
 	'GameEngine',
 ]
 
-with open('memory/core.json', 'r') as f:
+with open('src/memory/core.json', 'r') as f:
 	data = json.load(f)
 
 logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO, filename="logging.log")

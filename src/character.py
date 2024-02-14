@@ -1,7 +1,7 @@
 import json
 import pygame
 
-with open('memory/core.json', 'r') as f:
+with open('src/memory/core.json', 'r') as f:
 	data = json.load(f)
 
 

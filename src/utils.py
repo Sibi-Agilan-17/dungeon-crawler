@@ -35,9 +35,9 @@ class Speaker:
 		pygame.mixer.set_num_channels(self.num_channels)
 
 		self.channels = [pygame.mixer.Channel(x) for x in range(self.num_channels)]
-		self.background_music = Sound('./assets/sounds/background music.mp3', channel=self.channels[1])
-		self.jump_sound = Sound('./assets/sounds/jump.mp3', channel=self.channels[2])
-		self.next_level_sound = Sound('./assets/sounds/next level.mp3', channel=self.channels[3], volume=0.3)
+		self.background_music = Sound('src/assets/sounds/background music.mp3', channel=self.channels[1])
+		self.jump_sound = Sound('src/assets/sounds/jump.mp3', channel=self.channels[2])
+		self.next_level_sound = Sound('src/assets/sounds/next level.mp3', channel=self.channels[3], volume=0.3)
 
 
 def load_image(img_name):
@@ -53,27 +53,27 @@ class Gallery:
 		self.layer3_images = []
 
 		for i in range(1, 6):
-			idle_img = load_image(os.path.join('assets', 'images', 'idle_animation', 'Idle ' + str(i) + '.png'))
+			idle_img = load_image(os.path.join('src', 'assets', 'images', 'idle_animation', 'Idle ' + str(i) + '.png'))
 			self.player_idle_images.append(idle_img)
 
 		for i in range(1, 8):
-			run_img = load_image(os.path.join('assets', 'images', 'run_animation', 'Run ' + str(i) + '.png'))
+			run_img = load_image(os.path.join('src', 'assets', 'images', 'run_animation', 'Run ' + str(i) + '.png'))
 			self.player_run_images.append(run_img)
 
 		for i in range(1, 7):
-			sprite_img = load_image(os.path.join('assets', 'images', 'tiles', 'layer1_tiles', 'Sprite_' + str(i) + '.png'))
+			sprite_img = load_image(os.path.join('src', 'assets', 'images', 'tiles', 'layer1_tiles', 'Sprite_' + str(i) + '.png'))
 			self.layer1_images.append(sprite_img)
 
 		for i in range(7, 16):
-			sprite_img = load_image(os.path.join('assets', 'images', 'tiles', 'layer2_tiles', 'Sprite_' + str(i) + '.png'))
+			sprite_img = load_image(os.path.join('src', 'assets', 'images', 'tiles', 'layer2_tiles', 'Sprite_' + str(i) + '.png'))
 			self.layer2_images.append(sprite_img)
 
 		for i in range(16, 24):
-			sprite_img = load_image(os.path.join('assets', 'images', 'tiles', 'layer3_tiles', 'Sprite_' + str(i) + '.png'))
+			sprite_img = load_image(os.path.join('src', 'assets', 'images', 'tiles', 'layer3_tiles', 'Sprite_' + str(i) + '.png'))
 			self.layer3_images.append(sprite_img)
 
-		self.player_jump_img = load_image(os.path.join('assets', 'images', 'jump_animation', 'Jump.png'))
-		self.lava_img = load_image(os.path.join('assets', 'images', 'texture', 'lava.png'))
+		self.player_jump_img = load_image(os.path.join('src', 'assets', 'images', 'jump_animation', 'Jump.png'))
+		self.lava_img = load_image(os.path.join('src', 'assets', 'images', 'texture', 'lava.png'))
 
 		self.player_idle_animation = self.animate(self.player_idle_images, 12)
 		self.player_run_animation = self.animate(self.player_run_images, 6)
@@ -88,7 +88,7 @@ class Gallery:
 
 
 def load_map(path):
-	file = open('assets/level_data/' + path + '.txt', 'r')
+	file = open('src/assets/level_data/' + path + '.txt', 'r')
 	data = file.read()
 	file.close()
 	data = data.split('\n')
