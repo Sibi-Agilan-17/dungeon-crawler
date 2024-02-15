@@ -33,7 +33,7 @@ class GameEngine:
 		self.display = pygame.Surface((self.width // 2, self.height // 2))
 
 		self.clock = pygame.time.Clock()
-		self.font = pygame.font.SysFont("lucidasans", 16, bold=True)
+		self.font = pygame.font.SysFont(**data['font'])
 		self.igt = None
 		self.debug = data['debug']
 
