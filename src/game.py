@@ -98,7 +98,7 @@ class GameEngine:
 
 		return spawn_location
 
-	def tick(self):
+	def update(self):
 		for door in self.doors:
 			if self.player.hitbox.colliderect(door):
 				logging.info(f"Initializing level {self.level + 1}")

@@ -303,4 +303,4 @@ while True:
 		pygame.display.update()
 
 	engine.score = int(pygame.math.clamp(engine.score, 0, math.inf))
-	engine.tick()
+	engine.update()
