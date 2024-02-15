@@ -146,7 +146,6 @@ while True:
 
 			logging.info(f"Spike damage: {damage}")
 			player.hp -= damage
-			engine.score -= damage * 0.1
 
 	for lava_block in engine.lava_blocks:
 		if player.hitbox.colliderect(lava_block):
@@ -154,7 +153,6 @@ while True:
 
 			logging.info(f"Lava damage: {damage}")
 			player.hp -= damage
-			engine.score -= damage * 0.1
 
 	if engine.RUN:
 		if player.alive:
@@ -176,7 +174,7 @@ while True:
 		pygame.draw.rect(display, "green", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32 * player.hp / player.max_hp, 4))
 
 		if engine.debug:
-			s = f"Score: {engine.score} FPS: {int(engine.clock.get_fps())}"
+			s = f"Level: {engine.level} FPS: {int(engine.clock.get_fps())}"
 			coords = f"X: {player.hitbox.x} Y: {player.hitbox.y}"
 
 			display.blit(engine.font.render(s, False, (211, 211, 211)), (0, 0))
@@ -204,7 +202,6 @@ while True:
 
 				logging.info(f"Fall damage: {fall_damage}")
 				player.hp -= fall_damage
-				engine.score -= fall_damage
 
 		player.air_time = 0
 
@@ -306,5 +303,4 @@ while True:
 		engine.WIN.blit(pygame.transform.scale(display, engine.WIN_DIMENSIONS), (0, 0))
 		pygame.display.update()
 
-	engine.score = int(pygame.math.clamp(engine.score, 0, math.inf))
 	engine.update()

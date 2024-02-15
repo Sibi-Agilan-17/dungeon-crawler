@@ -46,7 +46,6 @@ class GameEngine:
 
 		self.level = 1
 		self.max_level = 3
-		self.score = 0
 		self.lava_blocks = []
 		self.spawn_platform = [0, 0]
 		self.last_checkpoint = (0, 0)
@@ -104,7 +103,6 @@ class GameEngine:
 				logging.info(f"Initializing level {self.level + 1}")
 
 				self.level += 1
-				self.score += 100
 				self.speaker.next_level_sound.play()
 				self.player.update_position(*self.get_spawn_coordinates())
 				self.doors = []
@@ -114,7 +112,6 @@ class GameEngine:
 		self.clock.tick(self.FPS)
 
 	def reset(self, forced=False):
-		self.score = 0
 		self.level = 1
 		self.igt = None
 		self.true_scroll = [0, 0]
