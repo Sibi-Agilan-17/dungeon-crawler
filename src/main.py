@@ -176,14 +176,18 @@ while True:
 		pygame.draw.rect(display, "green", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32 * player.hp / player.max_hp, 4))
 
 		if engine.debug:
-			display.blit(engine.font.render(f"Score: {engine.score}", False, (211, 211, 211)), (0, 0))
+			s = f"Score: {engine.score} FPS: {int(engine.clock.get_fps())}"
+			coords = f"X: {player.hitbox.x} Y: {player.hitbox.y}"
+
+			display.blit(engine.font.render(s, False, (211, 211, 211)), (0, 0))
+			display.blit(engine.font.render(coords, False, (211, 211, 211)), (0, 24))
 
 			if engine.igt:
 				time_now = final_time if freeze_time else datetime.datetime.now()
 				igt = time_now - engine.igt
 
 				color = (255, 215, 0) if (len(engine.controls['cheats']) < 1 and freeze_time) else(211, 211, 211)
-				display.blit(engine.font.render("IGT:  " + str(igt)[2:11], False, color), (0, 24))
+				display.blit(engine.font.render("IGT:  " + str(igt)[2:11], False, color), (400, 0))
 
 	else:
 		engine.reset()
