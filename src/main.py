@@ -188,7 +188,7 @@ while True:
 				display.blit(engine.font.render("IGT:  " + str(igt)[2:11], False, color), (400, 0))
 
 	else:
-		engine.reset()
+		engine.reset(forced=True)
 		player.reset(coordinates=engine.get_spawn_coordinates())
 
 	if collision_types['bottom']:
@@ -245,9 +245,7 @@ while True:
 						player.hp = player.max_hp
 
 				elif event.key == pygame.K_r:
-					engine.RUN = False
 					engine.reset(forced=True)
-					player = engine.player
 					player.reset(coordinates=engine.get_spawn_coordinates())
 
 				elif event.key == pygame.K_q:
