@@ -212,22 +212,28 @@ while True:
 			pygame.quit()
 
 		if event.type == pygame.KEYDOWN:
-			if not engine.igt:
-				engine.igt = datetime.datetime.now()
-
 			if player.alive and engine.RUN:
 				if event.key in engine.controls['left']:
 					engine.mvt['l'] = True
 					player.facing_right = False
 
+					if not engine.igt:
+						engine.igt = datetime.datetime.now()
+
 				elif event.key in engine.controls['right']:
 					engine.mvt['r'] = True
 					player.facing_right = True
+
+					if not engine.igt:
+						engine.igt = datetime.datetime.now()
 
 				elif event.key in engine.controls['up']:
 					if player.air_time < 6:
 						engine.mvt['j'] = True
 						player.velocity_vector.y = -4.0
+
+					if not engine.igt:
+						engine.igt = datetime.datetime.now()
 
 				elif event.key in engine.controls['cheats']:
 					logging.warning("Using cheats")
