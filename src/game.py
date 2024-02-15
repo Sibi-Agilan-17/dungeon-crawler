@@ -10,7 +10,7 @@ __all__ = [
 	'GameEngine',
 ]
 
-with open('src/memory/core.json', 'r') as f:
+with open('./memory/core.json', 'r') as f:
 	data = json.load(f)
 
 logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO, filename="logging.log")
@@ -35,7 +35,7 @@ class GameEngine:
 		self.clock = pygame.time.Clock()
 		self.font = pygame.font.SysFont('Comic Sans MS', 16)
 		self.igt = None
-		self.debug = True
+		self.debug = data['debug']
 
 		self.true_scroll = [0, 0]
 		self.speaker = Speaker()
@@ -74,7 +74,10 @@ class GameEngine:
 		self.player.run_animation = self.gallery.player_run_animation
 		self.player.idle_animation = self.gallery.player_idle_animation
 
-	def get_spawn_coordinates(self):
+	def get_spawn_coordinates(self, use_checkpoint=False):
+		if use_checkpoint:
+			return self.last_checkpoint
+		
 		spawn_location = [0, 0]
 		y = 0
 
