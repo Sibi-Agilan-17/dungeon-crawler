@@ -1,7 +1,7 @@
 {
   "fps": 60,
   "font": {"name":  "lucidasans", "size":  16, "bold":  true, "italic":  false},
-  "damage_map": {"lava": 100, "spikes": 50, "fall": 5},
+  "damage_map": {"lava": 100, "spikes": 50, "fall": 0.75},
   "player": {"speed": 1, "speed_cap": 2, "max_health":  100, "regen":  1},
   "controls": "wasd-arrow",
   "debug": true

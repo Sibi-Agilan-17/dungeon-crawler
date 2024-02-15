@@ -198,7 +198,7 @@ while True:
 			engine.speaker.jump_sound.play()
 
 			if player.air_time > 64:
-				fall_damage = pygame.math.clamp(engine.damage_map['fall'] * player.velocity_vector.magnitude(), 0, player.max_hp)
+				fall_damage = engine.damage_map['fall'] * player.velocity_vector.magnitude_squared()
 
 				logging.info(f"Fall damage: {fall_damage}")
 				player.hp -= fall_damage
