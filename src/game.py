@@ -14,7 +14,7 @@ with open('./memory/core.json', 'r') as f:
 	data = json.load(f)
 
 logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO, filename="logging.log")
-logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.ERROR)
+logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.WARNING)
 
 
 class GameEngine:
