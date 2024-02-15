@@ -84,8 +84,8 @@ class Character(Object):
 		if self.velocity_vector.x > self.velocity_cap:
 			self.velocity_vector.x = self.velocity_cap
 
-		if self.velocity_vector.y > 8:  # gravity cap
-			self.velocity_vector.y = 8
+		if self.velocity_vector.y > 7.8:  # gravity cap
+			self.velocity_vector.y = 7.8
 
 		self.alive = self.hp > 0
 
