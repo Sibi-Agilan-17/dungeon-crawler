@@ -124,6 +124,7 @@ class GameEngine:
 		self.lava_blocks = []
 		self.spawn_platform = [0, 0]
 		self.last_checkpoint = (0, 0)
+		self.mvt = {k: False for k in ['l', 'r', 'j']}  # Left, Right, Jump
 
 		if forced:
 			logging.info("Force resetting")
@@ -141,7 +142,6 @@ class GameEngine:
 			self.doors = [pygame.Rect(1000, 1000, 1, 1)]
 			self.gravitational_vector = pygame.Vector2(0, 0.2)
 			self.controls = {k: {...} for k in ['left', 'right', 'up', 'cheats']}
-			self.mvt = {k: False for k in ['l', 'r', 'j']}  # Left, Right, Jump
 
 			if 'wasd' in data['controls']:
 				self.controls['left'].add(pygame.K_a)
