@@ -157,7 +157,7 @@ while True:
 	if engine.RUN:
 		if player.alive:
 			if engine.mvt['l'] or engine.mvt['r']:
-				player.velocity_vector.x += player.linear_travel_speed / 2.1414
+				player.velocity_vector.x += player.linear_travel_speed / 2
 
 				if engine.mvt['l']:
 					movement[0] -= player.velocity_vector.x
