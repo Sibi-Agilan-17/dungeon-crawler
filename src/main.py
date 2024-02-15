@@ -175,7 +175,7 @@ while True:
 
 		if engine.debug:
 			s = f"Level: {engine.level} FPS: {int(engine.clock.get_fps())}"
-			coords = f"X: {player.hitbox.x} Y: {player.hitbox.y}"
+			coords = f"X: {math.floor(player.hitbox.x / 16)} Y: {math.floor(player.hitbox.y / 16)}"
 
 			display.blit(engine.font.render(s, False, (211, 211, 211)), (0, 0))
 			display.blit(engine.font.render(coords, False, (211, 211, 211)), (0, 24))
