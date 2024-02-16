@@ -32,9 +32,10 @@ class GameEngine:
 		self.WIN = pygame.display.set_mode(self.WIN_DIMENSIONS)
 		self.display = pygame.Surface((self.width // 2, self.height // 2))
 
-		self.clock = pygame.time.Clock()
-		self.font = pygame.font.SysFont(**data['font'])
 		self.debug = data['debug']
+		self.clock = pygame.time.Clock()
+		self.font_color = data['font_color']
+		self.font = pygame.font.SysFont(**data['font'])
 
 		self.map = Map()
 		self.speaker = Speaker()

@@ -175,12 +175,11 @@ while True:
 		if engine.debug:
 			debug_str = f"Level: {engine.level} FPS: {int(engine.clock.get_fps())} \n" \
 						f"X: {math.floor(player.hitbox.x / 16)} Y: {math.floor(player.hitbox.y / 16)}"
-
-			display.blit(engine.font.render(debug_str, False, (211, 211, 211)), (0, 0))
+			display.blit(engine.font.render(debug_str, False, engine.font_color), (0, 0))
 
 			if engine.igt:
-				display.blit(engine.font.render("IGT:  " + str((final_time if freeze_time else datetime.datetime.now())
-															   - engine.igt)[2:11], False, (211, 211, 211)), (400, 0))
+				time_str = "IGT:  " + str((final_time if freeze_time else datetime.datetime.now()) - engine.igt)[2:11]
+				display.blit(engine.font.render(time_str, False, engine.font_color), (400, 0))
 
 	else:
 		engine.reset()
@@ -237,7 +236,22 @@ while True:
 					sys.exit(-1)
 
 				elif event.key == pygame.K_r:
-					engine.reset(forced=True)
+					final_time = None
+					freeze_time = False
+
+					engine = game.GameEngine()
+					gallery = engine.gallery
+					player = engine.player
+					layers = engine.map.layers
+					display = engine.display
+
+					layer1_images = gallery.layer1_images
+					layer2_images = gallery.layer2_images
+					layer3_images = gallery.layer3_images
+
+					WRITE_DATA = pygame.USEREVENT + 1
+					pygame.time.set_timer(WRITE_DATA, 1000)
+					engine.speaker.background_music.play(loops=-1)
 
 				elif event.key == pygame.K_z:
 					engine.debug = not engine.debug
