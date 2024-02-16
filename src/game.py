@@ -37,7 +37,7 @@ class GameEngine:
 		self.igt = None
 		self.debug = data['debug']
 
-		self.true_scroll = [0, 0]
+		self.scroll = [0, 0]
 		self.speaker = Speaker()
 		self.gallery = Gallery()
 		self.map = Map()
@@ -46,7 +46,6 @@ class GameEngine:
 
 		self.level = 1
 		self.max_level = 3
-		self.lava_blocks = []
 		self.controls = {...}
 		self.spawn_platform = [0, 0]
 		self.last_checkpoint = (0, 0)
@@ -56,7 +55,7 @@ class GameEngine:
 		logging.info("Initializing player")
 
 		self.doors = [pygame.Rect(1000, 1000, 1, 1)]
-		self.player = Player(hitbox=pygame.Rect(*self.get_spawn_coordinates(), 16, 22))
+		self.player = Player(location=[*self.get_spawn_coordinates(), 16, 22])
 		self.player.run_animation = self.gallery.player_run_animation
 		self.player.idle_animation = self.gallery.player_idle_animation
 
@@ -94,18 +93,16 @@ class GameEngine:
 				self.player.update_position(*self.get_spawn_coordinates())
 				self.doors = []
 
-		self.lava_blocks = []
 		self.player.update()
 		self.clock.tick(self.FPS)
 
 	def reset(self, forced=False):
 		self.level = 1
 		self.igt = None
-		self.true_scroll = [0, 0]
+		self.scroll = [0, 0]
 
 		self.level = 1
 		self.max_level = 3
-		self.lava_blocks = []
 		self.spawn_platform = [0, 0]
 		self.last_checkpoint = (0, 0)
 		self.mvt = {k: False for k in ['l', 'r', 'j']}  # Left, Right, Jump

@@ -13,8 +13,8 @@ __all__ = [
 
 
 class Object(object):
-	def __init__(self, hitbox=None):
-		self.hitbox: pygame.Rect = hitbox
+	def __init__(self, location: list = (0, 0, 16, 16)):
+		self.hitbox: pygame.Rect = pygame.Rect(*location)
 
 	def update(self):
 		...
@@ -59,8 +59,8 @@ class Object(object):
 
 
 class Character(Object):
-	def __init__(self, hitbox=None):
-		super().__init__(hitbox)
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
 
 		self.max_hp: int = 0
 		self.hp: int = self.max_hp
@@ -97,7 +97,7 @@ class Character(Object):
 
 class Player(Character):
 	def __init__(self, **kwargs):
-		super(Player, self).__init__()
+		super(Player, self).__init__(**kwargs)
 
 		self.max_hp = data['player']['max_health']
 		self.hp = self.max_hp
@@ -114,6 +114,12 @@ class Player(Character):
 		super(Player, self).update()
 
 		self.hp += self.max_hp * self.regen / 1000
+
+	def reset(self, coordinates=(0, 0)):
+		self.air_time = 0
+		self.hp = self.max_hp
+		self.facing_right = True
+		self.update_position(*coordinates)
 
 
 class Enemy(Character):
