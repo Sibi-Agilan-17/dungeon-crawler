@@ -1,16 +1,6 @@
 import os
 import pygame
 
-from enum import Enum
-
-
-__all__ = [
-	"Speaker",
-	"Gallery",
-	"Map",
-	"MovementType",
-]
-
 
 class Sound:
 	def __init__(self, path, channel, volume=1.0):
@@ -107,16 +97,3 @@ class Map:
 		self.layers.append([load_map('level1_layer1'), load_map('level1_layer2'), load_map('level1_layer3')])
 		self.layers.append([load_map('level2_layer1'), load_map('level2_layer2'), load_map('level2_layer3')])
 		self.layers.append([load_map('level3_layer1'), load_map('level3_layer2'), load_map('level3_layer3')])
-
-
-class MovementType(Enum):
-	LEFT = 1
-	RIGHT = 2
-	JUMP = 3
-	ATTACK = 4
-	NONE = 5
-
-	WALK = RIGHT | LEFT
-	LEFT_JUMP = LEFT & JUMP
-	RIGHT_JUMP = RIGHT & JUMP
-	MOVEMENT = LEFT | RIGHT | JUMP

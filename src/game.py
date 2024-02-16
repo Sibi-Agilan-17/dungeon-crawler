@@ -34,35 +34,32 @@ class GameEngine:
 
 		self.clock = pygame.time.Clock()
 		self.font = pygame.font.SysFont(**data['font'])
-		self.igt = None
 		self.debug = data['debug']
 
-		self.scroll = [0, 0]
+		self.map = Map()
 		self.speaker = Speaker()
 		self.gallery = Gallery()
-		self.map = Map()
 
 		self.gravitational_vector = pygame.Vector2(0, 0.2)
 
 		self.level = 1
-		self.max_level = 3
+		self.igt = None
+		self.scroll = [0, 0]
 		self.controls = {...}
 		self.spawn_platform = [0, 0]
-		self.last_checkpoint = (0, 0)
 		self.damage_map = data['damage_map']
 		self.mvt = {k: False for k in ['l', 'r', 'j']}  # Left, Right, Jump
 
 		logging.info("Initializing player")
 
 		self.doors = [pygame.Rect(1000, 1000, 1, 1)]
-		self.player = Player(location=[*self.get_spawn_coordinates(), 16, 22])
+		self.player = Player(spawn_location=(*self.get_spawn_coordinates(), 16, 22))
 		self.player.run_animation = self.gallery.player_run_animation
 		self.player.idle_animation = self.gallery.player_idle_animation
 
-	def get_spawn_coordinates(self, use_checkpoint=False):
-		if use_checkpoint:
-			return self.last_checkpoint
-		
+		self.reset(forced=True)
+
+	def get_spawn_coordinates(self):
 		spawn_location = [0, 0]
 		y = 0
 
@@ -75,8 +72,6 @@ class GameEngine:
 						spawn_location[1] = 16 * y
 					x += 1
 				y += 1
-
-			self.last_checkpoint = tuple(spawn_location)
 
 		except IndexError:  # next level does not exist
 			spawn_location = [1024, 1024]
@@ -97,23 +92,17 @@ class GameEngine:
 		self.clock.tick(self.FPS)
 
 	def reset(self, forced=False):
-		self.level = 1
 		self.igt = None
 		self.scroll = [0, 0]
 
 		self.level = 1
-		self.max_level = 3
-		self.spawn_platform = [0, 0]
-		self.last_checkpoint = (0, 0)
 		self.mvt = {k: False for k in ['l', 'r', 'j']}  # Left, Right, Jump
+		self.player.reset(self.get_spawn_coordinates())
 
 		if forced:
 			logging.info("Force resetting")
 
 			self.damage_map = data['damage_map']
-			self.doors = [pygame.Rect(1000, 1000, 1, 1)]
-			self.player.reset(self.get_spawn_coordinates())
-			self.gravitational_vector = pygame.Vector2(0, 0.2)
 			self.controls = {k: {...} for k in ['left', 'right', 'up', 'cheats']}
 
 			if 'wasd' in data['controls']:

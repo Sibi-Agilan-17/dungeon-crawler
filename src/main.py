@@ -42,7 +42,7 @@ while True:
 	spikes = []
 	movement = [0, 0]
 
-	if not engine.level <= engine.max_level:
+	if not engine.level <= 3:
 		logging.info("Freezing time")
 
 		freeze_time = True
@@ -70,11 +70,7 @@ while True:
 						display.blit(layer1_images[5], (16 * x - scroll[0], 16 * y - scroll[1]))
 					elif tile == '7':
 						display.blit(layer1_images[0], (16 * x - scroll[0], 16 * y - scroll[1]))
-					elif tile == 'l':
-						display.blit(gallery.lava_img, (16 * x - scroll[0], 16 * y - scroll[1]))
-						lava.append(pygame.Rect(16 * x, 16 * y, 16, 4))
-
-					if tile not in '0127l':
+					if tile not in '0127':
 						tiles.append(pygame.Rect(16 * x, 16 * y, 16, 16))
 
 					x += 1
@@ -144,7 +140,7 @@ while True:
 
 	for spike in spikes:
 		if player.hitbox.colliderect(spike):
-			damage = engine.damage_map['spikes'] // 10
+			damage = engine.damage_map['spikes']
 
 			logging.info(f"Spike damage: {damage}")
 			player.hp -= damage
@@ -187,8 +183,7 @@ while True:
 															   - engine.igt)[2:11], False, (211, 211, 211)), (400, 0))
 
 	else:
-		engine.reset(forced=True)
-		player.reset(coordinates=engine.get_spawn_coordinates())
+		engine.reset()
 
 	if collision_types['bottom']:
 		engine.mvt['j'] = False
@@ -238,9 +233,14 @@ while True:
 					logging.warning("Using cheats")
 					engine.damage_map = {k: 0 for k, _ in engine.damage_map.items()}
 
-				elif event.key == pygame.K_q: sys.exit(-1)
-				elif event.key == pygame.K_r: engine.reset(forced=True)
-				elif event.key == pygame.K_z: engine.debug = not engine.debug
+				elif event.key == pygame.K_q:
+					sys.exit(-1)
+
+				elif event.key == pygame.K_r:
+					engine.reset(forced=True)
+
+				elif event.key == pygame.K_z:
+					engine.debug = not engine.debug
 
 		elif event.type == pygame.KEYUP:
 			if event.key in engine.controls['left']:
