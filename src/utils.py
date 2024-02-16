@@ -22,6 +22,7 @@ class Speaker:
 		self.num_channels = 4
 
 		pygame.mixer.init()
+		pygame.mixer.set_reserved(4)
 		pygame.mixer.set_num_channels(self.num_channels)
 
 		self.channels = [pygame.mixer.Channel(x) for x in range(self.num_channels)]
