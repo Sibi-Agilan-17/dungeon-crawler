@@ -184,7 +184,7 @@ while True:
 	else:
 		engine.reset()
 
-	if collision_types['bottom']:
+	if engine.RUN and collision_types['bottom']:
 		engine.mvt['j'] = False
 
 		if player.air_time > 1:
@@ -206,6 +206,30 @@ while True:
 			pygame.quit()
 
 		if event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_q:
+				sys.exit(-1)
+
+			elif event.key == pygame.K_r:
+				final_time = None
+				freeze_time = False
+
+				engine = game.GameEngine()
+				gallery = engine.gallery
+				player = engine.player
+				layers = engine.map.layers
+				display = engine.display
+
+				layer1_images = gallery.layer1_images
+				layer2_images = gallery.layer2_images
+				layer3_images = gallery.layer3_images
+
+				WRITE_DATA = pygame.USEREVENT + 1
+				pygame.time.set_timer(WRITE_DATA, 1000)
+				engine.speaker.background_music.play(loops=-1)
+
+			elif event.key == pygame.K_z:
+				engine.debug = not engine.debug
+
 			if player.alive and engine.RUN:
 				if event.key in engine.controls['left']:
 					engine.mvt['l'] = True
@@ -226,35 +250,12 @@ while True:
 						engine.mvt['j'] = True
 						player.velocity_vector.y = -4.0
 
-					if not engine.igt:	engine.igt = datetime.datetime.now()
+					if not engine.igt:
+						engine.igt = datetime.datetime.now()
 
 				elif event.key in engine.controls['cheats']:
 					logging.warning("Using cheats")
 					engine.damage_map = {k: 0 for k, _ in engine.damage_map.items()}
-
-				elif event.key == pygame.K_q:
-					sys.exit(-1)
-
-				elif event.key == pygame.K_r:
-					final_time = None
-					freeze_time = False
-
-					engine = game.GameEngine()
-					gallery = engine.gallery
-					player = engine.player
-					layers = engine.map.layers
-					display = engine.display
-
-					layer1_images = gallery.layer1_images
-					layer2_images = gallery.layer2_images
-					layer3_images = gallery.layer3_images
-
-					WRITE_DATA = pygame.USEREVENT + 1
-					pygame.time.set_timer(WRITE_DATA, 1000)
-					engine.speaker.background_music.play(loops=-1)
-
-				elif event.key == pygame.K_z:
-					engine.debug = not engine.debug
 
 		elif event.type == pygame.KEYUP:
 			if event.key in engine.controls['left']:
@@ -269,7 +270,7 @@ while True:
 			# todo: implement save states
 			...
 
-	if player.alive:
+	if player.alive and engine.RUN:
 		if player.idle_count + 1 >= len(player.idle_animation):
 			player.idle_count = 0
 
@@ -303,7 +304,6 @@ while True:
 						 (player.hitbox.x - 1 - scroll[0], player.hitbox.y - scroll[1]))
 			player.run_count += 1
 
-		engine.WIN.blit(pygame.transform.scale(display, engine.WIN_DIMENSIONS), (0, 0))
-		pygame.display.update()
-
+	engine.WIN.blit(pygame.transform.scale(display, engine.WIN_DIMENSIONS), (0, 0))
+	pygame.display.update()
 	engine.update()
