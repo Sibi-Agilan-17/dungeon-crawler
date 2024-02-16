@@ -174,18 +174,13 @@ while True:
 		pygame.draw.rect(display, "green", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32 * player.hp / player.max_hp, 4))
 
 		if engine.debug:
-			s = f"Level: {engine.level} FPS: {int(engine.clock.get_fps())}"
-			coords = f"X: {math.floor(player.hitbox.x / 16)} Y: {math.floor(player.hitbox.y / 16)}"
+			debug_str = f"Level: {engine.level} FPS: {int(engine.clock.get_fps())} \n" \
+						f"X: {math.floor(player.hitbox.x / 16)} Y: {math.floor(player.hitbox.y / 16)}"
 
-			display.blit(engine.font.render(s, False, (211, 211, 211)), (0, 0))
-			display.blit(engine.font.render(coords, False, (211, 211, 211)), (0, 24))
+			display.blit(engine.font.render(debug_str, False, (211, 211, 211)), (0, 0))
 
 			if engine.igt:
-				time_now = final_time if freeze_time else datetime.datetime.now()
-				igt = time_now - engine.igt
-
-				color = (255, 215, 0) if (len(engine.controls['cheats']) < 1 and freeze_time) else(211, 211, 211)
-				display.blit(engine.font.render("IGT:  " + str(igt)[2:11], False, color), (400, 0))
+				display.blit(engine.font.render("IGT:  " + str((final_time if freeze_time else datetime.datetime.now()) - engine.igt)[2:11], False, (211, 211, 211)), (400, 0))
 
 	else:
 		engine.reset(forced=True)
@@ -233,26 +228,15 @@ while True:
 						engine.mvt['j'] = True
 						player.velocity_vector.y = -4.0
 
-					if not engine.igt:
-						engine.igt = datetime.datetime.now()
+					if not engine.igt:	engine.igt = datetime.datetime.now()
 
 				elif event.key in engine.controls['cheats']:
 					logging.warning("Using cheats")
+					engine.damage_map = {k: 0 for k, _ in engine.damage_map.items()}
 
-					if player.hp > player.max_hp * 0.95:
-						engine.damage_map = {k: 0 for k, _ in engine.damage_map.items()}
-					else:
-						player.hp = player.max_hp
-
-				elif event.key == pygame.K_r:
-					engine.reset(forced=True)
-					player.reset(coordinates=engine.get_spawn_coordinates())
-
-				elif event.key == pygame.K_q:
-					sys.exit(-1)
-
-				elif event.key == pygame.K_z:
-					engine.debug = not engine.debug
+				elif event.key == pygame.K_q: sys.exit(-1)
+				elif event.key == pygame.K_r: engine.reset(forced=True)
+				elif event.key == pygame.K_z: engine.debug = not engine.debug
 
 		elif event.type == pygame.KEYUP:
 			if event.key in engine.controls['left']:

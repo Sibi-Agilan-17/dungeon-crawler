@@ -22,7 +22,7 @@ class GameEngine:
 		logging.info("Initializing pygame")
 
 		pygame.init()
-		pygame.display.set_caption('...')
+		pygame.display.set_caption('Dungeon Crawler')
 		pygame.mouse.set_visible(False)
 
 		self.RUN = True
