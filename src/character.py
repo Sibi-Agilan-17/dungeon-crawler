@@ -5,23 +5,12 @@ with open('./memory/core.json', 'r') as f:
 	data = json.load(f)
 
 
-__all__ = [
-	"Object",
-	"Character",
-	"Player",
-]
-
-
 class Object(object):
-	def __init__(self, location: list = (0, 0, 16, 16)):
-		self.hitbox: pygame.Rect = pygame.Rect(*location)
+	def __init__(self, spawn_location: list = (0, 0, 16, 16)):
+		self.hitbox: pygame.Rect = pygame.Rect(*spawn_location)
 
 	def update(self):
 		...
-
-	def update_position(self, x, y):
-		self.hitbox.x = x
-		self.hitbox.y = y
 
 	def collision_test(self, tiles):
 		colliding_tiles = []
@@ -31,6 +20,24 @@ class Object(object):
 				colliding_tiles.append(tile)
 
 		return colliding_tiles
+
+
+class Character(Object):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+
+		self.max_hp: int = 0
+		self.hp: int = self.max_hp
+
+		self.velocity_vector = pygame.Vector2(0, 0)
+		self.velocity_cap: int = -1
+		self.air_time: int = 0
+
+		self.alive: bool = False
+		self.is_controlled_by_computer: bool = False
+
+		self.idle_count: int = 0
+		self.run_count: int = 0
 
 	def move(self, collision_types, movement_data, tile_data):
 		self.hitbox.x += movement_data[0]
@@ -57,24 +64,6 @@ class Object(object):
 
 		return collision_types
 
-
-class Character(Object):
-	def __init__(self, *args, **kwargs):
-		super().__init__(*args, **kwargs)
-
-		self.max_hp: int = 0
-		self.hp: int = self.max_hp
-
-		self.velocity_vector = pygame.Vector2(0, 0)
-		self.velocity_cap: int = -1
-		self.air_time: int = 0
-
-		self.alive: bool = False
-		self.is_controlled_by_computer: bool = False
-
-		self.idle_count: int = 0
-		self.run_count: int = 0
-
 	def update(self):
 		super(Character, self).update()
 
@@ -88,6 +77,10 @@ class Character(Object):
 			self.velocity_vector.y = 7.8
 
 		self.alive = self.hp > 0
+
+	def update_position(self, x, y):
+		self.hitbox.x = x
+		self.hitbox.y = y
 
 	def reset(self, coordinates=(0, 0)):
 		self.hp = self.max_hp
@@ -120,17 +113,3 @@ class Player(Character):
 		self.hp = self.max_hp
 		self.facing_right = True
 		self.update_position(*coordinates)
-
-
-class Enemy(Character):
-	def __init__(self, **kwargs):
-		super(Enemy, self).__init__()
-
-		self.facing_right = True
-		self.is_controlled_by_computer = True
-
-		for k, v in kwargs.items():
-			setattr(self, k, v)
-
-	def update(self):
-		super(Enemy, self).update()
