@@ -1,3 +1,4 @@
+import math
 import json
 import logging
 import pygame
@@ -59,6 +60,23 @@ class GameEngine:
 		self.player.idle_animation = self.gallery.player_idle_animation
 
 		self.reset(forced=True)
+
+	def pre_update(self) -> None:
+		self._draw_health_bar()
+
+		if self.debug:
+			self._write_debug_screen()
+
+	def _draw_health_bar(self):
+		loc = (self.player.hitbox.x - self.scroll[0], self.player.hitbox.y - self.scroll[1] - 8)
+
+		pygame.draw.rect(self.display, "red", (*loc, 32, 4))
+		pygame.draw.rect(self.display, "green", (*loc, 32 * self.player.hp / self.player.max_hp, 4))
+
+	def _write_debug_screen(self):
+		debug_str = f"Level: {self.level} FPS: {int(self.clock.get_fps())} \n" \
+					f"X: {math.floor(self.player.hitbox.x / 16)} Y: {math.floor(self.player.hitbox.y / 16)}"
+		self.display.blit(self.font.render(debug_str, False, self.font_color), (0, 0))
 
 	def get_spawn_coordinates(self):
 		spawn_location = [0, 0]

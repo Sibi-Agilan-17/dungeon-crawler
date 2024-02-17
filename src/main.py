@@ -168,18 +168,9 @@ while True:
 	collisions = player.move(collision_types, movement, tiles)
 
 	if player.alive:
-		pygame.draw.rect(display, "red", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8, 32, 4))
-		pygame.draw.rect(display, "green", (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1] - 8,
-											32 * player.hp / player.max_hp, 4))
-
-		if engine.debug:
-			debug_str = f"Level: {engine.level} FPS: {int(engine.clock.get_fps())} \n" \
-						f"X: {math.floor(player.hitbox.x / 16)} Y: {math.floor(player.hitbox.y / 16)}"
-			display.blit(engine.font.render(debug_str, False, engine.font_color), (0, 0))
-
-			if engine.igt:
-				time_str = "IGT:  " + str((final_time if freeze_time else datetime.datetime.now()) - engine.igt)[2:11]
-				display.blit(engine.font.render(time_str, False, engine.font_color), (400, 0))
+		if engine.igt:
+			time_str = "IGT:  " + str((final_time if freeze_time else datetime.datetime.now()) - engine.igt)[2:11]
+			display.blit(engine.font.render(time_str, False, engine.font_color), (400, 0))
 
 	else:
 		engine.reset()
@@ -304,6 +295,7 @@ while True:
 						 (player.hitbox.x - 1 - scroll[0], player.hitbox.y - scroll[1]))
 			player.run_count += 1
 
+	engine.pre_update()
 	engine.WIN.blit(pygame.transform.scale(display, engine.WIN_DIMENSIONS), (0, 0))
 	pygame.display.flip()
 	engine.update()
