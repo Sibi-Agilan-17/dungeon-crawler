@@ -2,6 +2,13 @@ import os
 import pygame
 
 
+__all__ = [
+	"Speaker",
+	"Gallery",
+	"Map"
+]
+
+
 class Sound:
 	def __init__(self, path, channel, volume=1.0):
 		self.path = path
