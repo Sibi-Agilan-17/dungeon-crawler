@@ -262,6 +262,8 @@ while True:
 			...
 
 	if player.alive and engine.RUN:
+		default_scroll = (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1])
+
 		if player.idle_count + 1 >= len(player.idle_animation):
 			player.idle_count = 0
 
@@ -270,20 +272,17 @@ while True:
 
 		if engine.mvt['j']:
 			if player.facing_right:
-				display.blit(gallery.player_jump_img, (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
+				display.blit(gallery.player_jump_img, default_scroll)
 			else:
-				display.blit(pygame.transform.flip(gallery.player_jump_img, True, False),
-							 (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
+				display.blit(pygame.transform.flip(gallery.player_jump_img, True, False), default_scroll)
 
 		elif not engine.mvt['l'] and not engine.mvt['r']:
+			player.idle_count += 1
+
 			if player.facing_right:
-				display.blit(player.idle_animation[player.idle_count], (player.hitbox.x - scroll[0],
-																		player.hitbox.y - scroll[1]))
-				player.idle_count += 1
+				display.blit(player.idle_animation[player.idle_count], default_scroll)
 			else:
-				display.blit(pygame.transform.flip(player.idle_animation[player.idle_count], True, False),
-							 (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1]))
-				player.idle_count += 1
+				display.blit(pygame.transform.flip(player.idle_animation[player.idle_count], True, False), default_scroll)
 
 		elif player.facing_right:
 			display.blit(player.run_animation[player.run_count], (player.hitbox.x + 1 - scroll[0],
