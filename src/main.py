@@ -5,7 +5,6 @@ import math
 import pygame
 import sys
 
-
 final_time = None
 freeze_time = False
 
@@ -282,16 +281,16 @@ while True:
 			if player.facing_right:
 				display.blit(player.idle_animation[player.idle_count], default_scroll)
 			else:
-				display.blit(pygame.transform.flip(player.idle_animation[player.idle_count], True, False), default_scroll)
+				display.blit(pygame.transform.flip(player.idle_animation[player.idle_count], True, False),
+							 default_scroll)
 
 		elif player.facing_right:
-			display.blit(player.run_animation[player.run_count], (player.hitbox.x + 1 - scroll[0],
-																  player.hitbox.y - scroll[1]))
+			display.blit(player.run_animation[player.run_count], (default_scroll[0] + 1, default_scroll[1]))
 			player.run_count += 1
 
 		else:
 			display.blit(pygame.transform.flip(player.run_animation[player.run_count], True, False),
-						 (player.hitbox.x - 1 - scroll[0], player.hitbox.y - scroll[1]))
+						 (default_scroll[0] - 1, default_scroll[1]))
 			player.run_count += 1
 
 	engine.pre_update()
