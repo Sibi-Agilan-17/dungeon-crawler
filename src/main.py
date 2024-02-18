@@ -1,7 +1,6 @@
 import datetime
 import game
 import logging
-import math
 import pygame
 import sys
 
