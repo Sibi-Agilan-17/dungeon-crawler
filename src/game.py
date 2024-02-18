@@ -80,6 +80,26 @@ class GameEngine:
 					f"X: {math.floor(self.player.hitbox.x / 16)} Y: {math.floor(self.player.hitbox.y / 16)}"
 		self.display.blit(self.font.render(debug_str, False, self.font_color), (0, 0))
 
+	def calc_movement(self):
+		movement = [0, 0]
+
+		if self.player.alive:
+			if self.mvt['l'] or self.mvt['r']:
+				self.player.velocity_vector.x += self.player.linear_travel_speed / 2
+
+				if self.mvt['l']:
+					movement[0] -= self.player.velocity_vector.x
+				else:
+					movement[0] += self.player.velocity_vector.x
+
+			movement[1] += self.player.velocity_vector.y
+			self.player.velocity_vector.y += self.gravitational_vector.y
+
+		else:
+			self.reset()
+
+		return movement
+
 	def get_spawn_coordinates(self):
 		spawn_location = [0, 0]
 		y = 0

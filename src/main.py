@@ -150,22 +150,7 @@ while True:
 			logging.info(f"Lava damage: {damage}")
 			player.hp -= damage
 
-	if player.alive:
-		if engine.mvt['l'] or engine.mvt['r']:
-			player.velocity_vector.x += player.linear_travel_speed / 2
-
-			if engine.mvt['l']:
-				movement[0] -= player.velocity_vector.x
-			else:
-				movement[0] += player.velocity_vector.x
-
-		movement[1] += player.velocity_vector.y
-		player.velocity_vector.y += engine.gravitational_vector.y
-
-	else:
-		engine.reset()
-
-	collisions = player.move(collision_types, movement, tiles)
+	collisions = player.move(collision_types, engine.calc_movement(), tiles)
 
 	if player.alive:
 		if engine.igt:
