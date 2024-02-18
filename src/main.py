@@ -150,18 +150,20 @@ while True:
 			logging.info(f"Lava damage: {damage}")
 			player.hp -= damage
 
-	if engine.RUN:
-		if player.alive:
-			if engine.mvt['l'] or engine.mvt['r']:
-				player.velocity_vector.x += player.linear_travel_speed / 2
+	if player.alive:
+		if engine.mvt['l'] or engine.mvt['r']:
+			player.velocity_vector.x += player.linear_travel_speed / 2
 
-				if engine.mvt['l']:
-					movement[0] -= player.velocity_vector.x
-				else:
-					movement[0] += player.velocity_vector.x
+			if engine.mvt['l']:
+				movement[0] -= player.velocity_vector.x
+			else:
+				movement[0] += player.velocity_vector.x
 
-			movement[1] += player.velocity_vector.y
-			player.velocity_vector.y += engine.gravitational_vector.y
+		movement[1] += player.velocity_vector.y
+		player.velocity_vector.y += engine.gravitational_vector.y
+
+	else:
+		engine.reset()
 
 	collisions = player.move(collision_types, movement, tiles)
 
@@ -169,9 +171,6 @@ while True:
 		if engine.igt:
 			time_str = "IGT:  " + str((final_time if freeze_time else datetime.datetime.now()) - engine.igt)[2:11]
 			display.blit(engine.font.render(time_str, False, engine.font_color), (400, 0))
-
-	else:
-		engine.reset()
 
 	if engine.RUN and collision_types['bottom']:
 		engine.mvt['j'] = False
@@ -203,18 +202,8 @@ while True:
 				freeze_time = False
 
 				engine = game.GameEngine()
-				gallery = engine.gallery
 				player = engine.player
-				layers = engine.map.layers
 				display = engine.display
-
-				layer1_images = gallery.layer1_images
-				layer2_images = gallery.layer2_images
-				layer3_images = gallery.layer3_images
-
-				WRITE_DATA = pygame.USEREVENT + 1
-				pygame.time.set_timer(WRITE_DATA, 1000)
-				engine.speaker.background_music.play(loops=-1)
 
 			elif event.key == pygame.K_z:
 				engine.debug = not engine.debug
@@ -261,12 +250,6 @@ while True:
 
 	if player.alive and engine.RUN:
 		default_scroll = (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1])
-
-		if player.idle_count + 1 >= len(player.idle_animation):
-			player.idle_count = 0
-
-		if player.run_count + 1 >= len(player.run_animation):
-			player.run_count = 0
 
 		if engine.mvt['j']:
 			if player.facing_right:

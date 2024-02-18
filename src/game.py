@@ -38,9 +38,11 @@ class GameEngine:
 		self.font_color = data['font_color']
 		self.font = pygame.font.SysFont(**data['font'])
 
+		logging.info("Initializing modules")
+
 		self.map = Map()
-		self.speaker = Speaker(volume=data['sound_volume'])
 		self.gallery = Gallery()
+		self.speaker = Speaker(volume=data['sound_volume'])
 
 		self.gravitational_vector = pygame.Vector2(0, 0.2)
 
