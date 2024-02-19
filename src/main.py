@@ -54,20 +54,12 @@ while True:
 			for row in layer:
 				x = 0
 				for tile in row:
-					if tile == '1':
-						display.blit(layer1_images[0], (16 * x - scroll[0], 16 * y - scroll[1]))
-					elif tile == '2':
-						display.blit(layer1_images[1], (16 * x - scroll[0], 16 * y - scroll[1]))
-					elif tile == '3':
-						display.blit(layer1_images[2], (16 * x - scroll[0], 16 * y - scroll[1]))
-					elif tile == '4':
-						display.blit(layer1_images[3], (16 * x - scroll[0], 16 * y - scroll[1]))
-					elif tile == '5':
-						display.blit(layer1_images[4], (16 * x - scroll[0], 16 * y - scroll[1]))
-					elif tile == '6':
-						display.blit(layer1_images[5], (16 * x - scroll[0], 16 * y - scroll[1]))
-					elif tile == '7':
-						display.blit(layer1_images[0], (16 * x - scroll[0], 16 * y - scroll[1]))
+					if 0 < int(tile):
+						if int(tile) < 7:
+							display.blit(layer1_images[int(tile) - 1], (16 * x - scroll[0], 16 * y - scroll[1]))
+						else:
+							display.blit(layer1_images[0], (16 * x - scroll[0], 16 * y - scroll[1]))
+
 					if tile not in '0127':
 						tiles.append(pygame.Rect(16 * x, 16 * y, 16, 16))
 
