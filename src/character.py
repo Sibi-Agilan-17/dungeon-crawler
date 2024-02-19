@@ -92,11 +92,11 @@ class Player(Character):
 	def __init__(self, **kwargs):
 		super(Player, self).__init__(**kwargs)
 
-		self.max_hp = data['player']['max_health']
+		self.max_hp = data[f"config_{data['fps']}_fps"]['player']['max_health']
 		self.hp = self.max_hp
-		self.linear_travel_speed = data['player']['speed']
-		self.velocity_cap = data['player']['speed_cap']
-		self.regen = data['player']['regen']
+		self.linear_travel_speed = data[f"config_{data['fps']}_fps"]['player']['speed']
+		self.velocity_cap = data[f"config_{data['fps']}_fps"]['player']['speed_cap']
+		self.regen = data[f"config_{data['fps']}_fps"]['player']['regen']
 		self.facing_right = True
 		self.idle_animation = self.run_animation = []  # will be written later
 
@@ -106,10 +106,10 @@ class Player(Character):
 	def update(self):
 		super(Player, self).update()
 
-		if self.idle_count + 1 >= len(self.idle_animation):
+		if self.idle_count + 2 >= len(self.idle_animation):
 			self.idle_count = 0
 
-		if self.run_count + 1 >= len(self.run_animation):
+		if self.run_count + 2 >= len(self.run_animation):
 			self.run_count = 0
 
 		self.hp += self.max_hp * self.regen / 1000

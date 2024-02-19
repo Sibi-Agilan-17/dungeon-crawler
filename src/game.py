@@ -44,14 +44,14 @@ class GameEngine:
 		self.gallery = Gallery()
 		self.speaker = Speaker(volume=data['sound_volume'])
 
-		self.gravitational_vector = pygame.Vector2(0, 0.2)
+		self.gravitational_vector = pygame.Vector2(0, 0.19)
 
 		self.level = 1
 		self.igt = None
 		self.scroll = [0, 0]
 		self.controls = {...}
 		self.spawn_platform = [0, 0]
-		self.damage_map = data['damage_map']
+		self.damage_map = data[f"config_{data['fps']}_fps"]['damage_map']
 		self.mvt = {k: False for k in ['l', 'r', 'j']}  # Left, Right, Jump
 
 		logging.info("Initializing player")
@@ -62,9 +62,11 @@ class GameEngine:
 		self.player.idle_animation = self.gallery.player_idle_animation
 
 		self.reset(forced=True)
+		logging.info(f"Running at {self.FPS} FPS")
 
 	def pre_update(self) -> None:
 		self._draw_health_bar()
+		self._draw_player_movement()
 
 		if self.debug:
 			self._write_debug_screen()
@@ -79,6 +81,33 @@ class GameEngine:
 		debug_str = f"Level: {self.level} FPS: {int(self.clock.get_fps())} \n" \
 					f"X: {math.floor(self.player.hitbox.x / 16)} Y: {math.floor(self.player.hitbox.y / 16)}"
 		self.display.blit(self.font.render(debug_str, False, self.font_color), (0, 0))
+
+	def _draw_player_movement(self):
+		default_scroll = (self.player.hitbox.x - self.scroll[0], self.player.hitbox.y - self.scroll[1])
+
+		if self.mvt['j']:
+			if self.player.facing_right:
+				self.display.blit(self.gallery.player_jump_img, default_scroll)
+			else:
+				self.display.blit(pygame.transform.flip(self.gallery.player_jump_img, True, False), default_scroll)
+
+		elif not self.mvt['l'] and not self.mvt['r']:
+			self.player.idle_count += 1
+
+			if self.player.facing_right:
+				self.display.blit(self.player.idle_animation[self.player.idle_count], default_scroll)
+			else:
+				self.display.blit(pygame.transform.flip(
+					self.player.idle_animation[self.player.idle_count], True, False), default_scroll)
+
+		elif self.player.facing_right:
+			self.display.blit(self.player.run_animation[self.player.run_count], (default_scroll[0] + 1, default_scroll[1]))
+			self.player.run_count += 1
+
+		else:
+			self.display.blit(pygame.transform.flip(
+				self.player.run_animation[self.player.run_count], True, False), (default_scroll[0] - 1, default_scroll[1]))
+			self.player.run_count += 1
 
 	def calc_movement(self):
 		movement = [0, 0]
@@ -143,7 +172,7 @@ class GameEngine:
 		if forced:
 			logging.info("Force resetting")
 
-			self.damage_map = data['damage_map']
+			self.damage_map = data[f"config_{data['fps']}_fps"]['damage_map']
 			self.controls = {k: {...} for k in ['left', 'right', 'up', 'cheats']}
 
 			if 'wasd' in data['controls']:

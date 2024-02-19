@@ -76,8 +76,8 @@ class Gallery:
 		self.player_jump_img = _load_image(os.path.join('assets', 'images', 'jump_animation', 'Jump.png'))
 		self.lava_img = _load_image(os.path.join('assets', 'images', 'texture', 'lava.png'))
 
-		self.player_idle_animation = self._animate(self.player_idle_images, 12)
-		self.player_run_animation = self._animate(self.player_run_images, 6)
+		self.player_idle_animation = self._animate(self.player_idle_images, 96)
+		self.player_run_animation = self._animate(self.player_run_images, 18)
 
 	@staticmethod
 	def _animate(frames, frame_duration):
