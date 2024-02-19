@@ -11,15 +11,15 @@ __all__ = [
 	'GameEngine',
 ]
 
-with open('./memory/core.json', 'r') as f:
-	data = json.load(f)
-
 logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO, filename="logging.log")
 logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.WARNING)
 
 
 class GameEngine:
 	def __init__(self):
+		with open('./memory/core.json', 'r') as f:
+			data = json.load(f)
+
 		logging.info("Initializing pygame")
 
 		pygame.init()
@@ -162,6 +162,9 @@ class GameEngine:
 		self.clock.tick(self.FPS)
 
 	def reset(self, forced=False):
+		with open('./memory/core.json', 'r') as f:
+			data = json.load(f)
+
 		self.igt = None
 		self.scroll = [0, 0]
 
