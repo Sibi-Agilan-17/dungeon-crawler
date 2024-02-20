@@ -65,6 +65,8 @@ class GameEngine:
 		logging.info(f"Running at {self.FPS} FPS")
 
 	def pre_update(self) -> None:
+		self._check_whether_level_up()
+
 		self._draw_health_bar()
 		self._draw_player_movement()
 
@@ -81,6 +83,16 @@ class GameEngine:
 		debug_str = f"Level: {self.level} FPS: {int(self.clock.get_fps())} \n" \
 					f"X: {math.floor(self.player.hitbox.x / 16)} Y: {math.floor(self.player.hitbox.y / 16)}"
 		self.display.blit(self.font.render(debug_str, False, self.font_color), (0, 0))
+
+	def _check_whether_level_up(self):
+		for door in self.doors:
+			if self.player.hitbox.colliderect(door):
+				logging.info(f"Initializing level {self.level + 1}")
+
+				self.level += 1
+				self.speaker.next_level_sound.play()
+				self.player.update_position(*self.get_spawn_coordinates())
+				self.doors = []
 
 	def _draw_player_movement(self):
 		default_scroll = (self.player.hitbox.x - self.scroll[0], self.player.hitbox.y - self.scroll[1])
@@ -149,15 +161,6 @@ class GameEngine:
 		return spawn_location
 
 	def update(self):
-		for door in self.doors:
-			if self.player.hitbox.colliderect(door):
-				logging.info(f"Initializing level {self.level + 1}")
-
-				self.level += 1
-				self.speaker.next_level_sound.play()
-				self.player.update_position(*self.get_spawn_coordinates())
-				self.doors = []
-
 		self.player.update()
 		self.clock.tick(self.FPS)
 
