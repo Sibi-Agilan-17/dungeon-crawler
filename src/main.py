@@ -17,8 +17,6 @@ layer1_images = gallery.layer1_images
 layer2_images = gallery.layer2_images
 layer3_images = gallery.layer3_images
 
-WRITE_DATA = pygame.USEREVENT + 1
-pygame.time.set_timer(WRITE_DATA, 1000)
 engine.speaker.background_music.play(loops=-1)
 
 logging.info("Starting game")
@@ -220,10 +218,6 @@ while True:
 			if event.key in engine.controls['right']:
 				player.velocity_vector.x = 0
 				engine.mvt['r'] = False
-
-		elif event.type == WRITE_DATA:
-			# todo: implement save states
-			...
 
 	if player.alive and engine.RUN:
 		default_scroll = (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1])
