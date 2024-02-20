@@ -44,7 +44,7 @@ class GameEngine:
 		self.gallery = Gallery()
 		self.speaker = Speaker(volume=data['sound_volume'])
 
-		self.gravitational_vector = pygame.Vector2(0, 0.2)
+		self.gravitational_vector = pygame.Vector2(0, data[f"config_{data['fps']}_fps"]['grav'])
 
 		self.level = 1
 		self.igt = None
