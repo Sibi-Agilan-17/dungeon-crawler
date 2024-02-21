@@ -1,5 +1,5 @@
 {
-  "fps": 90,
+  "fps": 60,
   "font": {"name": "comicsans", "size": 16, "bold": true, "italic": false},
   "font_color": [211, 211, 211],
   "sound_volume": {"background_music": 1, "effects": 0.3},
