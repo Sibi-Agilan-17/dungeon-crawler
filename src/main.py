@@ -43,7 +43,7 @@ while True:
 
 		freeze_time = True
 		final_time = datetime.datetime.now()
-		engine.level = 0
+		engine.level = -1
 
 	for layer in layers[engine.level - 1]:
 		y = 0
