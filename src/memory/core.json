@@ -1,8 +1,8 @@
 {
-  "fps": 120,
+  "fps": 90,
   "font": {"name": "comicsans", "size": 16, "bold": true, "italic": false},
   "font_color": [211, 211, 211],
-  "sound_volume": {"background_music": 1, "effects": 0.3},
+  "sound_volume": {"background_music": 0, "effects": 0},
   "config_60_fps": {
     "grav": 0.2,
     "damage_map": {"lava": 100, "spikes": 5, "fall": 0.75},
@@ -11,7 +11,7 @@
   "config_90_fps": {
     "grav": 0.19,
     "damage_map": {"lava": 50, "spikes": 2.5, "fall": 0.75},
-    "player": {"speed": 0.5, "speed_cap": 1.75, "max_health": 100, "regen": 0.666}
+    "player": {"speed": 0.5, "speed_cap": 1.775, "max_health": 100, "regen": 0.666}
   },
   "controls": "wasd-arrow",
   "debug": false
