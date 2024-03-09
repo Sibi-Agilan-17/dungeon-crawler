@@ -1,4 +1,5 @@
 import json
+
 import pygame
 
 with open('./memory/core.json', 'r') as f:

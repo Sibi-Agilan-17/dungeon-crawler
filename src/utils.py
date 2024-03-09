@@ -1,6 +1,6 @@
 import os
-import pygame
 
+import pygame
 
 __all__ = [
 	"Speaker",

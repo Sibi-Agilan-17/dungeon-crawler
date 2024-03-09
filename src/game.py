@@ -1,11 +1,11 @@
-import math
 import json
 import logging
+import math
+
 import pygame
 
-from utils import *
 from character import Player
-
+from utils import *
 
 __all__ = [
 	'GameEngine',

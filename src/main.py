@@ -1,8 +1,10 @@
 import datetime
-import game
 import logging
-import pygame
 import sys
+
+import pygame
+
+import game
 
 final_time = None
 freeze_time = False
