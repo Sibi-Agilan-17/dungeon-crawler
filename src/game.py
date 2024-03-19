@@ -1,4 +1,3 @@
-import logging
 import math
 
 import pygame
@@ -10,14 +9,9 @@ __all__ = [
 	'GameEngine',
 ]
 
-logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO, filename="logging.log")
-logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.WARNING)
-
 
 class GameEngine:
 	def __init__(self):
-		logging.info("Initializing pygame")
-
 		pygame.init()
 		pygame.display.set_caption('Dungeon Crawler')
 		pygame.mouse.set_visible(False)
@@ -34,8 +28,6 @@ class GameEngine:
 		self.font_color = [211, 211, 211]
 		self.font = pygame.font.SysFont(name="comicsans", size=16, bold=True, italic=False)
 
-		logging.info("Initializing modules")
-
 		self.map = Map()
 		self.gallery = Gallery()
 
@@ -49,8 +41,6 @@ class GameEngine:
 		self.damage_map = {"lava": 50, "spikes": 2.5, "fall": 0.75}
 		self.mvt = {k: False for k in ['l', 'r', 'j']}  # Left, Right, Jump
 
-		logging.info("Initializing player")
-
 		self.doors = [pygame.Rect(1000, 1000, 1, 1)]
 		self.player = Player(spawn_location=(*self.get_spawn_coordinates(), 16, 22))
 		self.player.run_animation = self.gallery.player_run_animation
@@ -58,7 +48,6 @@ class GameEngine:
 		self.speaker = speaker
 
 		self.reset()
-		logging.info(f"Running at {self.FPS} FPS")
 
 	def pre_update(self) -> None:
 		self._check_whether_level_up()
@@ -83,7 +72,6 @@ class GameEngine:
 	def _check_whether_level_up(self):
 		for door in self.doors:
 			if self.player.hitbox.colliderect(door):
-				logging.info(f"Initializing level {self.level + 1}")
 
 				self.level += 1
 				speaker.next_level_sound.play()

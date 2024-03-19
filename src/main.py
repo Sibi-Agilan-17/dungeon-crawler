@@ -1,5 +1,4 @@
 import datetime
-import logging
 import sys
 
 import pygame
@@ -21,8 +20,6 @@ layer3_images = gallery.layer3_images
 
 engine.speaker.background_music.play(loops=-1)
 
-logging.info("Starting game")
-
 while True:
 	collision_types = {'top': False, 'bottom': False, 'right': False, 'left': False}
 
@@ -41,8 +38,6 @@ while True:
 	movement = [0, 0]
 
 	if not engine.level <= 3:
-		logging.info("Freezing time")
-
 		freeze_time = True
 		final_time = datetime.datetime.now()
 		engine.level = -1
@@ -131,15 +126,11 @@ while True:
 	for spike in spikes:
 		if player.hitbox.colliderect(spike):
 			damage = engine.damage_map['spikes']
-
-			logging.info(f"Spike damage: {damage}")
 			player.hp -= damage
 
 	for lava_block in lava:
 		if player.hitbox.colliderect(lava_block):
 			damage = engine.damage_map['lava']
-
-			logging.info(f"Lava damage: {damage}")
 			player.hp -= damage
 
 	collisions = player.move(collision_types, engine.calc_movement(), tiles)
@@ -157,8 +148,6 @@ while True:
 
 			if player.air_time > 64:
 				fall_damage = engine.damage_map['fall'] * player.velocity_vector.magnitude_squared()
-
-				logging.info(f"Fall damage: {fall_damage}")
 				player.hp -= fall_damage
 
 		player.air_time = 0
@@ -216,33 +205,6 @@ while True:
 			if event.key in engine.controls['right']:
 				player.velocity_vector.x = 0
 				engine.mvt['r'] = False
-
-	if player.alive and engine.RUN:
-		default_scroll = (player.hitbox.x - scroll[0], player.hitbox.y - scroll[1])
-
-		if engine.mvt['j']:
-			if player.facing_right:
-				display.blit(gallery.player_jump_img, default_scroll)
-			else:
-				display.blit(pygame.transform.flip(gallery.player_jump_img, True, False), default_scroll)
-
-		elif not engine.mvt['l'] and not engine.mvt['r']:
-			player.idle_count += 1
-
-			if player.facing_right:
-				display.blit(player.idle_animation[player.idle_count], default_scroll)
-			else:
-				display.blit(pygame.transform.flip(player.idle_animation[player.idle_count], True, False),
-							 default_scroll)
-
-		elif player.facing_right:
-			display.blit(player.run_animation[player.run_count], (default_scroll[0] + 1, default_scroll[1]))
-			player.run_count += 1
-
-		else:
-			display.blit(pygame.transform.flip(player.run_animation[player.run_count], True, False),
-						 (default_scroll[0] - 1, default_scroll[1]))
-			player.run_count += 1
 
 	engine.pre_update()
 	engine.WIN.blit(pygame.transform.scale(display, engine.WIN_DIMENSIONS), (0, 0))
