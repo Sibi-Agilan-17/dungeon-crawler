@@ -92,7 +92,7 @@ class Player(Character):
 		self.hp = self.max_hp
 		self.linear_travel_speed = 0.5
 		self.velocity_cap = 1.775
-		self.regen = 0.666
+		self.regen = 0.25
 		self.facing_right = True
 		self.idle_animation = self.run_animation = []  # will be written later
 
@@ -108,7 +108,7 @@ class Player(Character):
 		if self.run_count + 2 >= len(self.run_animation):
 			self.run_count = 0
 
-		self.hp += self.max_hp * self.regen / 1000
+		self.hp += self.regen
 
 	def reset(self, coordinates=(0, 0)):
 		self.air_time = 0
