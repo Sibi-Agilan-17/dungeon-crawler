@@ -23,7 +23,6 @@ class GameEngine:
 		self.WIN = pygame.display.set_mode(self.WIN_DIMENSIONS)
 		self.display = pygame.Surface((self.width // 2, self.height // 2))
 
-		self.debug = False
 		self.clock = pygame.time.Clock()
 		self.font_color = [211, 211, 211]
 		self.font = pygame.font.SysFont(name="comicsans", size=16, bold=True, italic=False)
@@ -55,19 +54,11 @@ class GameEngine:
 		self._draw_health_bar()
 		self._draw_player_movement()
 
-		if self.debug:
-			self._write_debug_screen()
-
 	def _draw_health_bar(self):
 		loc = (self.player.hitbox.x - self.scroll[0], self.player.hitbox.y - self.scroll[1] - 8)
 
 		pygame.draw.rect(self.display, "red", (*loc, 32, 4))
 		pygame.draw.rect(self.display, "green", (*loc, 32 * self.player.hp / self.player.max_hp, 4))
-
-	def _write_debug_screen(self):
-		debug_str = f"Level: {self.level} FPS: {int(self.clock.get_fps())} \n" \
-					f"X: {math.floor(self.player.hitbox.x / 16)} Y: {math.floor(self.player.hitbox.y / 16)}"
-		self.display.blit(self.font.render(debug_str, False, self.font_color), (0, 0))
 
 	def _check_whether_level_up(self):
 		for door in self.doors:

@@ -151,15 +151,12 @@ while True:
 				sys.exit(-1)
 
 			elif event.key == pygame.K_r:
-				final_time = None
-				freeze_time = False
-
-				engine = game.GameEngine()
-				player = engine.player
-				display = engine.display
+				# todo: implement proper reset mechanism
+				...
 
 			elif event.key == pygame.K_z:
-				engine.debug = not engine.debug
+				# todo: implement proper debug mechanism
+				...
 
 			if player.alive and engine.RUN:
 				if event.key in engine.controls['left']:
