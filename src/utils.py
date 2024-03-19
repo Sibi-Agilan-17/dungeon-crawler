@@ -3,14 +3,14 @@ import os
 import pygame
 
 __all__ = [
-	"Speaker",
+	"speaker",
 	"Gallery",
 	"Map"
 ]
 
 
 class Sound:
-	def __init__(self, path, channel, volume=1.0):
+	def __init__(self, path, channel, volume=0.3):
 		self.path = path
 		self.volume = volume
 		self.channel = channel
@@ -25,20 +25,20 @@ class Sound:
 
 
 class Speaker:
-	def __init__(self, volume):
+	def __init__(self):
 		self.num_channels = 4
 
 		pygame.mixer.init()
 		pygame.mixer.set_reserved(4)
 		pygame.mixer.set_num_channels(self.num_channels)
 
-		vol = volume['effects']
-		volume = volume['background_music']
-
 		self.channels = [pygame.mixer.Channel(x) for x in range(self.num_channels)]
-		self.background_music = Sound('./assets/sounds/background music.mp3', channel=self.channels[1], volume=volume)
-		self.jump_sound = Sound('./assets/sounds/jump.mp3', channel=self.channels[2], volume=vol)
-		self.next_level_sound = Sound('./assets/sounds/next level.mp3', channel=self.channels[3], volume=vol)
+		self.background_music = Sound('./assets/sounds/background music.mp3', channel=self.channels[1], volume=0.7)
+		self.jump_sound = Sound('./assets/sounds/jump.mp3', channel=self.channels[2])
+		self.next_level_sound = Sound('./assets/sounds/next level.mp3', channel=self.channels[3])
+
+
+speaker = Speaker()
 
 
 def _load_image(img_name):

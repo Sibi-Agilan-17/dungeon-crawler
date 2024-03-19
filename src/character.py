@@ -1,9 +1,4 @@
-import json
-
 import pygame
-
-with open('./memory/core.json', 'r') as f:
-	data = json.load(f)
 
 
 class Object(object):
@@ -93,11 +88,11 @@ class Player(Character):
 	def __init__(self, **kwargs):
 		super(Player, self).__init__(**kwargs)
 
-		self.max_hp = data[f"config_{data['fps']}_fps"]['player']['max_health']
+		self.max_hp = 100
 		self.hp = self.max_hp
-		self.linear_travel_speed = data[f"config_{data['fps']}_fps"]['player']['speed']
-		self.velocity_cap = data[f"config_{data['fps']}_fps"]['player']['speed_cap']
-		self.regen = data[f"config_{data['fps']}_fps"]['player']['regen']
+		self.linear_travel_speed = 0.5
+		self.velocity_cap = 1.775
+		self.regen = 0.666
 		self.facing_right = True
 		self.idle_animation = self.run_animation = []  # will be written later
 

@@ -1,4 +1,3 @@
-import json
 import logging
 import math
 
@@ -17,9 +16,6 @@ logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.WARNING)
 
 class GameEngine:
 	def __init__(self):
-		with open('./memory/core.json', 'r') as f:
-			data = json.load(f)
-
 		logging.info("Initializing pygame")
 
 		pygame.init()
@@ -27,31 +23,30 @@ class GameEngine:
 		pygame.mouse.set_visible(False)
 
 		self.RUN = True
-		self.FPS = data['fps']
+		self.FPS = 90
 		self.width, self.height = 700 * 1.5, 500 * 1.5
 		self.WIN_DIMENSIONS = [self.width, self.height]
 		self.WIN = pygame.display.set_mode(self.WIN_DIMENSIONS)
 		self.display = pygame.Surface((self.width // 2, self.height // 2))
 
-		self.debug = data['debug']
+		self.debug = False
 		self.clock = pygame.time.Clock()
-		self.font_color = data['font_color']
-		self.font = pygame.font.SysFont(**data['font'])
+		self.font_color = [211, 211, 211]
+		self.font = pygame.font.SysFont(name="comicsans", size=16, bold=True, italic=False)
 
 		logging.info("Initializing modules")
 
 		self.map = Map()
 		self.gallery = Gallery()
-		self.speaker = Speaker(volume=data['sound_volume'])
 
-		self.gravitational_vector = pygame.Vector2(0, data[f"config_{data['fps']}_fps"]['grav'])
+		self.gravitational_vector = pygame.Vector2(0, 0.19)
 
 		self.level = 1
 		self.igt = None
 		self.scroll = [0, 0]
-		self.controls = {...}
+		self.controls = {}
 		self.spawn_platform = [0, 0]
-		self.damage_map = data[f"config_{data['fps']}_fps"]['damage_map']
+		self.damage_map = {"lava": 50, "spikes": 2.5, "fall": 0.75}
 		self.mvt = {k: False for k in ['l', 'r', 'j']}  # Left, Right, Jump
 
 		logging.info("Initializing player")
@@ -60,8 +55,9 @@ class GameEngine:
 		self.player = Player(spawn_location=(*self.get_spawn_coordinates(), 16, 22))
 		self.player.run_animation = self.gallery.player_run_animation
 		self.player.idle_animation = self.gallery.player_idle_animation
+		self.speaker = speaker
 
-		self.reset(forced=True)
+		self.reset()
 		logging.info(f"Running at {self.FPS} FPS")
 
 	def pre_update(self) -> None:
@@ -90,7 +86,7 @@ class GameEngine:
 				logging.info(f"Initializing level {self.level + 1}")
 
 				self.level += 1
-				self.speaker.next_level_sound.play()
+				speaker.next_level_sound.play()
 				self.player.update_position(*self.get_spawn_coordinates())
 				self.doors = []
 
@@ -164,10 +160,7 @@ class GameEngine:
 		self.player.update()
 		self.clock.tick(self.FPS)
 
-	def reset(self, forced=False):
-		with open('./memory/core.json', 'r') as f:
-			data = json.load(f)
-
+	def reset(self):
 		self.igt = None
 		self.scroll = [0, 0]
 
@@ -175,23 +168,8 @@ class GameEngine:
 		self.mvt = {k: False for k in ['l', 'r', 'j']}  # Left, Right, Jump
 		self.player.reset(self.get_spawn_coordinates())
 
-		if forced:
-			logging.info("Force resetting")
-
-			self.damage_map = data[f"config_{data['fps']}_fps"]['damage_map']
-			self.controls = {k: {...} for k in ['left', 'right', 'up', 'cheats']}
-
-			if 'wasd' in data['controls']:
-				self.controls['left'].add(pygame.K_a)
-				self.controls['right'].add(pygame.K_d)
-				self.controls['up'].add(pygame.K_w)
-
-			if 'arrow' in data['controls']:
-				self.controls['left'].add(pygame.K_LEFT)
-				self.controls['right'].add(pygame.K_RIGHT)
-				self.controls['up'].add(pygame.K_UP)
-
-			if 'cheats' in data['controls']:
-				self.controls['cheats'].add(pygame.K_c)
+		self.controls['left'] = (pygame.K_a, pygame.K_LEFT)
+		self.controls['right'] = (pygame.K_d, pygame.K_RIGHT)
+		self.controls['up'] = (pygame.K_w, pygame.K_UP)
 
 		self.RUN = True

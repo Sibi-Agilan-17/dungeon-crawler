@@ -145,7 +145,7 @@ while True:
 	collisions = player.move(collision_types, engine.calc_movement(), tiles)
 
 	if player.alive:
-		if engine.igt:
+		if engine.debug and engine.igt :
 			time_str = "IGT:  " + str((final_time if freeze_time else datetime.datetime.now()) - engine.igt)[2:11]
 			display.blit(engine.font.render(time_str, False, engine.font_color), (400, 0))
 
@@ -207,10 +207,6 @@ while True:
 
 					if not engine.igt:
 						engine.igt = datetime.datetime.now()
-
-				elif event.key in engine.controls['cheats']:
-					logging.warning("Using cheats")
-					engine.damage_map = {k: 0 for k, _ in engine.damage_map.items()}
 
 		elif event.type == pygame.KEYUP:
 			if event.key in engine.controls['left']:
