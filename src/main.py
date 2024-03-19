@@ -1,12 +1,6 @@
-import datetime
 import sys
-
 import pygame
-
 import game
-
-final_time = None
-freeze_time = False
 
 engine = game.GameEngine()
 gallery = engine.gallery
@@ -37,10 +31,8 @@ while True:
 	spikes = []
 	movement = [0, 0]
 
-	if not engine.level <= 3:
-		freeze_time = True
-		final_time = datetime.datetime.now()
-		engine.level = -1
+	# note: if game does not end after completing all levels, check
+	# for last level completion and reset `engine.level` to 1 here.
 
 	for layer in layers[engine.level - 1]:
 		y = 0
@@ -135,11 +127,6 @@ while True:
 
 	collisions = player.move(collision_types, engine.calc_movement(), tiles)
 
-	if player.alive:
-		if engine.debug and engine.igt :
-			time_str = "IGT:  " + str((final_time if freeze_time else datetime.datetime.now()) - engine.igt)[2:11]
-			display.blit(engine.font.render(time_str, False, engine.font_color), (400, 0))
-
 	if engine.RUN and collision_types['bottom']:
 		engine.mvt['j'] = False
 
@@ -179,23 +166,14 @@ while True:
 					engine.mvt['l'] = True
 					player.facing_right = False
 
-					if not engine.igt:
-						engine.igt = datetime.datetime.now()
-
 				elif event.key in engine.controls['right']:
 					engine.mvt['r'] = True
 					player.facing_right = True
-
-					if not engine.igt:
-						engine.igt = datetime.datetime.now()
 
 				elif event.key in engine.controls['up']:
 					if player.air_time < 6:
 						engine.mvt['j'] = True
 						player.velocity_vector.y = -4.0
-
-					if not engine.igt:
-						engine.igt = datetime.datetime.now()
 
 		elif event.type == pygame.KEYUP:
 			if event.key in engine.controls['left']:
