@@ -117,25 +117,22 @@ while True:
 
 	for spike in spikes:
 		if player.hitbox.colliderect(spike):
-			damage = engine.damage_map['spikes']
-			player.hp -= damage
+			player.hp = engine.damage_map['spikes']
 
 	for lava_block in lava:
 		if player.hitbox.colliderect(lava_block):
-			damage = engine.damage_map['lava']
-			player.hp -= damage
+			player.hp = engine.damage_map['lava']
 
 	collisions = player.move(collision_types, engine.calc_movement(), tiles)
 
-	if engine.RUN and collision_types['bottom']:
+	if collision_types['bottom']:
 		engine.mvt['j'] = False
 
 		if player.air_time > 1:
 			engine.speaker.jump_sound.play()
 
 			if player.air_time > 64:
-				fall_damage = engine.damage_map['fall'] * player.velocity_vector.magnitude_squared()
-				player.hp -= fall_damage
+				player.hp = engine.damage_map['fall'] * player.velocity_vector.magnitude_squared()
 
 		player.air_time = 0
 
@@ -168,6 +165,7 @@ while True:
 					player.facing_right = True
 
 				elif event.key in engine.controls['up']:
+					# no idea how this works
 					if player.air_time < 6:
 						engine.mvt['j'] = True
 						player.velocity_vector.y = -4.0
