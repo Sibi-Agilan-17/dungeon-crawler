@@ -4,7 +4,7 @@ import pygame
 
 __all__ = [
 	"speaker",
-	"Gallery",
+	"Images",
 ]
 
 
@@ -44,7 +44,7 @@ def _load_image(img_name):
 	return pygame.image.load(img_name).convert_alpha()
 
 
-class Gallery:
+class Images:
 	def __init__(self):
 		self.player_idle_images = []
 		self.player_run_images = []

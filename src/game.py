@@ -29,7 +29,7 @@ class GameEngine:
 		self.clock = pygame.time.Clock()
 
 		self.level_data = level_data
-		self.gallery = Gallery()
+		self.images = Images()
 
 		self.gravitational_vector = pygame.Vector2(0, 0.19)
 
@@ -42,8 +42,8 @@ class GameEngine:
 
 		self.doors = [pygame.Rect(1000, 1000, 1, 1)]
 		self.player = Player(spawn_location=[*self.get_spawn_coordinates(), 16, 22])
-		self.player.run_animation = self.gallery.player_run_animation
-		self.player.idle_animation = self.gallery.player_idle_animation
+		self.player.run_animation = self.images.player_run_animation
+		self.player.idle_animation = self.images.player_idle_animation
 		self.speaker = speaker
 
 		self.reset()
@@ -79,9 +79,9 @@ class GameEngine:
 
 		if self.mvt['j']:
 			if self.player.facing_right:
-				self.d.blit(self.gallery.player_jump_img, scrl)
+				self.d.blit(self.images.player_jump_img, scrl)
 			else:
-				self.d.blit(self._flip_img(self.gallery.player_jump_img), scrl)
+				self.d.blit(self._flip_img(self.images.player_jump_img), scrl)
 
 		elif not self.mvt['l'] and not self.mvt['r']:
 			self.player.idle_count += 1

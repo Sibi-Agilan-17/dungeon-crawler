@@ -9,14 +9,14 @@ pygame.mouse.set_visible(False)
 pygame.display.set_caption('Dungeon Crawler')
 
 engine = game.GameEngine()
-gallery = engine.gallery
+images = engine.images
 player = engine.player
 layers = engine.level_data
 display = engine.d
 
-layer1_images = gallery.layer1_images
-layer2_images = gallery.layer2_images
-layer3_images = gallery.layer3_images
+layer1_images = images.layer1_images
+layer2_images = images.layer2_images
+layer3_images = images.layer3_images
 
 engine.speaker.background_music.play(loops=-1)
 
@@ -95,7 +95,7 @@ while True:
 						display.blit(layer3_images[7], (16 * x - scroll[0], 16 * y - scroll[1]))
 						spikes.append(pygame.Rect(16 * x + 6, 16 * y, 10, 16))
 					elif tile == 'l':
-						display.blit(gallery.lava_img, (16 * x - scroll[0], 16 * y - scroll[1]))
+						display.blit(images.lava_img, (16 * x - scroll[0], 16 * y - scroll[1]))
 						lava.append(pygame.Rect(16 * x, 16 * y, 16, 4))
 
 					if tile not in '05678l':
