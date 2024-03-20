@@ -1,13 +1,20 @@
-import math
-
 import pygame
 
 from character import Player
 from utils import *
 
-__all__ = [
-	'GameEngine',
-]
+
+def _load_map(path):
+	with open('./assets/level_data/' + path + '.txt', 'r') as file:
+		data = file.read()
+		return [line.rstrip("0") or "0" for line in data.split('\n')]
+
+
+level_data = [
+			[_load_map('level1_layer1'), _load_map('level1_layer2'), _load_map('level1_layer3')],
+			[_load_map('level2_layer1'), _load_map('level2_layer2'), _load_map('level2_layer3')],
+			[_load_map('level3_layer1'), _load_map('level3_layer2'), _load_map('level3_layer3')],
+		]
 
 
 class GameEngine:
