@@ -12,7 +12,7 @@ engine = game.GameEngine()
 gallery = engine.gallery
 player = engine.player
 layers = engine.map.layers
-display = engine.display
+display = engine.d
 
 layer1_images = gallery.layer1_images
 layer2_images = gallery.layer2_images
@@ -23,7 +23,7 @@ engine.speaker.background_music.play(loops=-1)
 while True:
 	collision_types = {'top': False, 'bottom': False, 'right': False, 'left': False}
 
-	engine.display.fill((28, 31, 36))
+	engine.d.fill((28, 31, 36))
 
 	engine.scroll[0] += (player.hitbox.x - engine.scroll[0] - 165) / 15
 	engine.scroll[1] += (player.hitbox.y - engine.scroll[1] - 236) / 15

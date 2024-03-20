@@ -17,7 +17,7 @@ class GameEngine:
 		self.width, self.height = 700 * 1.5, 500 * 1.5
 		self.WIN_DIMENSIONS = [self.width, self.height]
 		self.WIN = pygame.display.set_mode(self.WIN_DIMENSIONS)
-		self.display = pygame.Surface((self.width // 2, self.height // 2))
+		self.d = pygame.Surface((self.width // 2, self.height // 2))
 
 		self.clock = pygame.time.Clock()
 
@@ -50,8 +50,8 @@ class GameEngine:
 	def _draw_health_bar(self):
 		loc = (self.player.hitbox.x - self.scroll[0], self.player.hitbox.y - self.scroll[1] - 8)
 
-		pygame.draw.rect(self.display, "red", (*loc, 32, 4))
-		pygame.draw.rect(self.display, "green", (*loc, 32 * self.player.hp / self.player.max_hp, 4))
+		pygame.draw.rect(self.d, "red", (*loc, 32, 4))
+		pygame.draw.rect(self.d, "green", (*loc, 32 * self.player.hp / self.player.max_hp, 4))
 
 	def _check_whether_level_up(self):
 		for door in self.doors:
@@ -62,32 +62,35 @@ class GameEngine:
 				self.player.update_pos(*self.get_spawn_coordinates())
 				self.doors = []
 
+	@staticmethod
+	def _flip_img(img):
+		return pygame.transform.flip(img, True, False)
+
 	def _draw_player_movement(self):
-		default_scroll = (self.player.hitbox.x - self.scroll[0], self.player.hitbox.y - self.scroll[1])
+		# default scroll
+		scrl = (self.player.hitbox.x - self.scroll[0], self.player.hitbox.y - self.scroll[1])
 
 		if self.mvt['j']:
 			if self.player.facing_right:
-				self.display.blit(self.gallery.player_jump_img, default_scroll)
+				self.d.blit(self.gallery.player_jump_img, scrl)
 			else:
-				self.display.blit(pygame.transform.flip(self.gallery.player_jump_img, True, False), default_scroll)
+				self.d.blit(self._flip_img(self.gallery.player_jump_img), scrl)
 
 		elif not self.mvt['l'] and not self.mvt['r']:
 			self.player.idle_count += 1
 
 			if self.player.facing_right:
-				self.display.blit(self.player.idle_animation[self.player.idle_count], default_scroll)
+				self.d.blit(self.player.idle_animation[self.player.idle_count], scrl)
 			else:
-				self.display.blit(pygame.transform.flip(
-					self.player.idle_animation[self.player.idle_count], True, False), default_scroll)
-
-		elif self.player.facing_right:
-			self.display.blit(self.player.run_animation[self.player.run_count], (default_scroll[0] + 1, default_scroll[1]))
-			self.player.run_count += 1
+				self.d.blit(self._flip_img(self.player.idle_animation[self.player.idle_count]), scrl)
 
 		else:
-			self.display.blit(pygame.transform.flip(
-				self.player.run_animation[self.player.run_count], True, False), (default_scroll[0] - 1, default_scroll[1]))
 			self.player.run_count += 1
+
+			if self.player.facing_right:
+				self.d.blit(self.player.run_animation[self.player.run_count], (scrl[0] + 1, scrl[1]))
+			else:
+				self.d.blit(self._flip_img(self.player.run_animation[self.player.run_count]), (scrl[0] - 1, scrl[1]))
 
 	def calc_movement(self):
 		movement = [0, 0]
