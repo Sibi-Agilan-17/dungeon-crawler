@@ -5,7 +5,7 @@ import pygame
 __all__ = [
 	"speaker",
 	"Gallery",
-	"Map"
+	"level_data"
 ]
 
 
@@ -94,10 +94,8 @@ def _load_map(path):
 		return [line.rstrip("0") or "0" for line in data.split('\n')]
 
 
-class Map:
-	def __init__(self):
-		self.layers = []
-
-		self.layers.append([_load_map('level1_layer1'), _load_map('level1_layer2'), _load_map('level1_layer3')])
-		self.layers.append([_load_map('level2_layer1'), _load_map('level2_layer2'), _load_map('level2_layer3')])
-		self.layers.append([_load_map('level3_layer1'), _load_map('level3_layer2'), _load_map('level3_layer3')])
+level_data = [
+			[_load_map('level1_layer1'), _load_map('level1_layer2'), _load_map('level1_layer3')],
+			[_load_map('level2_layer1'), _load_map('level2_layer2'), _load_map('level2_layer3')],
+			[_load_map('level3_layer1'), _load_map('level3_layer2'), _load_map('level3_layer3')],
+		]

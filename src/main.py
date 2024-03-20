@@ -11,7 +11,7 @@ pygame.display.set_caption('Dungeon Crawler')
 engine = game.GameEngine()
 gallery = engine.gallery
 player = engine.player
-layers = engine.map.layers
+layers = engine.level_data
 display = engine.d
 
 layer1_images = gallery.layer1_images

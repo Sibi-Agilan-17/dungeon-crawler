@@ -21,7 +21,7 @@ class GameEngine:
 
 		self.clock = pygame.time.Clock()
 
-		self.map = Map()
+		self.level_data = level_data
 		self.gallery = Gallery()
 
 		self.gravitational_vector = pygame.Vector2(0, 0.19)
@@ -117,7 +117,7 @@ class GameEngine:
 		y = 0
 
 		try:
-			for row in self.map.layers[self.level - 1][0]:
+			for row in self.level_data[self.level - 1][0]:
 				x = 0
 				for tile in row:
 					if tile == '7':
