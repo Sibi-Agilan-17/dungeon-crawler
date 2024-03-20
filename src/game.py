@@ -34,7 +34,7 @@ class GameEngine:
 		self.mvt = {k: False for k in ['l', 'r', 'j']}  # Left, Right, Jump
 
 		self.doors = [pygame.Rect(1000, 1000, 1, 1)]
-		self.player = Player(spawn_location=(*self.get_spawn_coordinates(), 16, 22))
+		self.player = Player(spawn_location=[*self.get_spawn_coordinates(), 16, 22])
 		self.player.run_animation = self.gallery.player_run_animation
 		self.player.idle_animation = self.gallery.player_idle_animation
 		self.speaker = speaker
@@ -59,7 +59,7 @@ class GameEngine:
 
 				self.level += 1
 				speaker.next_level_sound.play()
-				self.player.update_position(*self.get_spawn_coordinates())
+				self.player.update_pos(*self.get_spawn_coordinates())
 				self.doors = []
 
 	def _draw_player_movement(self):
