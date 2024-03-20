@@ -12,20 +12,14 @@ __all__ = [
 
 class GameEngine:
 	def __init__(self):
-		pygame.init()
-		pygame.display.set_caption('Dungeon Crawler')
-		pygame.mouse.set_visible(False)
-
 		self.RUN = True
-		self.FPS = 90
+		self.FPS = 60
 		self.width, self.height = 700 * 1.5, 500 * 1.5
 		self.WIN_DIMENSIONS = [self.width, self.height]
 		self.WIN = pygame.display.set_mode(self.WIN_DIMENSIONS)
 		self.display = pygame.Surface((self.width // 2, self.height // 2))
 
 		self.clock = pygame.time.Clock()
-		self.font_color = [211, 211, 211]
-		self.font = pygame.font.SysFont(name="comicsans", size=16, bold=True, italic=False)
 
 		self.map = Map()
 		self.gallery = Gallery()
@@ -33,7 +27,6 @@ class GameEngine:
 		self.gravitational_vector = pygame.Vector2(0, 0.19)
 
 		self.level = 1
-		self.igt = None
 		self.scroll = [0, 0]
 		self.controls = {}
 		self.spawn_platform = [0, 0]
@@ -136,11 +129,15 @@ class GameEngine:
 		return spawn_location
 
 	def update(self):
+		if self.level > 3:
+			self.level = 1
+
+		pygame.display.flip()
+
 		self.player.update()
 		self.clock.tick(self.FPS)
 
 	def reset(self):
-		self.igt = None
 		self.scroll = [0, 0]
 
 		self.level = 1

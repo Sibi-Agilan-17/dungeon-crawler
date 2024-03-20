@@ -2,6 +2,12 @@ import sys
 import pygame
 import game
 
+# initialise pygame
+
+pygame.init()
+pygame.mouse.set_visible(False)
+pygame.display.set_caption('Dungeon Crawler')
+
 engine = game.GameEngine()
 gallery = engine.gallery
 player = engine.player
@@ -30,9 +36,6 @@ while True:
 	tiles = []
 	spikes = []
 	movement = [0, 0]
-
-	# note: if game does not end after completing all levels, check
-	# for last level completion and reset `engine.level` to 1 here.
 
 	for layer in layers[engine.level - 1]:
 		y = 0
@@ -181,5 +184,4 @@ while True:
 
 	engine.pre_update()
 	engine.WIN.blit(pygame.transform.scale(display, engine.WIN_DIMENSIONS), (0, 0))
-	pygame.display.flip()
 	engine.update()
