@@ -89,16 +89,9 @@ class Gallery:
 
 
 def _load_map(path):
-	file = open('./assets/level_data/' + path + '.txt', 'r')
-	data = file.read()
-	file.close()
-	data = data.split('\n')
-	game_map = []
-
-	for line in data:
-		game_map.append(list(line))
-
-	return game_map
+	with open('./assets/level_data/' + path + '.txt', 'r') as file:
+		data = file.read()
+		return [line.rstrip("0") or "0" for line in data.split('\n')]
 
 
 class Map:
