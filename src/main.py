@@ -44,11 +44,10 @@ while True:
 			for row in layer:
 				x = 0
 				for tile in row:
-					if 0 < int(tile):
-						if int(tile) < 7:
-							display.blit(layer1_images[int(tile) - 1], (16 * x - scroll[0], 16 * y - scroll[1]))
-						else:
-							display.blit(layer1_images[0], (16 * x - scroll[0], 16 * y - scroll[1]))
+					if 0 < int(tile) < 7:
+						display.blit(layer1_images[int(tile) - 1], (16 * x - scroll[0], 16 * y - scroll[1]))
+					elif tile == "7":
+						display.blit(layer1_images[0], (16 * x - scroll[0], 16 * y - scroll[1]))
 
 					if tile not in '0127':
 						tiles.append(pygame.Rect(16 * x, 16 * y, 16, 16))
@@ -60,30 +59,13 @@ while True:
 			for row in layer:
 				x = 0
 				for tile in row:
-					if tile == '1':
-						display.blit(layer2_images[0], (16 * x - scroll[0], 16 * y - scroll[1]))
-					elif tile == '2':
-						display.blit(layer2_images[1], (16 * x - scroll[0], 16 * y - scroll[1]))
-					elif tile == '3':
-						display.blit(layer2_images[2], (16 * x - scroll[0], 16 * y - scroll[1]))
-					elif tile == '4':
-						display.blit(layer2_images[3], (16 * x - scroll[0], 16 * y - scroll[1]))
-					elif tile == '5':
-						display.blit(layer2_images[4], (16 * x - scroll[0], 16 * y - scroll[1]))
-					elif tile == '6':
-						display.blit(layer2_images[5], (16 * x - scroll[0], 16 * y - scroll[1]))
-					elif tile == '7':
-						display.blit(layer2_images[6], (16 * x - scroll[0], 16 * y - scroll[1]))
-					elif tile == '8':
-						display.blit(layer2_images[7], (16 * x - scroll[0], 16 * y - scroll[1]))
-					elif tile == '9':
-						display.blit(layer2_images[8], (16 * x - scroll[0], 16 * y - scroll[1]))
-						engine.doors.append(pygame.Rect(16 * x, 16 * y, 16, 32))
-					elif tile == 'l':
-						display.blit(gallery.lava_img, (16 * x - scroll[0], 16 * y - scroll[1]))
-						lava.append(pygame.Rect(16 * x, 16 * y, 16, 4))
+					if tile != "0":
+						display.blit(layer2_images[int(tile) - 1], (16 * x - scroll[0], 16 * y - scroll[1]))
 
-					if tile not in '09l':
+						if tile == '9':
+							engine.doors.append(pygame.Rect(16 * x, 16 * y, 16, 32))
+
+					if tile not in '09':
 						tiles.append(pygame.Rect(16 * x, 16 * y, 16, 16))
 					x += 1
 				y += 1
@@ -112,8 +94,11 @@ while True:
 					elif tile == '8':
 						display.blit(layer3_images[7], (16 * x - scroll[0], 16 * y - scroll[1]))
 						spikes.append(pygame.Rect(16 * x + 6, 16 * y, 10, 16))
+					elif tile == 'l':
+						display.blit(gallery.lava_img, (16 * x - scroll[0], 16 * y - scroll[1]))
+						lava.append(pygame.Rect(16 * x, 16 * y, 16, 4))
 
-					if tile not in '05678':
+					if tile not in '05678l':
 						tiles.append(pygame.Rect(16 * x, 16 * y, 16, 16))
 					x += 1
 				y += 1
